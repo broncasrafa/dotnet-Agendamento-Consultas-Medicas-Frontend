@@ -1,0 +1,78 @@
+<header id="header" class="header sticky-top">
+
+  <div class="topbar d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:rsfrancisco.applications@gmail.com">{{ emailContact }}</a></i>
+        <i class="bi bi-phone d-flex align-items-center ms-4"><span>+55 11 9.6064-1048</span></i>
+      </div>
+      <div class="social-links d-none d-md-flex align-items-center">
+        <a class="facebook" href="https://www.facebook.com/rafael.francisco.520/" target="_blank"><i class="bi bi-facebook"></i></a>
+        <a class="instagram" href="https://www.instagram.com/broncasrafa/" target="_blank"><i class="bi bi-instagram"></i></a>
+        <a class="linkedin" href="https://www.linkedin.com/in/rafael-francisco-44750522/" target="_blank"><i class="bi bi-linkedin"></i></a>
+      </div>
+    </div>
+  </div><!-- End Top Bar -->
+
+  <div class="branding d-flex align-items-center">
+
+    <div class="container position-relative d-flex align-items-center justify-content-between">
+      <a routerLink="/inicio" routerLinkActive="active" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename">ConsultaNet</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a routerLink="/inicio" routerLinkActive="active" (click)="closeMobileNavOnLinkClick()">Home<br></a></li>
+          <li><a routerLink="/sobre-nos" routerLinkActive="active" (click)="closeMobileNavOnLinkClick()">Sobre nós</a></li>
+          <li><a routerLink="/perguntas-e-respostas" routerLinkActive="active">Pergunte ao Profissional de Saúde</a></li>
+
+          @if (!isLogged) {
+            <li class="dropdown">
+              <a href="#">
+                <span>Entrar/Criar conta</span> <i #dropdownItems class="bi bi-chevron-down toggle-dropdown" (click)="toggleDropdown($event)"></i>
+              </a>
+              <ul>
+                <li class="dropdown"><a href="#"><span>Pacientes</span> <i class="bi bi-chevron-down toggle-dropdown" (click)="toggleDropdown($event)"></i></a>
+                  <ul>
+                    <li><a routerLink="/login">Entrar</a></li>
+                    <li><a routerLink="/paciente/registrar">Criar conta</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown"><a href="#"><span>Profissional da saúde</span> <i class="bi bi-chevron-down toggle-dropdown" (click)="toggleDropdown($event)"></i></a>
+                  <ul>
+                    <li><a routerLink="/login">Entrar</a></li>
+                    <li><a routerLink="/profissional/registrar">Criar conta</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          }
+
+          @if (isLogged) {
+            <li class="dropdown">
+              <a href="#">
+                <span>Conta</span> <i #dropdownItems class="bi bi-chevron-down toggle-dropdown" (click)="toggleDropdown($event)"></i>
+              </a>
+              <ul>
+                <li><a routerLink="/inicio">Editar conta</a></li>
+                <li><a routerLink="/inicio">Painel</a></li>
+                <li><a routerLink="/inicio">Minhas consultas</a></li>
+                <li><a routerLink="/inicio">Pacientes adicionais</a></li>
+                <li><a href="#" (click)="onLogout()">Sair</a></li>
+              </ul>
+            </li>
+          }
+        </ul>
+        <i #mobileNavToggleBtn class="mobile-nav-toggle d-xl-none bi bi-list" (click)="toggleMobileNav()"></i>
+      </nav>
+
+      <a class="cta-btn d-none d-sm-block" href="#appointment">Agende sua consulta</a>
+
+    </div>
+
+  </div>
+
+</header>

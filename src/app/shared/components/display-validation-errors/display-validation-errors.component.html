@@ -1,0 +1,9 @@
+<div class="text-danger" *ngIf="control && control.errors && (control.dirty || control.touched)">
+  <div *ngIf="control.errors.required"><small>Campo obrigatório</small></div>
+  <div *ngIf="control.errors.maxlength"><small>Campo excedeu a quantidade máxima de {{ control.errors.maxlength.requiredLength }} caracteres.</small></div>
+  <div *ngIf="control.errors.minlength"><small>Campo permite a quantidade minima de {{ control.errors.minlength.requiredLength }} caracteres.</small></div>
+  <div *ngIf="!control.errors.required && control.errors.invalidEmail"><small>{{control.errors.invalidEmail}}</small></div>
+  <div *ngIf="!control.errors.required && control.errors.invalidSelect"><small>{{control.errors.invalidSelect}}</small></div>
+  <div *ngIf="control.errors.invalidDate"><small>{{control.errors.invalidDate}}</small></div>
+  <div *ngIf="control.errors.invalidDateFutura"><small>{{control.errors.invalidDateFutura}}</small></div>
+</div>
