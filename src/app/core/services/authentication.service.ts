@@ -33,14 +33,12 @@ export class AuthenticationService {
 }
 
   /**
-     * Realizar o login do usuário na plataforma
-     * @param email - E-mail do usuário
-     * @param password - Senha do usuário
-     * @returns Observable<ApiResponse<AuthenticatedUserResponse>> dados do usuário autenticado.
-     */
-  login(email: string, password: string): Observable<ApiResponse<AuthenticatedUserResponse>> {
-    const body = { email, password } as LoginRequest;
-    return this.http.post<ApiResponse<AuthenticatedUserResponse>>(`${this.base_api_url}/login`, body)
+   * Realizar o login do usuário na plataforma
+   * @param request - Dados da credenciais do usuário
+   * @returns Observable<ApiResponse<AuthenticatedUserResponse>> dados do usuário autenticado.
+  */
+  login(request: LoginRequest): Observable<ApiResponse<AuthenticatedUserResponse>> {
+    return this.http.post<ApiResponse<AuthenticatedUserResponse>>(`${this.base_api_url}/login`, request)
       .pipe(
         map(response => {
           if (response && response.data) {

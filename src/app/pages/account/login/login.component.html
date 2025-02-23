@@ -8,7 +8,7 @@
               <div class="col-12">
                 <div class="mb-5">
                   <div class="text-center mb-4">
-                    <a href="#!">
+                    <a routerLink="/inicio">
                       <img src="/assets/img/logo_1.png" alt="ConsultaNet Logo" width="175" height="57">
                     </a>
                   </div>
@@ -16,31 +16,25 @@
                 </div>
               </div>
             </div>
-            <form action="#!">
+            <form [formGroup]="loginForm" #formDirective="ngForm" (ngSubmit)="onLogin()">
               <div class="row gy-3 overflow-hidden">
                 <div class="col-12">
                   <div class="form-floating mb-3">
-                    <input type="email" class="form-control" [(ngModel)]="loginObj.email" id="email" name="email" placeholder="Digite seu endereço de e-mail" required>
+                    <input type="email" class="form-control" formControlName="email" id="email" placeholder="Digite seu endereço de e-mail">
                     <label for="email" class="form-label">E-mail *</label>
+                    <app-display-validation-errors [control]="loginForm.controls.email" [formGroupDirective]="formDirective"></app-display-validation-errors>
                   </div>
                 </div>
                 <div class="col-12">
                   <div class="form-floating mb-3">
-                    <input type="password" class="form-control" [(ngModel)]="loginObj.password" id="password" name="password" placeholder="Digite sua senha" required>
+                    <input type="password" class="form-control" formControlName="password" id="password" placeholder="Digite sua senha">
                     <label for="password" class="form-label">Senha *</label>
+                    <app-display-validation-errors [control]="loginForm.controls.password" [formGroupDirective]="formDirective"></app-display-validation-errors>
                   </div>
                 </div>
                 <div class="col-12">
-                  <!-- <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" name="remember_me" id="remember_me">
-                    <label class="form-check-label text-secondary" for="remember_me">
-                      Keep me logged in
-                    </label>
-                  </div> -->
-                </div>
-                <div class="col-12">
                   <div class="d-grid">
-                    <button (click)="onLogin()" type="button" class="btn bsb-btn-xl btn-primary">Acessar conta</button>
+                    <button (click)="onLogin()" type="button" class="btn bsb-btn-xl btn-primary" [disabled]="!loginForm.valid">Acessar conta</button>
                   </div>
                 </div>
               </div>
