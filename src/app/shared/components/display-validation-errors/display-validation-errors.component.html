@@ -7,7 +7,7 @@
     <small>Campo permite a quantidade mínima de {{ control.errors.minlength.requiredLength }} caracteres.</small>
   </div>
   <div *ngIf="!control.errors?.required && control.errors?.invalidEmail"><small>{{ control.errors.invalidEmail }}</small></div>
-  <div *ngIf="!control.errors?.required && control.errors?.invalidSelect"><small>{{ control.errors.invalidSelect }}</small></div>
+  <div *ngIf="!control.errors?.required && control.errors?.invalidSelect"><small>Campo de seleção obrigatório</small></div>
   <div *ngIf="control.errors?.invalidDate"><small>Data inválida</small></div>
   <div *ngIf="control.errors?.invalidDateFutura"><small>Data não pode ser futura</small></div>
   <div *ngIf="control.errors?.fullName"><small>{{ control.errors.fullName }}</small></div>

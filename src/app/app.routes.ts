@@ -20,6 +20,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/account/register/paciente/registrar-paciente.component').then(c => c.RegistrarPacienteComponent)
   },
   {
+    path: 'profissional/registrar',
+    loadComponent: () => import('./pages/account/register/profissional/registrar-profissional.component').then(c => c.RegistrarProfissionalComponent)
+  },
+  {
     path: '',
     loadComponent: () => import('./components/layout/layout.component').then(c => c.LayoutComponent),
     children: [

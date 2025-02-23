@@ -58,7 +58,9 @@ export class AuthenticationService {
    * @returns boolean indicando se o usuário está logado ou não.
    */
   isLoggedIn(): boolean {
-    const JWT_TOKEN = this.cookieService.get(CredentialsSessionKeys.JWT_TOKEN);
+    const JWT_TOKEN = this.cookieService.get(CredentialsSessionKeys.JWT_TOKEN).isNullOrEmpty()
+                        ? localStorage.getItem(CredentialsSessionKeys.JWT_TOKEN)
+                        : this.cookieService.get(CredentialsSessionKeys.JWT_TOKEN);
     return JWT_TOKEN ? true : false;
   }
 

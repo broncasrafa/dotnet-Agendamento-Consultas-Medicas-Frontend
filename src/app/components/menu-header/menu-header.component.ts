@@ -100,6 +100,6 @@ export class MenuHeaderComponent implements AfterViewInit  {
 
   onLogout(): void {
     this.authService.logout();
-    this.router.navigateByUrl('/inicio');
+    window.location.href = '/inicio';
   }
 }

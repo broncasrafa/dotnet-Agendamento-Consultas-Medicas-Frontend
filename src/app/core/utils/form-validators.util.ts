@@ -105,7 +105,6 @@ export function passwordComplexityValidator(control: AbstractControl): Validatio
   return passwordRegex.test(password) ? null : { passwordInvalid: true };
 }
 
-
 /**
  * Função para validar se as senhas são iguais
  * @param formGroup
@@ -139,8 +138,6 @@ export const matchPasswordsValidator: ValidatorFn = (formGroup: AbstractControl)
 
   return null;
 };
-
-
 
 /**
  * Função que cria um validador personalizado para verificar se todos os dígitos são iguais, excluindo o DDD e o dígito 9 inicial
@@ -203,4 +200,13 @@ export function fullNameValidator(control: AbstractControl): ValidationErrors | 
   const isValid = /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?: [A-Za-zÀ-ÖØ-öø-ÿ]+)+$/.test(value.trim());
 
   return isValid ? null : { fullName: 'Digite seu nome completo (nome e sobrenome)' };
+}
+
+/**
+ * Valida se o campo de seleção foi preenchido
+ * @param control
+ * @returns ValidationErrors | null
+ */
+export function selectValidator(control: AbstractControl): ValidationErrors | null {
+  return control.value && control.value.trim() !== '' ? null : { invalidSelect: true };
 }
