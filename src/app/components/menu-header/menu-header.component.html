@@ -31,17 +31,17 @@
 
           @if (!isLogged) {
             <li class="dropdown">
-              <a href="#">
+              <a href="javascript:void(0);">
                 <span>Entrar/Criar conta</span> <i #dropdownItems class="bi bi-chevron-down toggle-dropdown" (click)="toggleDropdown($event)"></i>
               </a>
               <ul>
-                <li class="dropdown"><a href="#"><span>Pacientes</span> <i class="bi bi-chevron-down toggle-dropdown" (click)="toggleDropdown($event)"></i></a>
+                <li class="dropdown"><a href="javascript:void(0);"><span>Pacientes</span> <i class="bi bi-chevron-down toggle-dropdown" (click)="toggleDropdown($event)"></i></a>
                   <ul>
                     <li><a routerLink="/login">Entrar</a></li>
                     <li><a routerLink="/paciente/registrar">Criar conta</a></li>
                   </ul>
                 </li>
-                <li class="dropdown"><a href="#"><span>Profissional da saúde</span> <i class="bi bi-chevron-down toggle-dropdown" (click)="toggleDropdown($event)"></i></a>
+                <li class="dropdown"><a href="javascript:void(0);"><span>Profissional da saúde</span> <i class="bi bi-chevron-down toggle-dropdown" (click)="toggleDropdown($event)"></i></a>
                   <ul>
                     <li><a routerLink="/login">Entrar</a></li>
                     <li><a routerLink="/profissional/registrar">Criar conta</a></li>
@@ -53,7 +53,7 @@
 
           @if (isLogged) {
             <li class="dropdown">
-              <a href="#">
+              <a href="javascript:void(0);">
                 <span>Conta</span> <i #dropdownItems class="bi bi-chevron-down toggle-dropdown" (click)="toggleDropdown($event)"></i>
               </a>
               <ul>
@@ -61,7 +61,7 @@
                 <li><a routerLink="/inicio">Painel</a></li>
                 <li><a routerLink="/inicio">Minhas consultas</a></li>
                 <li><a routerLink="/inicio">Pacientes adicionais</a></li>
-                <li><a href="#" (click)="onLogout()">Sair</a></li>
+                <li><a href="javascript:void(0);" (click)="onLogout()">Sair</a></li>
               </ul>
             </li>
           }

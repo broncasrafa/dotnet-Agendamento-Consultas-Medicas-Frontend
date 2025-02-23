@@ -1,7 +1,7 @@
 <!-- Quero fazer uma pergunta -->
 <section id="hero" class="perguntas-respostas section light-background">
   <div>
-    <img src="../../../assets/img/doctors-8.png" alt="" data-aos="fade-in">
+    <img src="../../../assets/img/faq-img-1.png" alt="" data-aos="fade-in">
   </div>
 
   <div class="container position-relative">
@@ -39,7 +39,7 @@
             Escreva sua pergunta sobre saúde de forma breve e direta. Lembre-se de ser claro e objetivo!
           </p>
         </div>
-      </div><!-- End Service Item -->
+      </div>
 
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
         <div class="service-item position-relative">
@@ -53,7 +53,7 @@
             Sua pergunta será redirecionada e distribuem entre os especialistas disponíveis.
           </p>
         </div>
-      </div><!-- End Service Item -->
+      </div>
 
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
         <div class="service-item position-relative">
@@ -68,7 +68,7 @@
             de um especialista.
           </p>
         </div>
-      </div><!-- End Service Item -->
+      </div>
     </div>
   </div>
 </section>
@@ -133,139 +133,18 @@
 
 
   } @empty {
-    <span>Empty list of perguntas</span>
+    <div class="card-body">
+      <p>
+        Sem perguntas até o momento
+      </p>
+    </div>
   }
 } @else {
-  <span>No data provided</span>
+  <div class="card-body">
+    <p>
+      Sem perguntas até o momento
+    </p>
+  </div>
 }
 
-
-
-    <!-- <div class="container"></div> -->
-
-
-
-
-<!--
-  <div class="container">
-    @if (perguntasList !== undefined && perguntasList !== null && perguntasList.length > 0) {
-      @for (pergunta of perguntasList; track pergunta.id; let idx = $index) {
-        <div class="row gy-4">
-          <div class="perguntas-respostas-list-box" data-aos="fade-up" data-aos-delay="200">
-            <div class="row">
-              <div class="col-lg-12">
-                <h5>{{pergunta.pergunta }}</h5>
-              </div>
-              <div class="col-lg-12">
-                <p><em>{{pergunta.createdAtFormatted}}</em></p>
-              </div>
-            </div>
-
-            <div>
-              @if (pergunta.respostas !== undefined && pergunta.respostas !== null && pergunta.respostas.length > 0) {
-                <div class="row">
-                  <div class="col-lg-7">
-                    <div class="team-member align-items-start respostas-box">
-                      <p><em>{{pergunta.respostas[0].createdAtFormatted}}</em></p>
-                      <div class="fs-12pt pt-2">{{pergunta.respostas[0].resposta}}</div>
-                      <div class="text-end respostas-reactions">
-                        <ul class="list-inline">
-                          <li class="list-inline-item pr-10">
-                            <i class='far fa-thumbs-up fs-22px'></i> {{pergunta.respostas[0].likes}}
-                          </li>
-                          <li class="list-inline-item">
-                            <i class='far fa-thumbs-down fs-22px'></i> {{pergunta.respostas[0].dislikes}}
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-5">
-                    <div class="team-member d-flex align-items-start">
-                      <div class="pic"><img src="assets/img/doctors/doctors-2.jpg" class="img-fluid" alt=""></div>
-                      <div class="member-info">
-                        <h4>{{pergunta.respostas[0].especialista.nome}}</h4>
-                        <span>{{pergunta.respostas[0].especialista.especialidades[0].nome}}</span>
-                        <p>Aqui vai ficar o rating</p>
-                        <div class="social">
-                          <p>
-                            <button class="cta-btn-primary">Marcar consulta agora</button>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row respostas-todas">
-                  <div class="col-lg-12">
-                    <div class="fs-12pt">
-                      <a href="#" class="link-primary text-decoration-none">Ver todas as respostas</a>
-                    </div>
-                  </div>
-                </div>
-              } @else {
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="fs-12pt">Sem respostas até o momento</div>
-                  </div>
-                </div>
-              }
-            </div>
-
-            <hr />
-          </div>
-
-        </div>
-      } @empty {
-          <span>Empty list of perguntas</span>
-      }
-    }
-    @else {
-      <span>No data provided</span>
-    }
-  </div>
--->
 </section>
-
-
-
-
-<!--
-    <div class="row gy-4">
-      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-        <div class="team-member d-flex align-items-start">
-          <div class="pic"><img src="assets/img/doctors/doctors-2.jpg" class="img-fluid" alt=""></div>
-          <div class="member-info">
-            <h4>Sarah Jhonson</h4>
-            <span>Anesthesiologist</span>
-            <p>Aut maiores voluptates amet et quis praesentium qui senda para</p>
-            <div class="social">
-              <a href=""><i class="bi bi-twitter-x"></i></a>
-              <a href=""><i class="bi bi-facebook"></i></a>
-              <a href=""><i class="bi bi-instagram"></i></a>
-              <a href=""> <i class="bi bi-linkedin"></i> </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-        <div class="team-member d-flex align-items-start">
-          <div class="pic"><img src="assets/img/doctors/doctors-4.jpg" class="img-fluid" alt=""></div>
-          <div class="member-info">
-            <h4>Amanda Jepson</h4>
-            <span>Neurosurgeon</span>
-            <p>Dolorum tempora officiis odit laborum officiis et et accusamus</p>
-            <div class="social">
-              <a href=""><i class="bi bi-twitter-x"></i></a>
-              <a href=""><i class="bi bi-facebook"></i></a>
-              <a href=""><i class="bi bi-instagram"></i></a>
-              <a href=""> <i class="bi bi-linkedin"></i> </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
--->

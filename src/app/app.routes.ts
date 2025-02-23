@@ -4,7 +4,7 @@ import { authGuard } from 'src/app/core/guard/auth.guard';
 export const routes: Routes = [
   {
     path:'',
-    redirectTo: 'login',
+    redirectTo: 'inicio',
     pathMatch:'full'
   },
   {
@@ -17,7 +17,7 @@ export const routes: Routes = [
   },
   {
     path: 'paciente/registrar',
-    loadComponent: () => import('./pages/account/register/paciente/paciente.component').then(c => c.RegistrarPacienteComponent)
+    loadComponent: () => import('./pages/account/register/paciente/registrar-paciente.component').then(c => c.RegistrarPacienteComponent)
   },
   {
     path: '',

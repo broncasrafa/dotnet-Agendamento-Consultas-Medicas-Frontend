@@ -1,0 +1,119 @@
+<section class="bg-light py-3 py-md-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-6">
+        <div class="card border border-light-subtle rounded-3 shadow-sm">
+          <div class="card-body p-3 p-md-4 p-xl-5">
+            <div class="text-center mb-3">
+              <a routerLink="/inicio">
+                <img src="/assets/img/logo_1.png" alt="ConsultaNet Logo" width="175" height="57">
+              </a>
+            </div>
+            <h2 class="fs-6 fw-normal text-center text-secondary mb-4">Crie sua conta de paciente</h2>
+            <form [formGroup]="signupForm" #formDirective="ngForm" (ngSubmit)="onRegisterSubmit()">
+              <div class="row gy-2 overflow-hidden">
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="nomeCompleto" id="nomeCompleto" placeholder="Digite seu nome completo" required>
+                    <label for="nomeCompleto" class="form-label">Nome completo*</label>
+                    <app-display-validation-errors [control]="signupForm.controls.nomeCompleto" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="cpf" id="cpf" placeholder="Digite seu CPF" mask="000.000.000-00"
+                    [showMaskTyped]="true" pattern="[0-9]*" inputmode="numeric">
+                    <label for="cpf" class="form-label">CPF*</label>
+                    <app-display-validation-errors [control]="signupForm.controls.cpf" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="username" id="username" placeholder="Digite seu username" required>
+                    <label for="username" class="form-label">Username*</label>
+                    <app-display-validation-errors [control]="signupForm.controls.username" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="email" class="form-control" formControlName="email" id="email" placeholder="Digite seu e-mail" required>
+                    <label for="email" class="form-label">E-mail*</label>
+                    <app-display-validation-errors [control]="signupForm.controls.email" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="telefone" id="telefone" placeholder="Digite seu telefone" required>
+                    <label for="telefone" class="form-label">Telefone *</label>
+                    <app-display-validation-errors [control]="signupForm.controls.telefone" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="dataNascimento" id="dataNascimento" placeholder="Digite sua data de nascimento" required
+                          mask="00/00/0000" [showMaskTyped]="true" pattern="[0-9]*" inputmode="numeric">
+                    <label for="dataNascimento" class="form-label">Data de nascimento *</label>
+                    <app-display-validation-errors [control]="signupForm.controls.dataNascimento" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" formControlName="genero" id="rdMasc" value="Masculino">
+                    <label class="form-check-label" for="rdMasc">Masculino</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" formControlName="genero" id="rdFem" value="Feminino">
+                    <label class="form-check-label" for="rdFem">Feminino</label>
+                  </div>
+                  <app-display-validation-errors [control]="signupForm.controls.genero" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="password" class="form-control" formControlName="password" id="password" value="" placeholder="Digite sua senha" required>
+                    <label for="password" class="form-label">Senha</label>
+                    <app-display-validation-errors [control]="signupForm.controls.password" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="password" class="form-control" formControlName="confirmPassword" id="confirmPassword" value="" placeholder="Digite a confirmação da senha" required>
+                    <label for="confirmPassword" class="form-label">Confirmar Senha</label>
+                    <app-display-validation-errors [control]="signupForm.controls.confirmPassword" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+
+
+                <div class="col-12">
+                  <div class="box-consentimentos">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" formControlName="isAgreeTerms" id="isAgreeTerms" required>
+                      <label class="form-check-label text-secondary" for="isAgreeTerms">
+                        Li e concordo com os <a href="#!" class="link-primary text-decoration-none">Termos de Uso e Política de Privacidade</a>
+                      </label>
+                      <br /><br />
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" formControlName="isAgreeComunications" id="isAgreeComunications">
+                      <label class="form-check-label text-secondary" for="isAgreeComunications">
+                        Autorizo o recebimento de informativos, ofertas e outras atualizações por email, SMS e aplicativo. (Opcional)
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="d-grid my-3">
+                    <button class="btn btn-primary btn-lg" type="submit" [disabled]="!signupForm.valid || !signupForm.controls.isAgreeTerms">Criar conta</button>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <p class="m-0 text-secondary text-center">Já tem uma conta? <a routerLink="/conta/paciente/login" class="link-primary text-decoration-none">Acessar conta</a></p>
+                </div>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
