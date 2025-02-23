@@ -7,6 +7,7 @@ import { provideToastr } from 'ngx-toastr';
 import { JwtModule } from '@auth0/angular-jwt';
 
 import { routes } from './app.routes';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,6 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimations(),
     provideToastr(),
+    provideEnvironmentNgxMask(),
     importProvidersFrom([
       JwtModule.forRoot({
         config: {

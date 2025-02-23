@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'app-display-validation-errors',
@@ -8,17 +9,13 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
   templateUrl: './display-validation-errors.component.html',
   styleUrl: './display-validation-errors.component.css'
 })
-export class DisplayValidationErrorsComponent implements OnInit, OnChanges {
+export class DisplayValidationErrorsComponent {
 
-  @Input() control: any;
+  @Input() control!: any;
+  @Input() formGroupDirective!: FormGroupDirective; // Recebe a diretiva do formulário para acessar o estado de submissão
 
-  constructor() { }
-
-  ngOnInit() {
-    //console.log('[CONTROL onInit]: ', this.control);
+  get shouldShowErrors(): boolean {
+    return this.control && this.control.invalid &&
+      (this.control.dirty || this.control.touched || this.formGroupDirective.submitted);
   }
-  ngOnChanges() {
-    //console.log('[CONTROL onChanges]: ', this.control);
-  }
-
 }

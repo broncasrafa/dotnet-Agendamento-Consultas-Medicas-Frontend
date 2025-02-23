@@ -1,9 +1,23 @@
-<div class="text-danger" *ngIf="control && control.errors && (control.dirty || control.touched)">
-  <div *ngIf="control.errors.required"><small>Campo obrigatório</small></div>
-  <div *ngIf="control.errors.maxlength"><small>Campo excedeu a quantidade máxima de {{ control.errors.maxlength.requiredLength }} caracteres.</small></div>
-  <div *ngIf="control.errors.minlength"><small>Campo permite a quantidade minima de {{ control.errors.minlength.requiredLength }} caracteres.</small></div>
-  <div *ngIf="!control.errors.required && control.errors.invalidEmail"><small>{{control.errors.invalidEmail}}</small></div>
-  <div *ngIf="!control.errors.required && control.errors.invalidSelect"><small>{{control.errors.invalidSelect}}</small></div>
-  <div *ngIf="control.errors.invalidDate"><small>{{control.errors.invalidDate}}</small></div>
-  <div *ngIf="control.errors.invalidDateFutura"><small>{{control.errors.invalidDateFutura}}</small></div>
+<div class="text-danger" *ngIf="shouldShowErrors">
+  <div *ngIf="control.errors?.required"><small>Campo obrigatório</small></div>
+  <div *ngIf="control.errors?.maxlength">
+    <small>Campo excedeu a quantidade máxima de {{ control.errors.maxlength.requiredLength }} caracteres.</small>
+  </div>
+  <div *ngIf="control.errors?.minlength">
+    <small>Campo permite a quantidade mínima de {{ control.errors.minlength.requiredLength }} caracteres.</small>
+  </div>
+  <div *ngIf="!control.errors?.required && control.errors?.invalidEmail"><small>{{ control.errors.invalidEmail }}</small></div>
+  <div *ngIf="!control.errors?.required && control.errors?.invalidSelect"><small>{{ control.errors.invalidSelect }}</small></div>
+  <div *ngIf="control.errors?.invalidDate"><small>Data inválida</small></div>
+  <div *ngIf="control.errors?.invalidDateFutura"><small>Data não pode ser futura</small></div>
+  <div *ngIf="control.errors?.fullName"><small>{{ control.errors.fullName }}</small></div>
+  <div *ngIf="control.errors?.cpfInvalid"><small>O número de <strong class="fw-900">CPF</strong> não é válido, está incorreto ou já está registrado.</small></div>
+  <div *ngIf="control.errors?.dateFormatInvalid"><small>Data em formato invalido.</small></div>
+  <div *ngIf="control.errors?.passwordInvalid"><small>A senha deve ter pelo menos 5 caracteres, 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial.</small></div>
+  <div *ngIf="control.errors?.passwordsDontMatch"><small>As senhas não coincidem.</small></div>
+  <div *ngIf="control.errors?.allDigitsEqual"><small>Você não pode cadastrar números iguais.</small></div>
+  <div *ngIf="control.errors?.email"><small>O e-mail informado não é válido.</small></div>
+  <div *ngIf="control.errors?.invalidPhoneLength"><small>O telefone deve ter 10 ou 11 dígitos.</small></div>
+  <div *ngIf="control.errors?.invalidPhoneSequence"><small>Número de telefone inválido.</small></div>
+  <div *ngIf="control.errors?.phoneInvalid"><small>{{ control.errors.phoneInvalid }}</small></div>
 </div>
