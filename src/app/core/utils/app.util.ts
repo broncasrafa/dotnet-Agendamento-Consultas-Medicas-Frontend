@@ -13,4 +13,21 @@ export class AppUtils {
 
     return { title, errorMessage };
   }
+
+  /**
+   * Converter data no formato ddMMyyyy para yyyy-MM-dd.
+   * @param dateStr data no formato ddMMyyyy.
+   * @returns data no formato yyyy-MM-dd.
+   */
+  public static convertToDateFormat(dateStr: string): string {
+    if (!/^\d{8}$/.test(dateStr)) {
+      throw new Error('Formato inválido. Use ddMMyyyy.');
+    }
+
+    const day = dateStr.substring(0, 2);
+    const month = dateStr.substring(2, 4);
+    const year = dateStr.substring(4, 8);
+
+    return `${year}-${month}-${day}`; // Formato yyyy-MM-dd para enviar à API
+  }
 }

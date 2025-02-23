@@ -43,7 +43,8 @@
                 </div>
                 <div class="col-12">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control" formControlName="telefone" id="telefone" placeholder="Digite seu telefone" required>
+                    <input type="text" class="form-control" formControlName="telefone" id="telefone" placeholder="Digite seu telefone" required
+                           mask="(00) 00000-0000" pattern="[0-9]*" inputmode="numeric">
                     <label for="telefone" class="form-label">Telefone *</label>
                     <app-display-validation-errors [control]="signupForm.controls.telefone" [formGroupDirective]="formDirective"></app-display-validation-errors>
                   </div>

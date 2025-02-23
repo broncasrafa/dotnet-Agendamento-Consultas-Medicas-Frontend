@@ -16,6 +16,7 @@ import {
   passwordComplexityValidator,
   phoneNumberValidator
 } from 'src/app/core/utils/form-validators.util';
+import { AppUtils } from 'src/app/core/utils/app.util';
 
 @Component({
   selector: 'app-registrar-paciente',
@@ -59,20 +60,20 @@ export class RegistrarPacienteComponent implements OnDestroy {
   constructor() { }
 
   onRegisterSubmit() {
-    console.log(this.signupForm);
+
     if (this.signupForm.value && this.signupForm.valid) {
       const request = this.signupForm.value as RegisterPacienteRequest;
-      console.log(request);
-      // this.accountService.registerPaciente(request)
-      //   .pipe(takeUntil(this.destroy$))
-      //   .subscribe({
-      //     next: (response) => {
-      //       this.signupForm.reset();
-      //       this.notificationService.showSuccessNotification('Cadastrado com sucesso', 'Paciente registrado con éxito');
-      //       this.router.navigate(['/login']);
-      //     },
-      //     error: (err) => this.notificationService.showHttpResponseErrorNotification(err)
-      //   });
+      request.dataNascimento = AppUtils.convertToDateFormat(request.dataNascimento);
+
+      this.accountService.registerPaciente(request)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            this.notificationService.showSuccessNotification('Cadastro', 'Registro realizado com sucesso');
+            this.router.navigate(['/inicio']);
+          },
+          error: (err) => this.notificationService.showHttpResponseErrorNotification(err)
+        });
     }
   }
 
