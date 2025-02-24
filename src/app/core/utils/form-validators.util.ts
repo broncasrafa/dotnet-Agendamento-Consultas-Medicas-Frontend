@@ -210,3 +210,13 @@ export function fullNameValidator(control: AbstractControl): ValidationErrors | 
 export function selectValidator(control: AbstractControl): ValidationErrors | null {
   return control.value && control.value.trim() !== '' ? null : { invalidSelect: true };
 }
+
+/**
+ * Valida se o checkbox foi marcado
+ * @returns ValidationErrors | null
+ */
+export function checkboxRequiredValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    return control.value === true ? null : { isCheckboxInvalid: true };
+  };
+}

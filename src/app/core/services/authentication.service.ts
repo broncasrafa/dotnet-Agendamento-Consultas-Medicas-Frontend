@@ -6,7 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { ApiResponse } from 'src/app/core/models/ApiResponse';
 import { LoginRequest } from 'src/app/core/models/account/request/LoginRequest';
-import { AuthenticatedUserResponse } from 'src/app/core/models/account/response/AuthenticatedUserResponse';
+import { AuthenticatedUserResponse, Usuario } from 'src/app/core/models/account/response/AuthenticatedUserResponse';
 import { CredentialsSessionKeys } from 'src/app/core/constants/credentials-session-keys.const';
 
 @Injectable({
@@ -83,6 +83,22 @@ export class AuthenticationService {
     return of({ success: true, data: true, message: 'Logout realizado com sucesso.' });
   }
 
+  /**
+     * Obter as informações do usuário no localStorage
+     * @param data - Dados do usuário
+     */
+  getUserInfo(): Usuario {
+    return JSON.parse(localStorage.getItem(CredentialsSessionKeys.USER_INFO)!) as Usuario;
+  }
+
+  /**
+   * Obtém o token armazenado no localStorage
+   * @returns string | null - Token JWT ou null se não existir
+   */
+  getToken(): string | null {
+    return localStorage.getItem(CredentialsSessionKeys.JWT_TOKEN); // Retorna o token JWT
+  }
+
 
   /**
    * Limpa os tokens do localStorage e do cookie
@@ -120,13 +136,7 @@ export class AuthenticationService {
     // this.cookieService.set(CredentialsSessionKeys.COOKIE_USER_INFO, data);
   }
 
-  /**
-   * Obtém o token armazenado no localStorage
-   * @returns string | null - Token JWT ou null se não existir
-   */
-  private getToken(): string | null {
-    return localStorage.getItem(CredentialsSessionKeys.JWT_TOKEN); // Retorna o token JWT
-  }
+
 
   /**
      * Verifica o estado do token ao inicializar o serviço

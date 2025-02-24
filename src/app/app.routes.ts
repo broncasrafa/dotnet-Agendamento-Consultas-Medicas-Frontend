@@ -39,10 +39,14 @@ export const routes: Routes = [
         path: 'perguntas-e-respostas',
         loadComponent: () => import('./pages/perguntas-e-respostas/perguntas-e-respostas.component').then(c => c.PerguntasERespostasComponent)
       },
-
       {
         path: 'conta/mudar-senha',
         loadComponent: () => import('./pages/account/mudar-senha/mudar-senha.component').then(c => c.MudarSenhaComponent),
+        canActivate: [authGuard]
+      },
+      {
+        path: 'agendamento',
+        loadComponent: () => import('./pages/consulta/agendamento/agendamento.component').then(c => c.AgendamentoConsultaComponent),
         canActivate: [authGuard]
       }
     ]

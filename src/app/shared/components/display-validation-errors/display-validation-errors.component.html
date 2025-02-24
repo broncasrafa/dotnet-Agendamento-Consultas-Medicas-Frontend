@@ -20,4 +20,5 @@
   <div *ngIf="control.errors?.invalidPhoneLength"><small>O telefone deve ter 10 ou 11 dígitos.</small></div>
   <div *ngIf="control.errors?.invalidPhoneSequence"><small>Número de telefone inválido.</small></div>
   <div *ngIf="control.errors?.phoneInvalid"><small>{{ control.errors.phoneInvalid }}</small></div>
+  <div *ngIf="control.errors?.isCheckboxInvalid"><small>Campo deve ser marcado</small></div>
 </div>

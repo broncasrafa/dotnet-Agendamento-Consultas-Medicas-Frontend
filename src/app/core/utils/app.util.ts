@@ -1,4 +1,5 @@
 import { HttpErrorResponse } from "@angular/common/http";
+import { FormGroup, FormGroupDirective } from "@angular/forms";
 
 export class AppUtils {
 
@@ -29,5 +30,15 @@ export class AppUtils {
     const year = dateStr.substring(4, 8);
 
     return `${year}-${month}-${day}`; // Formato yyyy-MM-dd para enviar à API
+  }
+
+  /**
+   * Limpar formulário.
+   * @param formDirective
+   * @param form
+   */
+  public static resetForm(formDirective: FormGroupDirective, form: FormGroup) {
+    formDirective.resetForm(); // Reseta o estado do formulário
+    form.reset(); // Reseta os valores do formulário
   }
 }

@@ -5,8 +5,9 @@ export interface AuthenticatedUserResponse {
 
 
 export interface Usuario {
+  id?: number
   token: string
-  id: string
+  userId: string
   nome: string
   documento: string
   username: string

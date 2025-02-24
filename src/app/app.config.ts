@@ -1,18 +1,21 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
-import { JwtModule } from '@auth0/angular-jwt';
-
-import { routes } from './app.routes';
 import { provideEnvironmentNgxMask } from 'ngx-mask';
+
+import { routes } from 'src/app/app.routes';
+import { JwtModule } from '@auth0/angular-jwt';
+import { jwtInterceptor } from 'src/app/core/interceptors/jwt.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([jwtInterceptor])
+    ),
     provideAnimations(),
     provideToastr(),
     provideEnvironmentNgxMask(),

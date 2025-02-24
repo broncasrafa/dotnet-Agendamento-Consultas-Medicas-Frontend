@@ -1,23 +1,68 @@
 <!-- Quero fazer uma pergunta -->
-<section id="hero" class="perguntas-respostas section light-background">
-  <div>
-    <img src="../../../assets/img/faq-img-1.png" alt="" data-aos="fade-in">
-  </div>
-
-  <div class="container position-relative">
-
-    <div class="welcome position-relative" data-aos="fade-down" data-aos-delay="100">
-      <h2>Pergunte ao profissional de saúde</h2>
-      <p>
-        Tire dúvidas com nossos médicos e demais profissionais de saúde.
-      </p>
-      <br />
-      <p>
-        <button class="cta-btn-primary">Quero fazer uma pergunta</button>
-      </p>
+<section class="bsb-hero-2-pro px-3" style="height: auto !important;">
+  <div class="container overflow-hidden">
+    <div class="row gy-3 gy-lg-0 align-items-lg-center justify-content-lg-between">
+      <div class="col-12 col-lg-6 order-1 order-lg-0">
+        <h1 class="display-3 fw-bold mb-1">Pergunte ao profissional de saúde</h1>
+        <p class="fs-4 mb-5">Tire dúvidas com nossos médicos e demais profissionais de saúde.</p>
+        <div class="d-grid gap-2 d-sm-flex">
+          <button type="button" class="btn btn-primary bsb-btn-2xl rounded-pill" *ngIf="!showFormSection" (click)="onShowForm()">Quero fazer uma pergunta</button>
+        </div>
+      </div>
+      <div class="col-12 col-lg-5 text-center">
+        <img class="img-fluid " loading="lazy" src="../../../assets/img/faq-img-1.png" alt="" data-aos="fade-in" alt="Perguntas e Respostas" >
+      </div>
     </div>
   </div>
 </section>
+
+<!-- Perguntas e respostas -->
+ @if (showFormSection) {
+ <section class="section">
+  <div class="container">
+    <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onEnviarPergunta(formDirective)">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-floating mb-3">
+            <textarea class="form-control" placeholder="Faça sua pergunta aqui, mínimo de 50 caracteres e máximo de 300 caracteres" formControlName="pergunta" id="pergunta" style="height: 100px"
+                    appInputCharacterCount [maxLength]="300"></textarea>
+            <label for="pergunta">Faça sua pergunta aqui</label>
+            <app-display-validation-errors [control]="form.controls.pergunta" [formGroupDirective]="formDirective"></app-display-validation-errors>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-floating mb-3">
+            <select class="form-select" id="especialidadeId" aria-label="especialidadeId" formControlName="especialidadeId">
+              <option value="" selected>Selecione...</option>
+              <option *ngFor="let item of especialidades; let i = index;" [value]="item.id">{{item.nome}}</option>
+            </select>
+            <label for="especialidadeId" class="form-label">Escolha a especialidade</label>
+            <app-display-validation-errors [control]="form.controls.especialidadeId" [formGroupDirective]="formDirective"></app-display-validation-errors>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="box-consentimentos">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" formControlName="termosUsoPolitica" id="termosUsoPolitica" required>
+              <label class="form-check-label text-secondary" for="termosUsoPolitica">
+                Li e concordo com os <a href="javascript:void(0);" class="link-primary text-decoration-none">Termos de Uso e Política de Privacidade</a>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-3">
+          <div class="d-grid my-3">
+            <button class="btn btn-primary btn-lg" type="submit" [disabled]="!form.valid || !form.controls.termosUsoPolitica">Enviar pergunta</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+ </section>
+}
 
 <!-- Como que funciona? -->
 <section id="services" class="services section">
@@ -73,11 +118,10 @@
   </div>
 </section>
 
+<!-- Principais perguntas sobre saúde -->
 <section id="doctors" class="doctors section">
-
-  <!-- Section Title -->
   <div class="container section-title" data-aos="fade-up">
-    <h2>Principais perguntas sobre saúde (7.979)</h2>
+    <h2>Principais perguntas sobre saúde</h2>
   </div>
 
 @if (perguntasList !== undefined && perguntasList !== null && perguntasList.length > 0) {
@@ -146,5 +190,4 @@
     </p>
   </div>
 }
-
 </section>
