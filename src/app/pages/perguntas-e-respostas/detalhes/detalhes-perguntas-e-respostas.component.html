@@ -1,1 +1,65 @@
-<p>detalhes-perguntas-e-respostas works!</p>
+<div *ngIf="pergunta !== undefined && pergunta !== null">
+  <section class="py-3 py-md-5 py-xl-2" style="height: auto !important;">
+    <div class="container">
+      <div class="row gy-5 gy-lg-0 align-items-lg-center">
+        <div class="col-12 col-lg-8">
+          <div class="row justify-content-xl-end">
+            <div class="col-12 col-xl-11">
+              <p class="lead fs-4 text-secondary">{{pergunta.pergunta}}</p>
+              <p class="card-text mb-2"><small class="text-muted">{{pergunta.createdAtFormatted}}</small></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4">
+          <img class="img-fluid rounded" loading="lazy" src="../../../assets/img/faq-img-2.png" data-aos="fade-in"  alt="How can we help you?">
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="py-3 py-md-5 mb-5" style="height: auto !important;">
+    <div class="container">
+      @if (pergunta.respostas !== undefined && pergunta.respostas !== null && pergunta.respostas.length > 0) {
+        <div class="row mb-3" *ngFor="let resposta of pergunta.respostas; let i = index">
+          <div class="col-12 col-lg-12">
+            <div class="card">
+              <div class="card-body p-4 p-xxl-5">
+                <blockquote class="bsb-blockquote-icon mb-3">{{resposta.resposta}}</blockquote>
+                <p class="card-text mb-2"><small class="text-muted">{{resposta.createdAtFormatted}}</small></p>
+                <figure class="d-flex align-items-center m-0 p-0">
+                  <img class="img-fluid rounded rounded-circle m-0 border border-5" loading="lazy" src="assets/img/doctors/doctors-2.jpg" width="80" height="80" alt="{{resposta.especialista.nome}}">
+                  <figcaption class="ms-3">
+                    <h4 class="mb-1 h5">{{resposta.especialista.nome}}</h4>
+                    <h5 class="fs-6 text-secondary mb-0">{{resposta.especialista.especialidades[0].nome}}</h5>
+                    @if (resposta.especialista.avaliacao !== undefined && resposta.especialista.avaliacao !== null) {
+                      <div class="bsb-ratings text-warning mb-3" data-bsb-star="pergunta.respostas[0].especialista.avaliacao" data-bsb-star-off="0"></div>
+                    }
+                    <div class="mt-4">
+                      <div class="form-check-inline">
+                        <i class='far fa-thumbs-up' style='font-size:24px'></i>
+                        <label class="form-check-label ms-2" for="inlineRadio1">{{resposta.likes}}</label>
+                      </div>
+                      <div class="form-check-inline ms-3">
+                        <i class='far fa-thumbs-down' style='font-size:24px'></i>
+                        <label class="form-check-label ms-2" for="inlineRadio2">{{resposta.dislikes}}</label>
+                      </div>
+                    </div>
+
+                  </figcaption>
+                </figure>
+                <p class="mt-4">
+                  <button class="cta-btn-primary">Marcar consulta agora</button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <div style="margin-top: 0rem !important;">
+          <p class="lead fs-4 text-secondary">
+            Sem respostas até o momento
+          </p>
+        </div>
+      }
+    </div>
+  </section>
+</div>
