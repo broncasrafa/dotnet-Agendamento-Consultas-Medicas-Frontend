@@ -58,6 +58,6 @@
 }
 
 .img-mask {
-  -webkit-mask-image: url(../../../assets/img/hero-img-blob-1.svg);
-  mask-image: url(../../../assets/img/hero-img-blob-1.svg);
+  -webkit-mask-image: url(../../../../assets/img/hero-img-blob-1.svg);
+  mask-image: url(../../../../assets/img/hero-img-blob-1.svg);
 }

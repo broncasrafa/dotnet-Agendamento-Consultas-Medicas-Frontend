@@ -37,7 +37,11 @@ export const routes: Routes = [
       },
       {
         path: 'perguntas-e-respostas',
-        loadComponent: () => import('./pages/perguntas-e-respostas/perguntas-e-respostas.component').then(c => c.PerguntasERespostasComponent)
+        loadComponent: () => import('./pages/perguntas-e-respostas/listar/listar-perguntas-e-respostas.component').then(c => c.PerguntasERespostasListarComponent)
+      },
+      {
+        path: 'perguntas-e-respostas/:id',
+        loadComponent: () => import('./pages/perguntas-e-respostas/detalhes/detalhes-perguntas-e-respostas.component').then(c => c.PerguntasERespostasDetalhesComponent)
       },
       {
         path: 'conta/mudar-senha',

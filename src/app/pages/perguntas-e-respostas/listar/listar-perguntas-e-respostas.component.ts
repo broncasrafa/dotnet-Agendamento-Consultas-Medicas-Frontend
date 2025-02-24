@@ -26,10 +26,10 @@ import { AppUtils } from 'src/app/core/utils/app.util';
     DisplayValidationErrorsComponent,
     InputCharacterCountDirective
   ],
-  templateUrl: './perguntas-e-respostas.component.html',
-  styleUrl: './perguntas-e-respostas.component.css'
+  templateUrl: './listar-perguntas-e-respostas.component.html',
+  styleUrl: './listar-perguntas-e-respostas.component.css'
 })
-export class PerguntasERespostasComponent implements OnInit, OnDestroy {
+export class PerguntasERespostasListarComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   private formBuilder = inject(FormBuilder);
