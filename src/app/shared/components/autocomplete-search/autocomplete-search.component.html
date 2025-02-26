@@ -1,0 +1,19 @@
+<div class="position-relative">
+  <input #searchInput type="text" class="form-control"
+    [placeholder]="placeholder"
+    [(ngModel)]="searchTerm"
+    (input)="filterItems()"
+    (focus)="filterItems()"
+    (keydown)="handleKeyDown($event)"
+    />
+  <ul class="list-group custom-dropdown mt-1 position-absolute" *ngIf="showDropdown">
+    <li class="list-group-item" *ngFor="let item of filteredItems; let i = index"
+      [class.active]="i === highlightedIndex"
+      (click)="selectItem(item)"
+      (mouseenter)="highlightedIndex = i">
+      {{ displayFn! ? displayFn(item) : item }}
+    </li>
+  </ul>
+</div>
+<!-- (keydown)="handleKeyDown($event)"  -->
+

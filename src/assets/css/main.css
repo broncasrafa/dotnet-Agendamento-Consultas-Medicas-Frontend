@@ -2215,3 +2215,13 @@ section,
   color: var(--bsb-star-off);
   content: "★★★★★"
 }
+
+.position-absolute {
+  position: absolute;
+  top: 90%; /* Posiciona o dropdown logo abaixo do input */
+  left: 0px;
+  right: 0;
+  z-index: 1000; /* Garante que a lista aparece sobre os outros elementos */
+  max-height: 210px; /* Limita a altura da lista */
+  overflow-y: auto; /* Adiciona barra de rolagem se necessário */
+}
