@@ -1,4 +1,5 @@
-<div class="position-relative">
+<div class="autocomplete-container">
+
   <input #searchInput type="text" class="form-control"
     [placeholder]="placeholder"
     [(ngModel)]="searchTerm"
@@ -6,7 +7,7 @@
     (focus)="filterItems()"
     (keydown)="handleKeyDown($event)"
     />
-  <ul class="list-group custom-dropdown mt-1 position-absolute" *ngIf="showDropdown">
+  <ul class="list-group autocomplete-dropdown" *ngIf="showDropdown">
     <li class="list-group-item" *ngFor="let item of filteredItems; let i = index"
       [class.active]="i === highlightedIndex"
       (click)="selectItem(item)"
@@ -14,6 +15,5 @@
       {{ displayFn! ? displayFn(item) : item }}
     </li>
   </ul>
-</div>
-<!-- (keydown)="handleKeyDown($event)"  -->
 
+</div>

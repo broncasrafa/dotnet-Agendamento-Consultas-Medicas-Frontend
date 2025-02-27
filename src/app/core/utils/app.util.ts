@@ -41,4 +41,13 @@ export class AppUtils {
     formDirective.resetForm(); // Reseta o estado do formulário
     form.reset(); // Reseta os valores do formulário
   }
+
+  /**
+   * Verificar se o objeto esta null ou undefined
+   * @param obj objecto
+   * @returns true se for null ou undefined
+   */
+  public static isNullOrUndefined<T>(obj: T | null | undefined): boolean {
+    return obj === null || obj === undefined;
+  }
 }

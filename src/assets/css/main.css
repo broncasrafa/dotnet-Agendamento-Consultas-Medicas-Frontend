@@ -2216,7 +2216,7 @@ section,
   content: "★★★★★"
 }
 
-.position-absolute {
+.autocomplete-position-absolute {
   position: absolute;
   top: 90%; /* Posiciona o dropdown logo abaixo do input */
   left: 0px;
@@ -2224,4 +2224,8 @@ section,
   z-index: 1000; /* Garante que a lista aparece sobre os outros elementos */
   max-height: 210px; /* Limita a altura da lista */
   overflow-y: auto; /* Adiciona barra de rolagem se necessário */
+}
+
+.tc-white {
+  color: #ffffff !important;
 }

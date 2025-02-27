@@ -9,6 +9,7 @@ import { EspecialidadeService } from 'src/app/core/services/especialidade.servic
 import { CommonService } from 'src/app/core/services/common.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { AutocompleteSearchComponent } from 'src/app/shared/components/autocomplete-search/autocomplete-search.component';
+import { AppUtils } from 'src/app/core/utils/app.util';
 
 @Component({
   selector: 'app-agendamento-busca',
@@ -110,8 +111,9 @@ export class AgendamentoBuscaComponent  implements OnInit, OnDestroy {
   }
 
   habilitarBotaoPesquisar() {
-    return this.especialidadeSelecionada !== undefined && this.especialidadeSelecionada !== null &&
-            this.cidadeSelecionada !== undefined && this.cidadeSelecionada !== null;
+    return (!AppUtils.isNullOrUndefined(this.especialidadeSelecionada) && !AppUtils.isNullOrUndefined(this.cidadeSelecionada))
+    // this.especialidadeSelecionada !== undefined && this.especialidadeSelecionada !== null &&
+    //         this.cidadeSelecionada !== undefined && this.cidadeSelecionada !== null;
   }
 }
 
