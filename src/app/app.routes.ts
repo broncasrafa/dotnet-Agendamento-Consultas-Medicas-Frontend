@@ -1,3 +1,4 @@
+import { PesquisarEspecialistaComponent } from './pages/especialista/pesquisar-especialista/pesquisar-especialista.component';
 import { Routes } from '@angular/router';
 import { authGuard } from 'src/app/core/guard/auth.guard';
 
@@ -22,6 +23,10 @@ export const routes: Routes = [
   {
     path: 'profissional/registrar',
     loadComponent: () => import('./pages/account/register/profissional/registrar-profissional.component').then(c => c.RegistrarProfissionalComponent)
+  },
+  {
+    path: '404-page',
+    loadComponent: () => import('./pages/error-pages/not-found/not-found.component').then(c => c.NotFoundComponent)
   },
   {
     path: '',
@@ -52,6 +57,10 @@ export const routes: Routes = [
         path: 'agendamento',
         loadComponent: () => import('./pages/consulta/agendamento/agendamento.component').then(c => c.AgendamentoConsultaComponent),
         canActivate: [authGuard]
+      },
+      {
+        path: 'especialistas/pesquisa',
+        loadComponent: () => import('./pages/especialista/pesquisar-especialista/pesquisar-especialista.component').then(c => c.PesquisarEspecialistaComponent)
       }
     ]
   },

@@ -1,22 +1,26 @@
-export {};
+export class StringExtensions {
+  /**
+   * Verifica se uma string é nula, indefinida ou vazia.
+   */
+  static isNullOrEmpty(value: string | null | undefined): boolean {
+    return value === null || value === undefined || value.length === 0;
+  }
 
-declare global {
-  interface String {
-    isNullOrEmpty(): boolean;
-    isNullOrWhiteSpace(): boolean;
+  /**
+   * Verifica se uma string é nula, indefinida, vazia ou contém apenas espaços em branco.
+   */
+  static isNullOrWhiteSpace(value: string | null | undefined): boolean {
+    return value === null || value === undefined || value.trim().length === 0;
   }
 }
 
-/**
- * Verifica se a string é nula ou vazia.
- */
-String.prototype.isNullOrEmpty = function (): boolean {
-  return this == null || this.length === 0;
-};
+// Adicionando métodos diretamente na classe String para chamar como String.isNullOrEmpty()
+declare global {
+  interface StringConstructor {
+    isNullOrEmpty(value: string | null | undefined): boolean;
+    isNullOrWhiteSpace(value: string | null | undefined): boolean;
+  }
+}
 
-/**
- * Verifica se a string é nula, vazia ou contém apenas espaços em branco.
- */
-String.prototype.isNullOrWhiteSpace = function (): boolean {
-  return this == null || this.trim().length === 0;
-};
+String.isNullOrEmpty = StringExtensions.isNullOrEmpty;
+String.isNullOrWhiteSpace = StringExtensions.isNullOrWhiteSpace;

@@ -8,6 +8,7 @@ import { ApiResponse } from 'src/app/core/models/ApiResponse';
 import { LoginRequest } from 'src/app/core/models/account/request/LoginRequest';
 import { AuthenticatedUserResponse, Usuario } from 'src/app/core/models/account/response/AuthenticatedUserResponse';
 import { CredentialsSessionKeys } from 'src/app/core/constants/credentials-session-keys.const';
+import { StringExtensions } from 'src/app/core/extensions/string.extensions';
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +59,7 @@ export class AuthenticationService {
    * @returns boolean indicando se o usuário está logado ou não.
    */
   isLoggedIn(): boolean {
-    const JWT_TOKEN = this.cookieService.get(CredentialsSessionKeys.JWT_TOKEN).isNullOrEmpty()
+    const JWT_TOKEN = StringExtensions.isNullOrEmpty(this.cookieService.get(CredentialsSessionKeys.JWT_TOKEN))
                         ? localStorage.getItem(CredentialsSessionKeys.JWT_TOKEN)
                         : this.cookieService.get(CredentialsSessionKeys.JWT_TOKEN);
     return JWT_TOKEN ? true : false;
