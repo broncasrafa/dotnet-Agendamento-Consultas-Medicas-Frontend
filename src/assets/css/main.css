@@ -1771,7 +1771,9 @@ section,
 }
 
 
-
+.bold {
+  font-weight: bold;
+}
 .mb-6 {
   margin-bottom: 3.5rem !important
 }

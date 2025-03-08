@@ -9,6 +9,8 @@ import { LoginRequest } from 'src/app/core/models/account/request/LoginRequest';
 import { AuthenticatedUserResponse, Usuario } from 'src/app/core/models/account/response/AuthenticatedUserResponse';
 import { CredentialsSessionKeys } from 'src/app/core/constants/credentials-session-keys.const';
 import { StringExtensions } from 'src/app/core/extensions/string.extensions';
+import { CacheService } from 'src/app/shared/services/cache.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +25,8 @@ export class AuthenticationService {
   constructor(
     private http: HttpClient,
     private cookieService: CookieService,
-    private jwtHelper: JwtHelperService) {
+    private jwtHelper: JwtHelperService,
+    private cacheService: CacheService) {
     // Inicializa o BehaviorSubject com o estado atual do token
     this.loggedIn = new BehaviorSubject<boolean>(this.isTokenValid());
   }
@@ -108,6 +111,8 @@ export class AuthenticationService {
     localStorage.removeItem(CredentialsSessionKeys.JWT_TOKEN); // Remove o token JWT
     localStorage.removeItem(CredentialsSessionKeys.REFRESH_TOKEN); // Remove o token de refresh
     localStorage.removeItem(CredentialsSessionKeys.USER_INFO); // Remove as informações do usuario
+    this.cacheService.clearAll();
+
     // Limpar cookies
     const cookies = this.cookieService.getAll();
     for (const cookie in cookies) {

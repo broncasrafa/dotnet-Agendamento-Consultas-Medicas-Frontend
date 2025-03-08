@@ -1,0 +1,145 @@
+<section class="py-3 py-md-5 py-xl-2" style="height: auto !important;">
+  <div class="container">
+    <div class="row gy-5 gy-lg-0">
+      <div class="col-12 col-lg-8">
+        <div class="row">
+          <div class="col-12 col-xl-11">
+            <p class="lead bold fs-4 text-secondary">{{especialidade}}, {{cidade}}</p>
+            <p class="mb-2"><small class="text-muted">Agende online, sem custos adicionais</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-3 py-md-5 py-xl-2">
+  <div class="container">
+    <div class="row gy-5 gy-lg-0 mb-3" *ngFor="let especialista of especialistas; let i = index;">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <!-- painel de dados do especialista -->
+              <div class="col-md-6">
+                <div class="container my-4">
+                  <div class="d-flex align-items-start">
+                    <!-- Foto do Usuário -->
+                    <div class="me-3">
+                      <img src="{{especialista.foto}}" alt="Foto do Usuário {{especialista.nome}}" class="rounded-circle" width="112" height="112" />
+                    </div>
+
+                    <!-- Informações ao lado da foto -->
+                    <div>
+                        <h6 class="mb-1">
+                          {{especialista.nome}}
+                          <i class="bi bi-patch-check-fill text-primary" title="Verificado" *ngIf="especialista.tipo == 'Premium'"></i>
+                        </h6>
+                        <div>
+                            <span class="me-2">{{obterEspecialidadesParametroString(especialista.especialidades)}}</span>
+                            <span class="me-2" *ngIf="showDemaisEspecialidades[especialista.id]">{{obterDemaisEspecialidadesString(especialista.especialidades)}}</span>
+                            <a href="javascript:void(0)" class="text-decoration-none" (click)="mostrarMaisEspecialidades(especialista.id)" *ngIf="!showDemaisEspecialidades[especialista.id]">Mais</a>
+                            <a href="javascript:void(0)" class="text-decoration-none" (click)="mostrarMaisEspecialidades(especialista.id)" *ngIf="showDemaisEspecialidades[especialista.id]">Menos</a>
+                        </div>
+
+                        <!-- Rating com Estrelinhas e total de avaliações -->
+                        <div class="d-flex align-items-center mt-2">
+                            <span class="me-2">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star text-muted"></i>
+                            </span>
+                            <a href="javascript:void(0)" class="text-decoration-none">4 avaliações</a>
+                        </div>
+
+                        <!-- Texto adicional -->
+                        <p class="mt-3">{{especialista.licenca}}</p>
+
+                        <!-- Botão -->
+
+                    </div>
+                  </div>
+
+                </div>
+                <div class="container my-4">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="d-grid gap-2">
+                        <button class="btn btn-outline-secondary btn-sm mb-3">
+                          <i class="bi bi-shield-shaded"></i> Convênios atendidos
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- painel de horarios e datas -->
+              <div class="col-md-6">
+                <h2 class="mb-3">Premium Wireless Headphones</h2>
+                <p class="text-muted mb-4">SKU: WH1000XM4</p>
+                <div class="mb-3">
+                    <span class="h4 me-2">$349.99</span>
+                    <span class="text-muted"><s>$399.99</s></span>
+                </div>
+                <div class="mb-3">
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-half text-warning"></i>
+                    <span class="ms-2">4.5 (120 reviews)</span>
+                </div>
+                <p class="mb-4">Experience premium sound quality and industry-leading noise cancellation with these wireless
+                    headphones. Perfect for music lovers and frequent travelers.</p>
+                <div class="mb-4">
+                    <h5>Color:</h5>
+                    <div class="btn-group" role="group" aria-label="Color selection">
+                        <input type="radio" class="btn-check" name="color" id="black" autocomplete="off" checked>
+                        <label class="btn btn-outline-dark" for="black">Black</label>
+                        <input type="radio" class="btn-check" name="color" id="silver" autocomplete="off">
+                        <label class="btn btn-outline-secondary" for="silver">Silver</label>
+                        <input type="radio" class="btn-check" name="color" id="blue" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="blue">Blue</label>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="quantity" class="form-label">Quantity:</label>
+                    <input type="number" class="form-control" id="quantity" value="1" min="1" style="width: 80px;">
+                </div>
+                <button class="btn btn-primary btn-lg mb-3 me-2">
+                        <i class="bi bi-cart-plus"></i> Add to Cart
+                    </button>
+                <button class="btn btn-outline-secondary btn-lg mb-3">
+                        <i class="bi bi-heart"></i> Add to Wishlist
+                    </button>
+                <div class="mt-4">
+                    <h5>Key Features:</h5>
+                    <ul>
+                        <li>Industry-leading noise cancellation</li>
+                        <li>30-hour battery life</li>
+                        <li>Touch sensor controls</li>
+                        <li>Speak-to-chat technology</li>
+                    </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row gy-5 gy-lg-0 mb-3">
+      <div class="text-center my-3">
+        <button class="cta-btn-primary" (click)="carregarMaisEspecialistas()" [disabled]="carregando || !temMaisItens" *ngIf="temMaisItens">
+          {{ carregando ? 'Carregando...' : 'Carregar mais' }}
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>

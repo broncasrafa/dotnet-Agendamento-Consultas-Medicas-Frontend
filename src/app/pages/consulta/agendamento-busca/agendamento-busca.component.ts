@@ -104,16 +104,16 @@ export class AgendamentoBuscaComponent  implements OnInit, OnDestroy {
   }
 
   onPesquisar() {
-    const obj = {
-      especialidadeId: this.especialidadeSelecionada.id,
-      cidadeId: this.cidadeSelecionada.cidadeId
-    }
+    this.router.navigate(['/especialistas/pesquisa'], {
+      queryParams: {
+        cidade: this.cidadeSelecionada.descricao,
+        especialidadeId: this.especialidadeSelecionada.id
+      }
+    });
   }
 
   habilitarBotaoPesquisar() {
     return (!AppUtils.isNullOrUndefined(this.especialidadeSelecionada) && !AppUtils.isNullOrUndefined(this.cidadeSelecionada))
-    // this.especialidadeSelecionada !== undefined && this.especialidadeSelecionada !== null &&
-    //         this.cidadeSelecionada !== undefined && this.cidadeSelecionada !== null;
   }
 }
 
