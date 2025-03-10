@@ -11,11 +11,12 @@ import { EspecialidadeService } from 'src/app/core/services/especialidade.servic
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { Modal } from 'bootstrap';
 import { ConvenioMedicoResponse } from 'src/app/core/models/convenio-medico/response/ConvenioMedicoResponse';
+import { RatingStarsComponent } from 'src/app/shared/components/rating-stars/rating-stars.component';
 
 @Component({
   selector: 'app-pesquisar-especialista',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, RatingStarsComponent],
   templateUrl: './pesquisar-especialista.component.html',
   styleUrl: './pesquisar-especialista.component.css'
 })

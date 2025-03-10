@@ -1,0 +1,12 @@
+<span class="me-2">
+  <ng-container *ngFor="let star of getStars(ratingStar)">
+    <i class="bi"
+       [ngClass]="{
+          'bi-star-fill': star === 1,
+          'bi-star-half': star === 0.5,
+          'bi-star': star === 0,
+          'text-warning': star !== 0
+       }">
+    </i>
+  </ng-container>
+</span>
