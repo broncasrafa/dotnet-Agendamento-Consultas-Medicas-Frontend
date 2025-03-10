@@ -1,14 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { StringExtensions } from 'src/app/core/extensions/string.extensions';
+import { AppUtils } from 'src/app/core/utils/app.util';
 import { EspecialistaResponse } from 'src/app/core/models/especialista/response/EspecialistaResponse';
 import { EspecialidadeResponse } from 'src/app/core/models/especialidade/response/EspecialidadeResponse';
 import { EspecialistaService } from 'src/app/core/services/especialista.service';
 import { EspecialidadeService } from 'src/app/core/services/especialidade.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { CommonModule } from '@angular/common';
-import { AppUtils } from 'src/app/core/utils/app.util';
+import { Modal } from 'bootstrap';
+import { ConvenioMedicoResponse } from 'src/app/core/models/convenio-medico/response/ConvenioMedicoResponse';
 
 @Component({
   selector: 'app-pesquisar-especialista',
@@ -33,6 +35,8 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
   paginaAtual = 1; // Página inicial
   carregando = false; // Flag para controlar requisição
   temMaisItens = true; // Flag para desativar o botão se não houver mais itens
+  modalInstance?: Modal;
+  conveniosAtendidos: string[] = [];
 
   constructor() {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -121,5 +125,16 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
   }
   obterEspecialidadesParametroString(especialidades: EspecialidadeResponse[]) {
     return especialidades.find(c => c.id == this.especialidadeId)?.nome
+  }
+
+  abrirModalConveniosAtendidos(convenios: ConvenioMedicoResponse[]) {
+    this.conveniosAtendidos = [];
+    this.conveniosAtendidos = convenios.map((c) => c.nome);
+
+    const modalElement = document.getElementById('modalConvenios');
+    if (modalElement) {
+      this.modalInstance = new Modal(modalElement);
+      this.modalInstance.show();
+    }
   }
 }

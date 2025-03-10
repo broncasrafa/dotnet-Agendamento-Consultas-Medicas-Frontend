@@ -63,17 +63,43 @@
                   </div>
 
                 </div>
+                <!-- convenios atendidos -->
                 <div class="container my-4">
                   <div class="row">
                     <div class="col-12">
                       <div class="d-grid gap-2">
-                        <button class="btn btn-outline-secondary btn-sm mb-3">
+                        <button class="btn btn-outline-secondary btn-sm mb-3" (click)="abrirModalConveniosAtendidos(especialista.conveniosMedicosAtendidos)">
                           <i class="bi bi-shield-shaded"></i> Convênios atendidos
                         </button>
                       </div>
                     </div>
                   </div>
 
+                  <!-- modal de convenios atendidos -->
+                   <div class="modal fade" id="modalConvenios" tabindex="-1" aria-labelledby="modalConveniosLabel" data-bs-backdrop="static" aria-modal="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="modalConveniosLabel">Convênios atendidos</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p *ngIf="conveniosAtendidos.length > 0"><small>Total de {{conveniosAtendidos.length}} convênios</small></p>
+                          <ul *ngIf="conveniosAtendidos.length > 0; else semConvenios" class="list-group list-group-flush">
+                            <li class="list-group-item" *ngFor="let convenio of conveniosAtendidos">
+                              {{ convenio }}
+                            </li>
+                          </ul>
+                          <ng-template #semConvenios>
+                            <p class="text-muted">Nenhum convênio atendido.</p>
+                          </ng-template>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="cta-btn-primary" data-bs-dismiss="modal">Fechar</button>
+                        </div>
+                      </div>
+                    </div>
+                   </div>
                 </div>
               </div>
 
@@ -126,6 +152,7 @@
                     </ul>
                 </div>
               </div>
+
             </div>
 
           </div>
