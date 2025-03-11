@@ -95,6 +95,59 @@
                     </div>
                    </div>
                 </div>
+
+                <div class="container my-4">
+                  <ul class="nav nav-tabs" [attr.id]="'myTab-' + i" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" type="button" role="tab" data-bs-toggle="tab" aria-selected="true"
+                        [attr.id]="'endereco-tab-' + i"
+                        [attr.data-bs-target]="'#endereco-' + i"
+                        [attr.aria-controls]="'endereco-' + i">Endereço</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" type="button" role="tab" data-bs-toggle="tab" aria-selected="true"
+                        [attr.id]="'teleconsulta-tab-' + i"
+                        [attr.data-bs-target]="'#teleconsulta-' + i"
+                        [attr.aria-controls]="'teleconsulta-' + i">Teleconsulta</button>
+                    </li>
+                  </ul>
+                  <div class="tab-content mt-3" [attr.id]="'myTabContent-' + i">
+                    <div class="tab-pane fade show active" role="tabpanel" [attr.id]="'endereco-' + i" [attr.aria-labelledby]="'endereco-tab-' + i">
+                      <div *ngFor="let localAtend of especialista.locaisAtendimento; let j = index;">
+                        <div class="d-flex flex-column">
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-geo-alt-fill me-2"></i>
+                            <small>{{ localAtend.logradouro }} - {{ localAtend.complemento }} - {{ localAtend.bairro }} - {{ localAtend.cidade }}, {{ localAtend.estado }}</small>
+                          </div>
+                          <div class="ps-4 mb-3">
+                            <small>{{ localAtend.nome }}</small>
+                          </div>
+
+                          <div class="d-flex align-items-center justify-content-between mt-3">
+                            <div class="d-flex align-items-center">
+                              <i class="bi bi-building-add me-2"></i>
+                              <span>Consulta</span>
+                            </div>
+                            <span>{{ localAtend.precoDescricao ?? 'Preço não disponível' }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" role="tabpanel" [attr.id]="'teleconsulta-' + i" [attr.aria-labelledby]="'teleconsulta-tab-' + i">
+
+                      <div class="d-flex align-items-center justify-content-between mt-3">
+                        <div class="d-flex align-items-center">
+                          <i class="bi bi-building-add me-2"></i>
+                          <span>Teleconsulta</span>
+                        </div>
+                        <span *ngIf="!isNullOrUndefined(especialista.telemedicinaPreco)">R$ {{ especialista.telemedicinaPreco }}</span>
+                        <span *ngIf="isNullOrUndefined(especialista.telemedicinaPreco)">Preço não disponível</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
               </div>
 
               <!-- painel de horarios e datas -->
