@@ -12,11 +12,19 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
 import { Modal } from 'bootstrap';
 import { ConvenioMedicoResponse } from 'src/app/core/models/convenio-medico/response/ConvenioMedicoResponse';
 import { RatingStarsComponent } from 'src/app/shared/components/rating-stars/rating-stars.component';
+import { HorariosAgendamento, ListarHorariosDisponiveisComponent } from 'src/app/pages/especialista/listar-horarios-disponiveis/listar-horarios-disponiveis.component';
+import { IsNullOrUndefinedPipe } from 'src/app/shared/pipes/is-null-or-undefined.pipe';
 
 @Component({
   selector: 'app-pesquisar-especialista',
   standalone: true,
-  imports: [RouterModule, CommonModule, RatingStarsComponent],
+  imports: [
+    RouterModule,
+    CommonModule,
+    RatingStarsComponent,
+    ListarHorariosDisponiveisComponent,
+    IsNullOrUndefinedPipe
+  ],
   templateUrl: './pesquisar-especialista.component.html',
   styleUrl: './pesquisar-especialista.component.css'
 })
@@ -38,7 +46,50 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
   temMaisItens = true; // Flag para desativar o botão se não houver mais itens
   modalInstance?: Modal;
   conveniosAtendidos: string[] = [];
-
+  horarios: HorariosAgendamento[] = [
+    {
+      data: '2025-03-12',
+      horarios: ["09:00", "09:30", "10:00", "10:30"]
+    },
+    {
+      data: '2025-03-13',
+      horarios: ["08:00", "09:00", "09:30", "10:00", "10:30", "11:00", "12:00"]
+    },
+    {
+      data: '2025-03-14',
+      horarios: ["08:30", "09:00", "09:30", "10:00", "10:30"]
+    },
+    {
+      data: '2025-03-15',
+      horarios: ["10:00", "10:30", "11:00", "11:30"]
+    },
+    {
+      data: '2025-03-17',
+      horarios: ["08:00", "09:00", "09:30", "10:00", "10:30"]
+    },
+    {
+      data: '2025-03-18',
+      horarios: ["08:00", "09:00", "09:30", "10:00", "10:30"]
+    },
+    {
+      data: '2025-03-19',
+      horarios: ["08:00", "09:00", "09:30", "10:00", "10:30"]
+    },
+    {
+      data: '2025-03-20',
+      horarios: ["08:00", "09:00", "09:30", "10:00", "10:30"]
+    },
+    {
+      data: '2025-03-21',
+      horarios: ["08:00", "09:00", "09:30", "10:00", "10:30"]
+    },
+  ];
+/*
+HorariosAgendamento {
+  data: string,
+  horarios: string[]
+}
+*/
   constructor() {
     this.activatedRoute.queryParams.subscribe(params => {
       this.cidade = params['cidade'] || null;

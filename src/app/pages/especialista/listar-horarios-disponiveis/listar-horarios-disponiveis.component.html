@@ -1,0 +1,50 @@
+<div class="carousel-container">
+  <button
+    class="carousel-control-prev custom-caret"
+    type="button"
+    (click)="mudarSlide(-1)"
+    [disabled]="indiceAtual === 0">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+
+  <div id="carouselDias" class="carousel slide" data-bs-interval="false">
+    <div class="carousel-inner">
+      <div
+        *ngFor="let grupo of gruposDias; let i = index"
+        class="carousel-item"
+        [class.active]="i === indiceAtual">
+        <div class="d-flex justify-content-center gap-4">
+          <div class="text-center" *ngFor="let dia of grupo; trackBy: trackByData">
+            <button class="btn btn-primary w-100 mb-2">
+              {{ formatarData(dia.data) }}
+            </button>
+            <div class="horarios-container">
+              <div class="horarios-list" [class.expandido]="mostrarTodosHorarios">
+                <button
+                  *ngFor="let horario of (mostrarTodosHorarios ? dia.horarios : dia.horarios.slice(0,5))"
+                  class="btn btn-outline-success w-100 mb-1">
+                  {{ horario }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-2">
+          <button
+            class="btn btn-sm btn-link text-primary"
+            (click)="toggleExpandir()">
+            {{ mostrarTodosHorarios ? 'Mostrar menos' : 'Mostrar mais' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button
+    class="carousel-control-next custom-caret"
+    type="button"
+    (click)="mudarSlide(1)"
+    [disabled]="indiceAtual === gruposDias.length - 1">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>

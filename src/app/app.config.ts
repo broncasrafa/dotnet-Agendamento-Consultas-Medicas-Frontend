@@ -5,9 +5,9 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { provideEnvironmentNgxMask } from 'ngx-mask';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { routes } from 'src/app/app.routes';
-import { JwtModule } from '@auth0/angular-jwt';
 import { jwtInterceptor } from 'src/app/core/interceptors/jwt.interceptor';
 
 export const appConfig: ApplicationConfig = {

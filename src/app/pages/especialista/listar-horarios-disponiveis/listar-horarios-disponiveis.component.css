@@ -1,0 +1,112 @@
+/* :host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.dias-swiper {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px 0;
+}
+
+swiper-slide {
+  display: flex;
+  justify-content: center;
+}
+
+swiper-slide button {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  min-width: 60px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+swiper-slide button.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.horarios-container {
+  margin-top: 15px;
+  text-align: center;
+  width: 100%;
+}
+
+.horarios-container div {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.horarios-container button {
+  margin-top: 10px;
+  background: transparent;
+  border: none;
+  color: #007bff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.no-horarios {
+  margin-top: 20px;
+  color: #777;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.no-horarios i {
+  font-size: 18px;
+  color: #dc3545;
+} */
+
+
+
+.carousel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.carousel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.carousel-inner {
+  padding: 10px;
+}
+.custom-caret {
+  filter: invert(28%) sepia(78%) saturate(1763%) hue-rotate(198deg) brightness(93%) contrast(90%);
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.horarios-container {
+  max-height: 220px;
+  overflow-y: hidden;
+  transition: max-height 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.horarios-list {
+  max-height: 160px;
+  overflow-y: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+.horarios-list.expandido {
+  max-height: 400px;
+  overflow-y: auto;
+}
+.btn-link {
+  text-decoration: none;
+  font-weight: bold;
+}
