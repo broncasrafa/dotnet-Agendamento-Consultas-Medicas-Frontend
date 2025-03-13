@@ -1,50 +1,56 @@
 <div class="carousel-container">
-  <button
-    class="carousel-control-prev custom-caret"
-    type="button"
-    (click)="mudarSlide(-1)"
-    [disabled]="indiceAtual === 0">
+  <!-- Botão caret anterior -->
+  <button type="button" class="carousel-control-prev custom-caret" (click)="mudarSlide(-1)" [disabled]="indiceAtual === 0">
     <span class="carousel-control-prev-icon"></span>
   </button>
 
+  <!-- Conteúdo do Carrossel -->
   <div id="carouselDias" class="carousel slide" data-bs-interval="false">
     <div class="carousel-inner">
-      <div
-        *ngFor="let grupo of gruposDias; let i = index"
-        class="carousel-item"
-        [class.active]="i === indiceAtual">
+      <div *ngFor="let grupo of gruposDias; let i = index" class="carousel-item" [class.active]="i === indiceAtual">
+
+        <!-- Botões de Datas -->
         <div class="d-flex justify-content-center gap-4">
           <div class="text-center" *ngFor="let dia of grupo; trackBy: trackByData">
-            <button class="btn btn-primary w-100 mb-2">
-              {{ formatarData(dia.data) }}
+            <button class="btn btn-primary btn-sm w-100">
+              {{ formatarDiaComLabel(dia.data) }}
             </button>
-            <div class="horarios-container">
-              <div class="horarios-list" [class.expandido]="mostrarTodosHorarios">
-                <button
-                  *ngFor="let horario of (mostrarTodosHorarios ? dia.horarios : dia.horarios.slice(0,5))"
-                  class="btn btn-outline-success w-100 mb-1">
-                  {{ horario }}
-                </button>
-              </div>
-            </div>
           </div>
         </div>
-        <div class="text-center mt-2">
-          <button
-            class="btn btn-sm btn-link text-primary"
-            (click)="toggleExpandir()">
-            {{ mostrarTodosHorarios ? 'Mostrar menos' : 'Mostrar mais' }}
-          </button>
+
+        <!-- Container dos horários -->
+        <div class="horarios-container" [class.expandido]="mostrarTodosHorarios">
+          <div class="d-flex justify-content-center gap-4">
+            <div class="text-center" *ngFor="let dia of grupo; trackBy: trackByData">
+              <ng-container *ngIf="dia.horarios.length > 0">
+                <div *ngFor="let horario of (mostrarTodosHorarios ? dia.horarios : dia.horarios.slice(0,5))">
+                  <button class="btn w-100 btn-sm"
+                    [class.btn-horario]="!estaAgendado(dia.data, horario) && horario !== '-'"
+                    [class.btn-horario-booked]="estaAgendado(dia.data, horario)"
+                    [class.btn-horario-unavailable]="horario === '-'"
+                    [class.active]="dia.data === diaSelecionado && horario === horarioSelecionado"
+                    [disabled]="estaAgendado(dia.data, horario)"
+                    (click)="selecionarDia(dia.data, horario)">
+                    <span [class.text-risk]="estaAgendado(dia.data, horario)">{{ horario }}</span>
+                  </button>
+                </div>
+              </ng-container>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <button
-    class="carousel-control-next custom-caret"
-    type="button"
-    (click)="mudarSlide(1)"
-    [disabled]="indiceAtual === gruposDias.length - 1">
+  <!-- Botão caret próximo -->
+  <button type="button" class="carousel-control-next custom-caret" (click)="mudarSlide(1)" [disabled]="indiceAtual === gruposDias.length - 1">
     <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+<!-- Botão Mostrar Mais/Menos -->
+<div class="text-center mt-2">
+  <button class="btn btn-link text-primary" (click)="toggleExpandir()">
+    {{ mostrarTodosHorarios ? 'Mostrar menos' : 'Mostrar mais' }}
   </button>
 </div>

@@ -1,79 +1,84 @@
-/* :host {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+.show-more {
+  margin-top: 14rem;;
 }
-
-.dias-swiper {
-  width: 100%;
-  max-width: 100%;
-  padding: 10px 0;
+.show-less {
+  margin-top: 17rem;;
 }
-
-swiper-slide {
-  display: flex;
-  justify-content: center;
-}
-
-swiper-slide button {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  min-width: 60px;
-  text-align: center;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s ease;
-}
-
-swiper-slide button.active {
-  background: #007bff;
-  color: white;
-  border-color: #007bff;
-}
-
-.horarios-container {
-  margin-top: 15px;
-  text-align: center;
-  width: 100%;
-}
-
-.horarios-container div {
-  padding: 8px;
-  border-bottom: 1px solid #eee;
-}
-
-.horarios-container button {
-  margin-top: 10px;
-  background: transparent;
-  border: none;
-  color: #007bff;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.no-horarios {
-  margin-top: 20px;
-  color: #777;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.no-horarios i {
-  font-size: 18px;
-  color: #dc3545;
-} */
-
-
-
 .carousel-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+.btn-horario {
+  background-color: #eef4fd;
+  border-color: transparent;
+  color: #1662c6;
+}
+.btn-horario {
+  background-color: #eef4fd;
+  border-color: transparent;
+  color: #1662c6;
+}
+
+.btn-horario:hover {
+  background-color: #dfeafb;
+  border-color: #1662c6;
+  color: #1662c6;
+  text-decoration: none
+}
+
+.btn-horario.active {
+  background-color: #1662c6;
+  color: white;
+  border-color: #0f4c9b;
+}
+
+.btn-horario:focus:not(:focus-visible) {
+  outline: 0
+}
+
+.btn-horario:focus {
+  box-shadow: none
+}
+
+.btn-horario.focus,.btn-horario:focus-visible {
+  border-color: #1662c6;
+  box-shadow: none;
+  color: #1662c6;
+  outline: 2px solid #1759b0;
+  outline-offset: 2px;
+  text-decoration: none
+}
+
+.btn-horario:not(:disabled):not(.disabled).active,
+.btn-horario:not(:disabled):not(.disabled):active,.show>.btn-horario.dropdown-toggle {
+  border-color: #3d83df
+}
+
+.btn-horario:not(:disabled):not(.disabled).active:focus-visible,
+.btn-horario:not(:disabled):not(.disabled):active:focus-visible,.show>.btn-horario.dropdown-toggle:focus-visible {
+  box-shadow: 0 0 0 .2rem rgba(23,89,176,.3)
+}
+
+.btn-horario .badge {
+  background-color: #1662c6;
+  color: transparent
+}
+
+.btn-horario .svg-icon:not([class*=svg-icon-color]) {
+  fill: #1662c6
+}
+.btn-horario-booked {
+  color: #627282;
+  cursor: default;
+  pointer-events: none;
+  text-decoration:line-through;
+}
+.btn-horario-unavailable {
+  width: 53px !important;
+  cursor: default;
+  pointer-events: none;
+}
+
 
 .carousel-container {
   display: flex;
@@ -89,22 +94,32 @@ swiper-slide button.active {
   top: 50%;
   transform: translateY(-50%);
 }
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .horarios-container {
   max-height: 220px;
-  overflow-y: hidden;
+  overflow: hidden;
   transition: max-height 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
   align-items: center;
+  line-height: 2.3rem;
 }
-.horarios-list {
-  max-height: 160px;
-  overflow-y: hidden;
-  transition: max-height 0.3s ease-in-out;
+.horarios-container.expandido {
+  max-height: none;
 }
-.horarios-list.expandido {
-  max-height: 400px;
-  overflow-y: auto;
+.btn-sm {
+  font-size: 11px;
+  padding: 4px 8px;
+  width: 60px !important;
+}
+.btn-outline-danger {
+  text-decoration: line-through;
+}
+.text-risk {
+  text-decoration: line-through;
 }
 .btn-link {
   text-decoration: none;

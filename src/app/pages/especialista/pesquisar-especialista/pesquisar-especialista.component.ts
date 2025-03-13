@@ -59,10 +59,10 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
       data: '2025-03-14',
       horarios: ["08:30", "09:00", "09:30", "10:00", "10:30"]
     },
-    {
-      data: '2025-03-15',
-      horarios: ["10:00", "10:30", "11:00", "11:30"]
-    },
+    // {
+    //   data: '2025-03-15',
+    //   horarios: ["10:00", "10:30", "11:00", "11:30"]
+    // },
     {
       data: '2025-03-17',
       horarios: ["08:00", "09:00", "09:30", "10:00", "10:30"]
@@ -84,12 +84,7 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
       horarios: ["08:00", "09:00", "09:30", "10:00", "10:30"]
     },
   ];
-/*
-HorariosAgendamento {
-  data: string,
-  horarios: string[]
-}
-*/
+
   constructor() {
     this.activatedRoute.queryParams.subscribe(params => {
       this.cidade = params['cidade'] || null;

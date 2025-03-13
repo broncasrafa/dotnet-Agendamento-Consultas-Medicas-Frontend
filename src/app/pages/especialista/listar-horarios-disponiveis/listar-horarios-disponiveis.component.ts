@@ -19,6 +19,7 @@ export class ListarHorariosDisponiveisComponent implements OnInit  {
   @Input() listaHorariosJaAgendados: HorariosAgendamento[] = [];
   dias: HorariosAgendamento[] = [];
   diaSelecionado: string | null = null;
+  horarioSelecionado: string | null = null;
   mostrarTodosHorarios: boolean = false;
   gruposDias: HorariosAgendamento[][] = [];
   indiceAtual = 0;
@@ -54,13 +55,28 @@ export class ListarHorariosDisponiveisComponent implements OnInit  {
 
     for (let h = 8; h < 19; h++) {
       for (let m of [0, 30]) {
-        const horario = `${h.toString().padStart(2, '0')}:${m === 0 ? '00' : '30'}`;
-        if (!horariosJaAgendados.includes(horario)) {
-          horarios.push(horario);
-        }
+        let horario = horariosJaAgendados.length > 0 ? `${h.toString().padStart(2, '0')}:${m === 0 ? '00' : '30'}` : '-';
+        horarios.push(horario);
       }
     }
-    return horarios;
+    // Se não houver horários disponíveis, preenche com tracinhos
+    return horarios.length > 0 ? horarios : Array(22).fill("-");
+  }
+
+  estaAgendado(data: string, horario: string): boolean {
+    const diaAgendado = this.listaHorariosJaAgendados.find(d => d.data === data);
+    return diaAgendado?.horarios.includes(horario) ?? false;
+  }
+
+  selecionarDia(dia: string, horario: string): void {
+    if (horario === '-' || this.estaAgendado(dia, horario)) {
+      return; // Não permite selecionar horários já agendados ou não disponíveis
+    }
+
+    this.diaSelecionado = dia;
+    this.horarioSelecionado = horario;
+
+    console.log(`{ "dia": "${this.diaSelecionado}", "horario": "${this.horarioSelecionado}" }`);
   }
 
   toggleExpandir(): void {
@@ -85,6 +101,23 @@ export class ListarHorariosDisponiveisComponent implements OnInit  {
   formatarData(data: string): string {
     const partes = data.split('-');
     return `${partes[2]}/${partes[1]}`;
+  }
+
+  formatarDiaComLabel(data: string): string {
+    const dataObj = new Date(data + 'T00:00:00'); // Garante que a data seja local
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0); // Zera horas, minutos, segundos e milissegundos para comparar corretamente
+    const amanha = new Date(hoje);
+    amanha.setDate(hoje.getDate() + 1);
+
+    if (dataObj.getTime() === hoje.getTime()) {
+      return `Hoje\n${this.formatarData(data)}`;
+    } else if (dataObj.getTime() === amanha.getTime()) {
+      return `Amanhã\n${this.formatarData(data)}`;
+    } else {
+      const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+      return `${diasSemana[dataObj.getDay()]}\n${this.formatarData(data)}`;
+    }
   }
 
   trackByData(index: number, item: HorariosAgendamento): string {
