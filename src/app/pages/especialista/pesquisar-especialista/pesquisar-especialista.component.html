@@ -158,7 +158,11 @@
               <!-- painel de horarios e datas -->
               <div class="col-md-6">
                 <div>
-                  <app-listar-horarios-disponiveis [listaHorariosJaAgendados]="horarios"></app-listar-horarios-disponiveis>
+                  <app-listar-horarios-disponiveis
+                    [listaHorariosJaAgendados]="horarios"
+                    [especialistaId]="especialista.id"
+                    (horarioSelecionadoEvent)="receberHorarioSelecionado($event)">
+                  </app-listar-horarios-disponiveis>
                 </div>
                 <p class="text-muted">Horários disponíveis</p>
                 <button class="cta-btn-primary mb-3 me-2"><i class="bi bi-calendar-plus-fill"></i> Próximo horário: Quinta-feira, 13 de Março</button>

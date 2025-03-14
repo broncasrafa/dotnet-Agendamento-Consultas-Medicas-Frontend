@@ -188,4 +188,8 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
       this.modalInstance.show();
     }
   }
+
+  receberHorarioSelecionado(evento: { data: string, horario: string, especialistaId: Number }) {
+    console.log("Horário selecionado no pai:", evento);
+  }
 }
