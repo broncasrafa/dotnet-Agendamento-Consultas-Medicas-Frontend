@@ -46,7 +46,6 @@ export class PerguntasERespostasDetalhesComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response) => {
           this.pergunta = response.data!;
-          console.log(this.pergunta);
         },
         error: (error) => this.notificationService.showHttpResponseErrorNotification(error)
       });

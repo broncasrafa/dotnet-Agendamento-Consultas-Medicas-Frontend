@@ -75,6 +75,10 @@ h6 {
   font-family: var(--heading-font);
 }
 
+.height-auto {
+  height: auto !important;
+}
+
 /* Pulsating Play Button
 ------------------------------*/
 .pulsating-play-btn {

@@ -22,6 +22,7 @@ export class InputCharacterCountDirective {
     this.renderer.setStyle(this.counterElement, 'display', 'block');
     this.renderer.setStyle(this.counterElement, 'color', '#888');
     this.renderer.setStyle(this.counterElement, 'font-size', '12px');
+    this.renderer.setStyle(this.counterElement, 'text-align', 'end');
     this.renderer.appendChild(this.el.nativeElement.parentNode, this.counterElement);
 
     this.updateCounter();

@@ -1,1 +1,168 @@
+<section class="py-3 py-md-5 py-xl-2 height-auto" *ngIf="loadDataIsReady()">
+  <div class="container">
+
+    <div class="row gy-5 gy-lg-0">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+
+              <div class="col-12">
+                <div class="div-titulo">
+                  <div class="info-item d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-solid fa-1 flex-shrink-0"></i>
+                    <div>
+                      <h3>Dados da consulta</h3>
+                      <p>Preencha as informações para agendar sua consulta</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="div-espaco">
+                  <figure class="d-flex align-items-center m-0 p-0">
+                    <img class="img-fluid rounded rounded-circle m-0 border border-5" loading="lazy" src="{{especialista.foto}}" alt="{{especialista.nome}}" width="90" height="90" >
+                    <figcaption class="ms-3">
+                      <h4 class="mb-1 h5">{{especialista.nome}}</h4>
+                      @if (especialista.avaliacao !== undefined && especialista.avaliacao !== null) {
+                        <div class="bsb-ratings text-warning mb-3" data-bsb-star="especialista.avaliacao" data-bsb-star-off="0"></div>
+                      }
+                    </figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <form [formGroup]="agendamentoForm" #formDirective="ngForm" (ngSubmit)="onCriarAgendamento(formDirective)">
+                <!-- Especialidade -->
+                <div class="col-12">
+                  <div class="div-espaco">
+                    <div class="form-floating">
+                      <select class="form-select" id="especialidadeId" aria-label="especialidadeId" formControlName="especialidadeId">
+                        <option value="" selected>Selecione...</option>
+                        <option [value]="item.id" *ngFor="let item of especialista.especialidades">{{item.nome}}</option>
+                      </select>
+                      <label for="especialidadeId">Especialidade *</label>
+                      <app-display-validation-errors [control]="agendamentoForm.controls.especialidadeId" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                    </div>
+                  </div>
+                </div>
+                <!-- Locais de Atendimento -->
+                <div class="col-12 div-espaco">
+                  <h3 class="titulo">Locais de Atendimento *</h3>
+                  <div class="">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item" *ngFor="let item of especialista.locaisAtendimento; let i = index;">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" formControlName="localAtendimentoId" [value]="item.id" id="localAtendimentoId_{{i}}">
+                          <label class="form-check-label" for="localAtendimentoId_{{i}}">
+                            {{item.nome}}
+                            <br />
+                            {{item.logradouro}} {{ isNullOrEmpty(item.complemento) ? '' : ' - ' + item.complemento}} - {{item.bairro}} - {{item.cidade}}, {{item.estado}}
+                          </label>
+                        </div>
+                      </li>
+                      <app-display-validation-errors [control]="agendamentoForm.controls.localAtendimentoId" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                    </ul>
+                  </div>
+                </div>
+                <!-- Data e horário -->
+                <div class="col-12 div-espaco">
+                  <h3 class="titulo">Data e horário</h3>
+                  <p>{{dataConsulta}}</p>
+                </div>
+                <!-- Selecione para quem é a consulta -->
+                <div class="col-12 div-espaco">
+                  <h3 class="titulo">Selecione para quem é a consulta *</h3>
+                </div>
+                <!-- Qual o tipo de consulta? -->
+                <div class="col-12 div-espaco">
+                  <h3 class="titulo">Qual o tipo de consulta? *</h3>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" formControlName="tipoConsultaId" id="tipoConsulta1" [value]="1">
+                    <label class="form-check-label" for="tipoConsulta1">
+                      Consulta Presencial
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" formControlName="tipoConsultaId" id="tipoConsulta2" [value]="2">
+                    <label class="form-check-label" for="tipoConsulta2">
+                      Teleconsulta
+                    </label>
+                  </div>
+                  <app-display-validation-errors [control]="agendamentoForm.controls.tipoConsultaId" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                </div>
+                <!-- Qual o tipo de agendamento? -->
+                <div class="col-12 div-espaco">
+                  <h3 class="titulo">Qual o tipo de agendamento? *</h3>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" formControlName="tipoAgendamentoId" id="tipoAgendamento1" value="1" (change)="on_click_radioTipoAgendamento($event)">
+                    <label class="form-check-label" for="tipoAgendamento1">
+                      Particular (pagamento no local)
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" formControlName="tipoAgendamentoId" id="tipoAgendamento2" value="2" (change)="on_click_radioTipoAgendamento($event)">
+                    <label class="form-check-label" for="tipoAgendamento2">
+                      Convênio
+                    </label>
+                  </div>
+                  <app-display-validation-errors [control]="agendamentoForm.controls.tipoAgendamentoId" [formGroupDirective]="formDirective"></app-display-validation-errors>
+
+                  <div *ngIf="agendamentoForm.get('tipoAgendamentoId')?.value == '1'">
+                    <div class="alert alert-info" role="alert" *ngIf="!isNullOrEmpty(especialista.locaisAtendimento[0].precoDescricao)">
+                      {{especialista.locaisAtendimento[0].precoDescricao}}
+                    </div>
+                  </div>
+
+                  <div class="form-floating mt-3" *ngIf="agendamentoForm.get('tipoAgendamentoId')?.value == '2'">
+                    <select class="form-select" id="planoMedicoId" aria-label="planoMedicoId" formControlName="planoMedicoId" >
+                      <option value="">Selecione...</option>
+                      <option [value]="item.id" *ngFor="let item of paciente.planosMedicos">
+                        {{item.convenioMedico}} - [Carteirinha]: {{item.numCartao}} - [Plano]: {{item.nomePlano}}
+                      </option>
+                    </select>
+                    <label for="planoMedicoId">Convênio *</label>
+                    <app-display-validation-errors *ngIf="agendamentoForm.get('tipoAgendamentoId')?.value == '2'" [control]="agendamentoForm.controls.planoMedicoId" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+
+
+                </div>
+                <!-- Primeira vez? -->
+                <div class="col-12 div-espaco">
+                  <h3 class="titulo">Primeira vez? *</h3>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" formControlName="primeiraVez" id="primeiraVezSim" [value]="true">
+                    <label class="form-check-label" for="primeiraVezSim">Sim</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" formControlName="primeiraVez" id="primeiraVezNao" [value]="false">
+                    <label class="form-check-label" for="primeiraVezNao">Não</label>
+                  </div>
+                  <app-display-validation-errors [control]="agendamentoForm.controls.primeiraVez" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                </div>
+                <!-- Motivo da consulta -->
+                <div class="col-12 div-espaco">
+                  <h3 class="titulo">Motivo da consulta *</h3>
+                  <textarea class="form-control"  appInputCharacterCount [maxLength]="300" placeholder="Informe o motivo da sua consulta aqui" formControlName="motivoConsulta" id="motivoConsulta" rows="3"></textarea>
+                  <app-display-validation-errors [control]="agendamentoForm.controls.motivoConsulta" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                </div>
+              </form>
+            </div>
+
+
+
+
+            <!-- <h5 class="card-title">Special title treatment</h5> -->
+            <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
 

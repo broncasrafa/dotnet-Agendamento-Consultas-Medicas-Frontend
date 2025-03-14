@@ -2,18 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { StringExtensions } from 'src/app/core/extensions/string.extensions';
+import { Modal } from 'bootstrap';
 import { AppUtils } from 'src/app/core/utils/app.util';
+import { StringExtensions } from 'src/app/core/extensions/string.extensions';
+import { IsNullOrUndefinedPipe } from 'src/app/shared/pipes/is-null-or-undefined.pipe';
 import { EspecialistaResponse } from 'src/app/core/models/especialista/response/EspecialistaResponse';
 import { EspecialidadeResponse } from 'src/app/core/models/especialidade/response/EspecialidadeResponse';
+import { ConvenioMedicoResponse } from 'src/app/core/models/convenio-medico/response/ConvenioMedicoResponse';
 import { EspecialistaService } from 'src/app/core/services/especialista.service';
 import { EspecialidadeService } from 'src/app/core/services/especialidade.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { Modal } from 'bootstrap';
-import { ConvenioMedicoResponse } from 'src/app/core/models/convenio-medico/response/ConvenioMedicoResponse';
+import { CryptoService } from 'src/app/shared/services/crypto.service';
 import { RatingStarsComponent } from 'src/app/shared/components/rating-stars/rating-stars.component';
 import { HorariosAgendamento, ListarHorariosDisponiveisComponent } from 'src/app/pages/especialista/listar-horarios-disponiveis/listar-horarios-disponiveis.component';
-import { IsNullOrUndefinedPipe } from 'src/app/shared/pipes/is-null-or-undefined.pipe';
 
 @Component({
   selector: 'app-pesquisar-especialista',
@@ -35,6 +36,7 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
   private especialistaService = inject(EspecialistaService);
   private especialidadeService = inject(EspecialidadeService);
   private notificationService = inject(NotificationService);
+  private cryptoService = inject(CryptoService);
 
   cidade: string | null = null;
   especialidadeId: number | null = null;
@@ -128,7 +130,6 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
           this.especialistas = resp.data.results
           this.paginaAtual++;
           this.temMaisItens = resp.data.hasNextPage;
-          console.log('[DATA]:', resp.data);
         } else {
           this.temMaisItens = false;
         }
@@ -152,8 +153,6 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
           this.paginaAtual++;
           this.temMaisItens = resp.data.hasNextPage;
           this.carregando = false;
-          console.log('[RESULTS]:', resp.data.results)
-          console.log('[LISTA]:', this.especialistas)
         } else {
           this.carregando = false;
           this.temMaisItens = false;
@@ -163,7 +162,15 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
     });
   }
 
+  receberHorarioSelecionado(evento: { data: string, horario: string, especialistaId: Number }) {
+    const queryParameters = this.cryptoService.criptografar(evento);
 
+    this.router.navigate(['/agendamento'], {
+      queryParams: {
+        filters: queryParameters
+      }
+    });
+  }
 
   // Alterna o estado de showDemaisEspecialidades para o item com o id correspondente
   mostrarMaisEspecialidades(id: number) {
@@ -189,7 +196,4 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
     }
   }
 
-  receberHorarioSelecionado(evento: { data: string, horario: string, especialistaId: Number }) {
-    console.log("Horário selecionado no pai:", evento);
-  }
 }

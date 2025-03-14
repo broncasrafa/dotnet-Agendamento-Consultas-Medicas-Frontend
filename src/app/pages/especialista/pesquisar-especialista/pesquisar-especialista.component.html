@@ -1,4 +1,4 @@
-<section class="py-3 py-md-5 py-xl-2" style="height: auto !important;">
+<section class="py-3 py-md-5 py-xl-2 height-auto">
   <div class="container">
     <div class="row gy-5 gy-lg-0">
       <div class="col-12 col-lg-8">
@@ -157,6 +157,9 @@
 
               <!-- painel de horarios e datas -->
               <div class="col-md-6">
+
+                <p class="text-muted">Horários disponíveis</p>
+
                 <div>
                   <app-listar-horarios-disponiveis
                     [listaHorariosJaAgendados]="horarios"
@@ -164,8 +167,11 @@
                     (horarioSelecionadoEvent)="receberHorarioSelecionado($event)">
                   </app-listar-horarios-disponiveis>
                 </div>
-                <p class="text-muted">Horários disponíveis</p>
-                <button class="cta-btn-primary mb-3 me-2"><i class="bi bi-calendar-plus-fill"></i> Próximo horário: Quinta-feira, 13 de Março</button>
+                <!-- <div class="text-center mt-2">
+                  <button class="cta-btn-primary mb-3 me-2" (click)="onclick_AgendarConsulta(especialista.id)">
+                    <i class="bi bi-calendar-plus-fill"></i> Agendar consulta
+                  </button>
+                </div> -->
               </div>
 
             </div>

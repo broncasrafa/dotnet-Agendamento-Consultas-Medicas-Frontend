@@ -44,10 +44,36 @@ export class AppUtils {
 
   /**
    * Verificar se o objeto esta null ou undefined
-   * @param obj objecto
+   * @param obj objeto
    * @returns true se for null ou undefined
    */
   public static isNullOrUndefined<T>(obj: T | null | undefined): boolean {
     return obj === null || obj === undefined;
+  }
+
+  /**
+   * Verificar se o objeto esta null ou vazio
+   * @param obj objeto
+   * @returns true se for null ou vazio
+   */
+  public static isNullOrEmpty(obj: string | null | undefined): boolean {
+    return obj === null || obj === undefined || obj.trim().length === 0;
+  }
+
+  /**
+   * Formatar por extenso a data
+   * @param dataString data no formato "yyyy-MM-dd"
+   * @returns a data formatada por extenso
+   */
+  public static formatarDataExtenso(dataString: string): string {
+    const [ano, mes, dia] = dataString.split('-').map(Number);
+    const data = new Date(ano, mes - 1, dia); // Mês começa do 0 no JS
+
+    return data.toLocaleDateString('pt-BR', {
+      weekday: 'long',
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    }).replace(/^\w/, (c) => c.toUpperCase());
   }
 }
