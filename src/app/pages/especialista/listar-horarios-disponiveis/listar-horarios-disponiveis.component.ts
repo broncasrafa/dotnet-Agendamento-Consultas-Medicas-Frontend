@@ -1,5 +1,5 @@
+import { Component, Input, OnInit, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 export interface HorariosAgendamento {
   data: string,
@@ -17,6 +17,9 @@ export interface HorariosAgendamento {
 export class ListarHorariosDisponiveisComponent implements OnInit  {
 
   @Input() listaHorariosJaAgendados: HorariosAgendamento[] = [];
+  @Input() especialistaId: Number;
+  @Output() horarioSelecionadoEvent = new EventEmitter<{ data: string, horario: string, especialistaId: Number }>();
+
   dias: HorariosAgendamento[] = [];
   diaSelecionado: string | null = null;
   horarioSelecionado: string | null = null;
@@ -76,7 +79,12 @@ export class ListarHorariosDisponiveisComponent implements OnInit  {
     this.diaSelecionado = dia;
     this.horarioSelecionado = horario;
 
-    console.log(`{ "dia": "${this.diaSelecionado}", "horario": "${this.horarioSelecionado}" }`);
+    // Emite o evento para o componente pai
+    this.horarioSelecionadoEvent.emit({
+      data: this.diaSelecionado,
+      horario: this.horarioSelecionado,
+      especialistaId: this.especialistaId
+    });
   }
 
   toggleExpandir(): void {
