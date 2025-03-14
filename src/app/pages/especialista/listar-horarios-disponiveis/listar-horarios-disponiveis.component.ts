@@ -56,9 +56,21 @@ export class ListarHorariosDisponiveisComponent implements OnInit  {
     const horarios: string[] = [];
     const horariosJaAgendados = this.listaHorariosJaAgendados.find(d => d.data === data)?.horarios || [];
 
+    // resolver a parte de estar no mesmo dia que hoje porém o horario do atendimento do dia ja deu
+    const hoje = new Date();
+    const ehHoje = hoje.toISOString().split('T')[0] === data;
+    const horaAtual = hoje.getHours();
+    const minutoAtual = hoje.getMinutes();
+
     for (let h = 8; h < 19; h++) {
       for (let m of [0, 30]) {
-        let horario = horariosJaAgendados.length > 0 ? `${h.toString().padStart(2, '0')}:${m === 0 ? '00' : '30'}` : '-';
+        const horarioDoDiaExcedido = (ehHoje && (h < horaAtual || (h === horaAtual && m < minutoAtual)));
+        let horario = "-";
+
+        if (horariosJaAgendados.length > 0 && !horarioDoDiaExcedido) {
+          horario = `${h.toString().padStart(2, '0')}:${m === 0 ? '00' : '30'}`;
+        }
+
         horarios.push(horario);
       }
     }
