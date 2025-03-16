@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AppUtils } from 'src/app/core/utils/app.util';
 
 @Component({
   selector: 'app-autocomplete-search',
@@ -15,8 +16,6 @@ export class AutocompleteSearchComponent {
   @Input() displayFn?: (item: any) => string;
   @Output() selected = new EventEmitter<any>();
   @Output() search = new EventEmitter<string>();
-  //@Output() inputChange = new EventEmitter<string>(); // Novo evento
-
 
   @ViewChild('searchInput') searchInput!: ElementRef;
 
@@ -31,7 +30,6 @@ export class AutocompleteSearchComponent {
 
   ngOnChanges() {
     this.filteredItems = this.items;
-    //this.showDropdown = this.filteredItems.length > 0;
   }
 
   get showDropdown(): boolean {
@@ -39,21 +37,20 @@ export class AutocompleteSearchComponent {
   }
 
   filterItems() {
-    this.filteredItems = this.items.filter(item =>
-      this.displayFn ? this.displayFn(item).toLowerCase().includes(this.searchTerm.toLowerCase()) :
-      item.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
-    this.search.emit(this.searchTerm);
-    // if (this.searchTerm.length > 0) {
+    const normalizedSearch = AppUtils.normalizarTexto(this.searchTerm);
 
-    //   this.filteredItems = this.items.filter(item =>
-    //     this.displayFn
-    //       ? this.displayFn(item).toLowerCase().includes(this.searchTerm.toLowerCase())
-    //       : item.toLowerCase().includes(this.searchTerm.toLowerCase())
-    //   );
-    // } else {
-    // }
-    // this.inputChange.emit(this.searchTerm); // Emite quando o usuário apaga
+    this.filteredItems = this.items.filter(item => {
+      const itemText = this.displayFn ? this.displayFn(item) : item;
+      return AppUtils.normalizarTexto(itemText).includes(normalizedSearch);
+    });
+
+    this.search.emit(this.searchTerm);
+
+    // this.filteredItems = this.items.filter(item =>
+    //   this.displayFn ? this.displayFn(item).toLowerCase().includes(this.searchTerm.toLowerCase()) :
+    //   item.toLowerCase().includes(this.searchTerm.toLowerCase())
+    // );
+    // this.search.emit(this.searchTerm);
   }
 
   handleKeyDown(event: KeyboardEvent) {
@@ -71,7 +68,6 @@ export class AutocompleteSearchComponent {
 
   selectItem(item: any) {
     this.searchTerm = this.displayFn ? this.displayFn(item) : item;
-    //this.showDropdown = false;
     this.filteredItems = [];
     this.selected.emit(item);
   }

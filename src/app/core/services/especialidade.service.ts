@@ -19,7 +19,7 @@ export class EspecialidadeService {
    * Obtém a lista de especialidades, utilizando o cache sempre que possível.
    */
   getEspecialidades(): Observable<EspecialidadeResponse[]> {
-    const cache = this.cacheService.getItem<EspecialidadeResponse[]>(this.cacheService.keys.especialistas);
+    const cache = this.cacheService.getItem<EspecialidadeResponse[]>(this.cacheService.keys.especialidades);
 
     // Se o cache estiver preenchido, retorna o Observable com os dados do cache
     if (cache) {
@@ -32,7 +32,7 @@ export class EspecialidadeService {
       tap((especialidades) => {
         // Armazenamos o resultado no cache
         if (especialidades.length) {
-          this.cacheService.setItem(this.cacheService.keys.especialistas, especialidades);
+          this.cacheService.setItem(this.cacheService.keys.especialidades, especialidades);
         }
       })
     );

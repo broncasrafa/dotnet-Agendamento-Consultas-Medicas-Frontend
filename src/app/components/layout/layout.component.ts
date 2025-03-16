@@ -1,14 +1,17 @@
-import { OnInit, AfterViewInit, Component, ElementRef, Renderer2, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
+import { OnInit, AfterViewInit, Component, ElementRef, Renderer2, ViewChild, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Observable } from 'rxjs';
 import * as AOS from 'aos';
-import { MenuHeaderComponent } from '../menu-header/menu-header.component';
-import { FooterComponent } from '../footer/footer.component';
+import { MenuHeaderComponent } from 'src/app/components/menu-header/menu-header.component';
+import { FooterComponent } from 'src/app/components/footer/footer.component';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
   imports: [
+    CommonModule,
     RouterOutlet,
     MenuHeaderComponent,
     FooterComponent
@@ -18,9 +21,16 @@ import { FooterComponent } from '../footer/footer.component';
 })
 export class LayoutComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('preloader') preloader!: ElementRef;
+  // @ViewChild('preloader') preloader!: ElementRef;
 
-  constructor(private renderer: Renderer2) {}
+  isLoading$: Observable<boolean>;
+
+  constructor(
+    //private renderer: Renderer2,
+    private loadingService: LoadingService,
+    private cdr: ChangeDetectorRef) {
+      this.isLoading$ = this.loadingService.isLoading$;
+    }
 
 
   ngOnInit(): void {
@@ -32,12 +42,17 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       mirror: false
   });
     window.addEventListener('load', AOS.refresh);
+
+
   }
 
   ngAfterViewInit(): void {
-    if (this.preloader) {
-      this.renderer.removeChild(document.body, this.preloader.nativeElement);
-    }
+    // ⚠️ IMPORTANTE: Forçar detecção de mudanças após a inicialização da view
+    setTimeout(() => this.cdr.detectChanges());
+
+    // if (this.preloader) {
+    //   this.renderer.removeChild(document.body, this.preloader.nativeElement);
+    // }
   }
 
 }

@@ -1,0 +1,29 @@
+<section class="py-3 py-md-5 py-xl-2 height-auto" *ngIf="loadDataIsReady()">
+  <div class="container">
+
+    <div class="row gy-5 gy-lg-0">
+      <div class="col-12">
+        <h1>Minhas consultas</h1>
+        <p class="lead">Histórico de agendamentos</p>
+      </div>
+      <div class="col-12 mt-4" *ngFor="let agendamento of agendamentos; let i = index;">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4">
+
+              </div>
+              <div class="col-4">
+
+              </div>
+              <div class="col-4">
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

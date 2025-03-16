@@ -10,5 +10,5 @@
 </a>
 
 <!-- Preloader -->
-<div #preloader id="preloader"></div>
+<div *ngIf="isLoading$ | async" id="preloader"></div>
 

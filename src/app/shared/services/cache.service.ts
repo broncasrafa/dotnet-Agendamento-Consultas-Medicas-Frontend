@@ -9,8 +9,9 @@ export class CacheService {
    * Objeto para armazenar as chaves utilizadas no sessionStorage
    */
   keys = {
-    especialistas: 'especialistas',
+    especialidades: 'especialidades',
     conveniosMedicos: 'conveniosMedicos',
+    cidades: 'cidades'
   };
 
   /**

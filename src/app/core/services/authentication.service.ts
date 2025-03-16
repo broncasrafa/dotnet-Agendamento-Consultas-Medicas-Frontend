@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, map, Observable, of, throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -10,6 +11,7 @@ import { AuthenticatedUserResponse, Usuario } from 'src/app/core/models/account/
 import { CredentialsSessionKeys } from 'src/app/core/constants/credentials-session-keys.const';
 import { StringExtensions } from 'src/app/core/extensions/string.extensions';
 import { CacheService } from 'src/app/shared/services/cache.service';
+import { AppUtils } from 'src/app/core/utils/app.util';
 
 
 @Injectable({
@@ -24,6 +26,7 @@ export class AuthenticationService {
 
   constructor(
     private http: HttpClient,
+    private router: Router,
     private cookieService: CookieService,
     private jwtHelper: JwtHelperService,
     private cacheService: CacheService) {
@@ -92,7 +95,12 @@ export class AuthenticationService {
      * @param data - Dados do usuário
      */
   getUserInfo(): Usuario {
-    return JSON.parse(localStorage.getItem(CredentialsSessionKeys.USER_INFO)!) as Usuario;
+    var userLoggedInfo = JSON.parse(localStorage.getItem(CredentialsSessionKeys.USER_INFO)!) as Usuario;
+    if (AppUtils.isNullOrUndefined(userLoggedInfo)) {
+      this.logout();
+      this.router.navigate(['/login']);
+    }
+    return userLoggedInfo;
   }
 
   /**

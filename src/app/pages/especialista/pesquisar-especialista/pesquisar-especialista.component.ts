@@ -111,6 +111,9 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
   isNullOrUndefined(value: any): boolean {
     return AppUtils.isNullOrUndefined(value);
   }
+  isNullOrEmpty(value: any): boolean {
+    return AppUtils.isNullOrEmpty(value);
+  }
 
   getEspecialidadesList() {
     this.especialidadeService.getEspecialidades()

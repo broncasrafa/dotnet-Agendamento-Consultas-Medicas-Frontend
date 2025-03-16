@@ -76,4 +76,21 @@ export class AppUtils {
       year: 'numeric'
     }).replace(/^\w/, (c) => c.toUpperCase());
   }
+
+  /**
+   * Remove acentos e transforma em minúsculas para uma busca mais precisa.
+   */
+  public static normalizarTexto(texto: string): string {
+    return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  }
+
+  /**
+   * Ordenar uma lista de forma decrescente informando o campo para a ordenação
+   * @param lista lista de objetos
+   * @param campoCriterio campo para a ordenação
+   * @returns a lista ordenada de forma decrescente
+   */
+  public static orderByDescending<T>(lista: T[], campoCriterio: keyof T): T[] {
+    return [...lista].sort((a, b) => (b[campoCriterio] > a[campoCriterio] ? 1 : -1));
+  }
 }

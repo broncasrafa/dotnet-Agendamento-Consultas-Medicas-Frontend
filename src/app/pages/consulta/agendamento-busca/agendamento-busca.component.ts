@@ -41,25 +41,25 @@ export class AgendamentoBuscaComponent  implements OnInit, OnDestroy {
   cidadeSelecionada: any = null;
 
   constructor() {
-    const searchSubscription = this.searchSubject.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(term => term.length >= 3 ? this.commonService.getCidadesByFilterName(term) : [])
-    ).subscribe(results => {
-      this.cidades = results;
-    });
+    // const searchSubscription = this.searchSubject.pipe(
+    //   debounceTime(300),
+    //   distinctUntilChanged(),
+    //   switchMap(term => term.length >= 3 ? this.commonService.getCidadesByFilterName(term) : [])
+    // ).subscribe(results => {
+    //   this.cidades = results;
+    // });
 
-    this.subscriptions.push(searchSubscription);
+    // this.subscriptions.push(searchSubscription);
   }
 
   ngOnInit(): void {
     this.getEspecialidadesList();
+    this.getCidadesList();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    this.subscriptions.forEach(sub => sub.unsubscribe()); // Limpeza de memória
   }
 
 
@@ -71,8 +71,13 @@ export class AgendamentoBuscaComponent  implements OnInit, OnDestroy {
         error: err => this.notificationService.showHttpResponseErrorNotification(err)
       });
   }
-  getCidadesList(term: any) {
-    this.searchSubject.next(term); // Passa o termo para o Subject
+  getCidadesList() {
+    this.commonService.getCidades()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => this.cidades = response,
+        error: err => this.notificationService.showHttpResponseErrorNotification(err)
+      });
   }
 
   formatEspecialidade(item: any) {

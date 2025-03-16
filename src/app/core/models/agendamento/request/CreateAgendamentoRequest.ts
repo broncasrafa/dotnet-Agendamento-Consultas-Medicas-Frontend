@@ -1,4 +1,4 @@
-export interface CreateAgendamento {
+export interface CreateAgendamentoRequest {
   especialistaId: number
   especialidadeId: number
   localAtendimentoId: number

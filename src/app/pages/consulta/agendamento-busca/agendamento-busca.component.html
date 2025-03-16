@@ -19,10 +19,9 @@
           </div>
           <div class="col-md-4">
             <app-autocomplete-search
-              [placeholder]="placeholderCidadeText"
               [items]="cidades"
               [displayFn]="formatCidade"
-              (search)="getCidadesList($event)"
+              [placeholder]="placeholderCidadeText"
               (selected)="onCidadeSelecionada($event)"
               (input)="onCidadeInput($event)">
             </app-autocomplete-search>

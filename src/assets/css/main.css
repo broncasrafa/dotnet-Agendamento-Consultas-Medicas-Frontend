@@ -1766,7 +1766,13 @@ section,
 .fs-22px {
   font-size:22px !important;
 }
-.fs-12pt {
+.fs-10 {
+  font-size: 10pt !important;
+}
+.fs-11 {
+  font-size: 11pt !important;
+}
+.fs-12 {
   font-size: 12pt !important;
 }
 

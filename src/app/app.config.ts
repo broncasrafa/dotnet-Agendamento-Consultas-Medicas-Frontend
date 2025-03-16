@@ -10,12 +10,13 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { routes } from 'src/app/app.routes';
 import { jwtInterceptor } from 'src/app/core/interceptors/jwt.interceptor';
 import { authInterceptor } from 'src/app/core/interceptors/auth.interceptor';
+import { loadingInterceptor } from 'src/app/core/interceptors/loading.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(
-      withInterceptors([jwtInterceptor, authInterceptor])
+      withInterceptors([jwtInterceptor, authInterceptor, loadingInterceptor])
     ),
     provideAnimations(),
     provideToastr(),

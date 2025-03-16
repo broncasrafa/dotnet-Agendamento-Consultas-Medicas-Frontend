@@ -114,10 +114,13 @@
                   <div class="tab-content mt-3" [attr.id]="'myTabContent-' + i">
                     <div class="tab-pane fade show active" role="tabpanel" [attr.id]="'endereco-' + i" [attr.aria-labelledby]="'endereco-tab-' + i">
                       <div *ngFor="let localAtend of especialista.locaisAtendimento; let j = index;" class="mt-3">
-                        <div class="d-flex flex-column">
+
+                        <div class="d-flex flex-column" *ngIf="!isNullOrUndefined(localAtend.logradouro)">
                           <div class="d-flex align-items-center">
                             <i class="bi bi-geo-alt-fill me-2"></i>
-                            <small>{{ localAtend.logradouro }} - {{ localAtend.complemento }} - {{ localAtend.bairro }} - {{ localAtend.cidade }}, {{ localAtend.estado }}</small>
+                            <small>
+                              {{localAtend.logradouro}} {{ isNullOrEmpty(localAtend.complemento) ? '' : ' - ' + localAtend.complemento}} - {{localAtend.bairro}} - {{localAtend.cidade}}, {{localAtend.estado}}
+                            </small>
                           </div>
                           <div class="ps-4 mb-3">
                             <small>{{ localAtend.nome }}</small>
@@ -128,12 +131,13 @@
                               <i class="bi bi-building-add me-2"></i>
                               <span>Consulta</span>
                             </div>
-                            <!-- <span>{{ localAtend.precoDescricao ?? 'Preço não disponível' }}</span> -->
                             <span *ngIf="!(localAtend.precoDescricao | isNullOrUndefined)">{{ localAtend.precoDescricao}}</span>
                             <span *ngIf="(localAtend.precoDescricao | isNullOrUndefined)">Preço não disponível</span>
                           </div>
+                          <hr />
                         </div>
-                        <hr />
+
+
                       </div>
 
                     </div>

@@ -1,4 +1,3 @@
-import { PesquisarEspecialistaComponent } from './pages/especialista/pesquisar-especialista/pesquisar-especialista.component';
 import { Routes } from '@angular/router';
 import { authGuard } from 'src/app/core/guard/auth.guard';
 
@@ -61,6 +60,16 @@ export const routes: Routes = [
       {
         path: 'especialistas/pesquisa',
         loadComponent: () => import('./pages/especialista/pesquisar-especialista/pesquisar-especialista.component').then(c => c.PesquisarEspecialistaComponent)
+      },
+      {
+        path: 'paciente/consultas',
+        loadComponent: () => import('./pages/paciente/listar-consultas/consultas-paciente.component').then(c => c.ConsultasPacienteComponent),
+        canActivate: [authGuard]
+      },
+      {
+        path: 'paciente/consultas/:id',
+        loadComponent: () => import('./pages/paciente/detalhes-consultas/consultas-paciente-detalhes.component').then(c => c.ConsultasPacienteDetalhesComponent),
+        canActivate: [authGuard]
       }
     ]
   },
