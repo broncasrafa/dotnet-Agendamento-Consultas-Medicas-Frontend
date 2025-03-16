@@ -1,0 +1,252 @@
+
+.agendamento-box {
+  --tw-shadow: 0 20px 25px -5px rgba(0, 0, 0, .1), 0 10px 10px -5px rgba(0, 0, 0, .04);
+    box-shadow: 0 0 transparent, 0 0 transparent, 0 20px 25px -5px rgba(0, 0, 0, .1), 0 10px 10px -5px rgba(0, 0, 0, .04);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent), var(--tw-ring-shadow, 0 0 transparent), var(--tw-shadow);
+
+    --tw-bg-opacity: 1;
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+
+    border-width: 1px;
+    border-radius: 1rem;
+    padding-bottom: 1px;
+}
+.agendamento-box-items-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  justify-content: space-between;
+}
+.agendamento-box-item-1 {
+  display: flex;
+  flex-direction: row;
+}
+.agendamento-box-item-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+.agendamento-box-item-2 p {
+  margin-bottom: 0px;
+}
+
+.agendamento-box-item-3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.agendamento-box-item-especialista {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 1rem;
+  margin-top: 0rem;
+}
+
+
+.btn-primary,
+.btn-primary:focus {
+  background: var(--accent-color) !important;
+  font-size: 14px !important;
+  border: 0 !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus:hover {
+  color: var(--contrast-color) !important;
+  background: color-mix(in srgb, var(--accent-color), transparent 15%) !important;
+  border: 0 !important;
+}
+
+.btn-danger,
+.btn-danger:focus {
+  background: var(--danger-color) !important;
+  font-size: 14px !important;
+  border: 0 !important;
+}
+.btn-danger:hover,
+.btn-danger:focus:hover {
+  color: var(--contrast-color) !important;
+  background: color-mix(in srgb, var(--danger-color), transparent 15%) !important;
+  border: 0 !important;
+}
+
+.badge-tipoConsulta {
+  width: 9rem;
+}
+
+@media (min-width: 640px) {
+  .agendamento-box-items-container {
+    display: flex;
+    flex-direction: row;
+    margin: 1.5rem;
+    padding: 0;
+    justify-content: space-between;
+  }
+
+  .agendamento-box-item-1 {
+    display: flex;
+    flex-direction: row;
+    width: 23rem;
+  }
+
+  .agendamento-box-item-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 25rem;
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  .agendamento-box-item-especialista {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 1rem;
+    margin-top: -2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .agendamento-box-item-3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 14rem;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.agendamento-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  flex-wrap: wrap; /* Permite que os itens quebrem linha em telas menores */
+}
+
+.parte {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.foto-info {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Espaçamento entre foto e texto */
+  flex: 1;
+}
+
+.foto {
+  width: 90px;
+  height: 90px;
+  border-radius: 100%;
+  object-fit: cover;
+}
+
+.info-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.tipo-consulta {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.nome-profissional {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.especialidade {
+  font-size: 12px;
+  color: #666;
+}
+
+.detalhes {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+}
+
+.status-agendamento {
+  font-size: 14px;
+}
+
+.data-agendamento {
+  font-size: 14px;
+}
+
+.endereco {
+  font-size: 12px;
+  color: #555;
+}
+
+.botoes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* .btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+.cancelar {
+  background-color: red;
+  color: white;
+} */
+
+/* Caso o botão "Cancelar" não apareça, o botão "Detalhes" deve ficar centralizado */
+.botoes:has(.cancelar:not(:visible)) .detalhes {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+@media (max-width: 768px) {
+  .agendamento-container {
+    flex-direction: column; /* Itens ficam um abaixo do outro */
+    align-items: stretch;
+  }
+
+  .foto-info {
+    justify-content: center; /* Centraliza na tela */
+  }
+
+  .botoes {
+    flex-direction: column;
+    align-items: center;
+  }
+}

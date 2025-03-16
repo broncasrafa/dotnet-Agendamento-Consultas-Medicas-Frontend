@@ -13,6 +13,7 @@
   --accent-color: #1977cc; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
   --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
   --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+  --danger-color: #d43f67;
 }
 
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
@@ -350,6 +351,21 @@ h6 {
 .cta-btn-primary:focus:hover {
   color: var(--contrast-color);
   background: color-mix(in srgb, var(--accent-color), transparent 15%);
+}
+
+.cta-btn-danger {
+  background: var(--danger-color);
+  border: 0;
+  padding: 10px 35px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+  font-size: 14px;
+}
+.cta-btn-danger:hover,
+.cta-btn-danger:focus:hover {
+  color: var(--contrast-color);
+  background: color-mix(in srgb, var(--danger-color), transparent 15%);
 }
 
 
@@ -1780,6 +1796,16 @@ section,
   padding-right: 10px;
 }
 
+.w-200 {
+  width: 202px !important;
+}
+.w-full {
+  width: 100%;
+}
+
+.relative {
+  position: relative;
+}
 
 .bold {
   font-weight: bold;

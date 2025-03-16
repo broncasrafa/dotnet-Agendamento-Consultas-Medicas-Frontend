@@ -65,10 +65,13 @@ export class AuthenticationService {
    * @returns boolean indicando se o usuário está logado ou não.
    */
   isLoggedIn(): boolean {
-    const JWT_TOKEN = StringExtensions.isNullOrEmpty(this.cookieService.get(CredentialsSessionKeys.JWT_TOKEN))
-                        ? localStorage.getItem(CredentialsSessionKeys.JWT_TOKEN)
-                        : this.cookieService.get(CredentialsSessionKeys.JWT_TOKEN);
-    return JWT_TOKEN ? true : false;
+    // const JWT_TOKEN = StringExtensions.isNullOrEmpty(this.cookieService.get(CredentialsSessionKeys.JWT_TOKEN))
+    //                     ? localStorage.getItem(CredentialsSessionKeys.JWT_TOKEN)
+    //                     : this.cookieService.get(CredentialsSessionKeys.JWT_TOKEN);
+    // return JWT_TOKEN ? true : false;
+
+    const JWT_TOKEN = localStorage.getItem(CredentialsSessionKeys.JWT_TOKEN);
+    return StringExtensions.isNullOrEmpty(JWT_TOKEN) ? false : true;
   }
 
   /**
@@ -99,6 +102,7 @@ export class AuthenticationService {
     if (AppUtils.isNullOrUndefined(userLoggedInfo)) {
       this.logout();
       this.router.navigate(['/login']);
+      return userLoggedInfo;
     }
     return userLoggedInfo;
   }

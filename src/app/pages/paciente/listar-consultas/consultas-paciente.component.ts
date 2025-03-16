@@ -8,6 +8,8 @@ import { PacienteService } from 'src/app/core/services/paciente.service';
 import { CryptoService } from 'src/app/shared/services/crypto.service';
 import { AgendamentoResponse } from 'src/app/core/models/agendamento/response/AgendamentoResponse';
 import { AppUtils } from 'src/app/core/utils/app.util';
+import { DateFormattedPipe } from 'src/app/shared/pipes/date-formatted.pipe';
+import { AddressFormattedPipe } from 'src/app/shared/pipes/address-formatted.pipe';
 
 @Component({
   selector: 'app-consultas-paciente',
@@ -15,6 +17,8 @@ import { AppUtils } from 'src/app/core/utils/app.util';
   imports: [
     CommonModule,
     RouterModule,
+    DateFormattedPipe,
+    AddressFormattedPipe,
   ],
   templateUrl: './consultas-paciente.component.html',
   styleUrl: './consultas-paciente.component.css'

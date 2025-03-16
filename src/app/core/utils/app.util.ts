@@ -65,16 +65,49 @@ export class AppUtils {
    * @param dataString data no formato "yyyy-MM-dd"
    * @returns a data formatada por extenso
    */
-  public static formatarDataExtenso(dataString: string): string {
-    const [ano, mes, dia] = dataString.split('-').map(Number);
-    const data = new Date(ano, mes - 1, dia); // Mês começa do 0 no JS
 
-    return data.toLocaleDateString('pt-BR', {
-      weekday: 'long',
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric'
-    }).replace(/^\w/, (c) => c.toUpperCase());
+  /**
+   * Formatar por extenso a data
+   * @param dataString data no formato "yyyy-MM-dd"
+   * @param incluirAno flag para incluir ano. default true
+   * @param capitalizarPrimeiraLetra flag para capitalizar a primeira letra do dia da semana. default true
+   * @param incluirHorario valor do horario da data
+   * @returns a data formatada por extenso
+   */
+  public static formatarDataExtenso(
+    dataString: string,
+    incluirAno: boolean = true,
+    capitalizarPrimeiraLetra: boolean = true,
+    incluirHorario?: string): string {
+
+      if (this.isNullOrEmpty(dataString)) return '';
+
+      const date = dataString.split('T')[0];
+      const [ano, mes, dia] = date.split('-').map(Number);
+      const data = new Date(ano, mes - 1, dia); // Mês começa do 0 no JS
+
+      let options: Intl.DateTimeFormatOptions = {
+        weekday: 'long',
+        day: '2-digit',
+        month: 'long',
+      };
+
+      if (incluirAno) {
+        options.year = 'numeric';
+      }
+
+      let dataFormatada = data.toLocaleDateString('pt-BR', options);
+
+      if (capitalizarPrimeiraLetra) {
+        dataFormatada = dataFormatada.replace(/^\w/, (c) => c.toUpperCase());
+      }
+
+      // Se houver um horário, adiciona ao final
+      if (incluirHorario) {
+        dataFormatada += ` às ${incluirHorario}`;
+      }
+
+      return dataFormatada;
   }
 
   /**
