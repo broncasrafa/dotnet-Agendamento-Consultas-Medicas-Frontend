@@ -4,8 +4,10 @@ import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ApiResponse } from 'src/app/core/models/ApiResponse';
 import { PacienteResultListResponse } from 'src/app/core/models/paciente/response/PacienteResultListResponse';
-import { PacienteResponse } from 'src/app/core/models/paciente/response/PacienteResponse';
 import { AgendamentoResponse } from 'src/app/core/models/agendamento/response/AgendamentoResponse';
+import { PacienteResponse } from 'src/app/core/models/paciente/response/PacienteResponse';
+import { PacientePlanoMedicoResponse } from 'src/app/core/models/paciente/response/PacientePlanoMedicoResponse';
+import { CreatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/CreatePacientePlanoMedicoRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +28,10 @@ export class PacienteService {
       .pipe(
         map(response => response.data!.results)
       );
+  }
+
+  createPacientePlanoMedico(pacienteid: number, request: CreatePacientePlanoMedicoRequest): Observable<PacientePlanoMedicoResponse> {
+    return this.http.post<ApiResponse<PacientePlanoMedicoResponse>>(`${this.base_api_url}/${pacienteid}/planos-medicos`, request)
+      .pipe(map(response => response.data!));
   }
 }

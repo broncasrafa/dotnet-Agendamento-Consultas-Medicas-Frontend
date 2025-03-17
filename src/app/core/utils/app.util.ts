@@ -118,6 +118,27 @@ export class AppUtils {
   }
 
   /**
+   * Ordenar uma lista informando o campo para a ordenação e a direção (ascendente ou descendente)
+   * @param lista lista de objetos
+   * @param campoCriterio campo para a ordenação
+   * @param sortOrder ordem de ordenação ('asc' para crescente, 'desc' para decrescente)
+   * @returns a lista ordenada conforme o critério e a direção especificada
+   */
+  public static orderBy<T>(lista: T[], campoCriterio: keyof T, sortOrder: string = 'asc'): T[] {
+    const order = sortOrder.toLowerCase();
+
+    if (order !== 'asc' && order !== 'desc') {
+      throw new Error("O parâmetro 'sortOrder' deve ser 'asc' ou 'desc'.");
+    }
+
+    return [...lista].sort((a, b) => {
+      if (a[campoCriterio] > b[campoCriterio]) return order === 'asc' ? 1 : -1;
+      if (a[campoCriterio] < b[campoCriterio]) return order === 'asc' ? -1 : 1;
+      return 0;
+    });
+  }
+
+  /**
    * Ordenar uma lista de forma decrescente informando o campo para a ordenação
    * @param lista lista de objetos
    * @param campoCriterio campo para a ordenação
@@ -125,5 +146,15 @@ export class AppUtils {
    */
   public static orderByDescending<T>(lista: T[], campoCriterio: keyof T): T[] {
     return [...lista].sort((a, b) => (b[campoCriterio] > a[campoCriterio] ? 1 : -1));
+  }
+
+  /**
+   * Ordenar uma lista de forma crescente informando o campo para a ordenação
+   * @param lista lista de objetos
+   * @param campoCriterio campo para a ordenação
+   * @returns a lista ordenada de forma crescente
+   */
+  public static orderByAscending<T>(lista: T[], campoCriterio: keyof T): T[] {
+    return [...lista].sort((a, b) => (a[campoCriterio] > b[campoCriterio] ? 1 : -1));
   }
 }

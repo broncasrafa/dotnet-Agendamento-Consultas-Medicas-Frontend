@@ -171,7 +171,7 @@
                             </div>
                           </div>
                           <div class="col-6">
-                            <h6 class="text-end is-link"><i class="bi bi-plus-circle"></i>Adicionar convênio</h6>
+                            <h6 class="text-end is-link" (click)="onclick_ShowModalAdicionarConvenioMedico()"><i class="bi bi-plus-circle"></i>Adicionar convênio</h6>
                           </div>
                         </div>
                       </div>
@@ -192,26 +192,12 @@
                           </div>
                           <div class="col-4">
                             <h6 class="text-end">
-                              <div class="dropdown ms-auto">
-                                <i class="bi bi-three-dots-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                                <ul class="dropdown-menu">
-                                  <li>
-                                    <span class="dropdown-item">
-                                      <i class="fas fa-pen mx-2"></i> Editar convênio
-                                    </span>
-                                  </li>
-                                  <li>
-                                    <span class="dropdown-item">
-                                        <i class="fas fa-trash mx-2"></i> Remover convênio
-                                    </span>
-                                  </li>
-                                </ul>
-                            </div>
+                              <i class="bi bi-pencil mx-2 px-1"></i>
+                              <i class="bi bi-trash mx-2"></i>
                             </h6>
                           </div>
                         </div>
                       </div>
-
 
                     </div>
                   </div>
@@ -224,7 +210,51 @@
     </div>
 
 
-
-
+    <!-- modal adicionar convenio medico -->
+    <div class="modal fade" id="modalAddConvenios" tabindex="-1" aria-labelledby="modalAddConveniosLabel" data-bs-backdrop="static" aria-modal="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalAddConveniosLabel">Novo convênio</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="formConvenioMedico" #formDirective="ngForm" (ngSubmit)="onclick_AdicionarConvenioMedico(formDirective)">
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <select class="form-select" id="convenioMedicoId" aria-label="convenioMedicoId" formControlName="convenioMedicoId">
+                      <option value="" selected>Selecione...</option>
+                      <option value="{{item.id}}" *ngFor="let item of conveniosMedicos; let i = index;">{{item.nome}}</option>
+                    </select>
+                    <label for="convenioMedicoId">Convênio médico *</label>
+                    <app-display-validation-errors [control]="formConvenioMedico.controls.convenioMedicoId" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nomePlano" placeholder="Digite o nome do plano *" formControlName="nomePlano">
+                    <label for="nomePlano">Plano *</label>
+                    <app-display-validation-errors [control]="formConvenioMedico.controls.nomePlano" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="numCartao" placeholder="Digite o nº da carteirinha *" formControlName="numCartao">
+                    <label for="numCartao">Número da carteirinha *</label>
+                    <app-display-validation-errors [control]="formConvenioMedico.controls.numCartao" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="text-center mt-2 d-grid w-full">
+                    <button type="submit" class="cta-btn-primary mb-3 me-2" [disabled]="!formConvenioMedico.valid">Cadastrar novo convênio</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+     </div>
   </div>
 </section>
