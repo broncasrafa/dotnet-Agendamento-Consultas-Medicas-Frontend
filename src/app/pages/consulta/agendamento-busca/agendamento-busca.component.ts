@@ -10,6 +10,7 @@ import { CommonService } from 'src/app/core/services/common.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { AutocompleteSearchComponent } from 'src/app/shared/components/autocomplete-search/autocomplete-search.component';
 import { AppUtils } from 'src/app/core/utils/app.util';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 
 @Component({
   selector: 'app-agendamento-busca',
@@ -31,6 +32,7 @@ export class AgendamentoBuscaComponent  implements OnInit, OnDestroy {
   private notificationService = inject(NotificationService);
   private especialidadeService = inject(EspecialidadeService);
   private commonService = inject(CommonService);
+  private loadingService = inject(LoadingService);
 
   placeholderEspecialidadeText = 'Filtre por especialidade';
   placeholderCidadeText = 'Filtre por cidade';
@@ -50,11 +52,12 @@ export class AgendamentoBuscaComponent  implements OnInit, OnDestroy {
     // });
 
     // this.subscriptions.push(searchSubscription);
+
+    this.getEspecialidadesList();
+    this.getCidadesList();
   }
 
   ngOnInit(): void {
-    this.getEspecialidadesList();
-    this.getCidadesList();
   }
 
   ngOnDestroy(): void {

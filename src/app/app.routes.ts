@@ -70,6 +70,11 @@ export const routes: Routes = [
         path: 'paciente/consultas/:id',
         loadComponent: () => import('./pages/paciente/detalhes-consultas/consultas-paciente-detalhes.component').then(c => c.ConsultasPacienteDetalhesComponent),
         canActivate: [authGuard]
+      },
+      {
+        path: 'paciente/conta',
+        loadComponent: () => import('./pages/paciente/dados-conta/dados-conta-paciente.component').then(c => c.DadosContaPacienteComponent),
+        canActivate: [authGuard]
       }
     ]
   },

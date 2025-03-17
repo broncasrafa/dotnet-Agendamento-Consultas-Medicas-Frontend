@@ -6,9 +6,10 @@ import { AuthenticationService } from 'src/app/core/services/authentication.serv
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { PacienteService } from 'src/app/core/services/paciente.service';
 import { CryptoService } from 'src/app/shared/services/crypto.service';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 import { AgendamentoResponse } from 'src/app/core/models/agendamento/response/AgendamentoResponse';
 import { AppUtils } from 'src/app/core/utils/app.util';
-import { DateFormattedPipe } from 'src/app/shared/pipes/date-formatted.pipe';
+import { DateExtensoFormattedPipe } from 'src/app/shared/pipes/date-extenso-formatted.pipe';
 import { AddressFormattedPipe } from 'src/app/shared/pipes/address-formatted.pipe';
 
 @Component({
@@ -17,7 +18,7 @@ import { AddressFormattedPipe } from 'src/app/shared/pipes/address-formatted.pip
   imports: [
     CommonModule,
     RouterModule,
-    DateFormattedPipe,
+    DateExtensoFormattedPipe,
     AddressFormattedPipe,
   ],
   templateUrl: './consultas-paciente.component.html',
@@ -33,15 +34,17 @@ export class ConsultasPacienteComponent implements OnInit, OnDestroy {
     private notificationService = inject(NotificationService);
     private pacienteService = inject(PacienteService);
     private cryptoService = inject(CryptoService);
+    private loadingService = inject(LoadingService);
 
     pacienteId: number;
     agendamentos: AgendamentoResponse[] = [];
 
   constructor() {
+    this.obterHistoricoAgendamentosPaciente();
   }
 
   ngOnInit(): void {
-    this.obterHistoricoAgendamentosPaciente();
+
   }
 
   ngOnDestroy(): void {
@@ -71,7 +74,6 @@ export class ConsultasPacienteComponent implements OnInit, OnDestroy {
     .subscribe({
       next: (response) =>  {
         this.agendamentos = AppUtils.orderByDescending(response!, 'id');
-        console.log(this.agendamentos)
       },
       error: err => this.notificationService.showHttpResponseErrorNotification(err)
     })

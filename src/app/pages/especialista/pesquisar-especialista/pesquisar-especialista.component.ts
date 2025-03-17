@@ -15,6 +15,7 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
 import { CryptoService } from 'src/app/shared/services/crypto.service';
 import { RatingStarsComponent } from 'src/app/shared/components/rating-stars/rating-stars.component';
 import { HorariosAgendamento, ListarHorariosDisponiveisComponent } from 'src/app/pages/especialista/listar-horarios-disponiveis/listar-horarios-disponiveis.component';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 
 @Component({
   selector: 'app-pesquisar-especialista',
@@ -37,6 +38,7 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
   private especialidadeService = inject(EspecialidadeService);
   private notificationService = inject(NotificationService);
   private cryptoService = inject(CryptoService);
+  private loadingService = inject(LoadingService);
 
   cidade: string | null = null;
   especialidadeId: number | null = null;
@@ -95,12 +97,13 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
       if (StringExtensions.isNullOrWhiteSpace(this.cidade) || this.especialidadeId == null){
         this.router.navigateByUrl('/404-page')
       }
+
+      this.getEspecialidadesList();
+      this.pesquisarEspecialistas();
     });
   }
 
   ngOnInit(): void {
-    this.getEspecialidadesList();
-    this.pesquisarEspecialistas();
   }
 
   ngOnDestroy(): void {

@@ -31,7 +31,7 @@
             <div class="mt-3 fs-11">
               <p class="mb-10px">
                 <span class="bold">Data do agendamento</span><br />
-                <span>{{agendamento.dataConsulta | dateFormatted:false:false:agendamento.horarioConsulta }}</span>
+                <span>{{agendamento.dataConsulta | dateExtensoFormatted:false:false:agendamento.horarioConsulta }}</span>
               </p>
               <p>
                 <span class="bold">Status</span>: <span>{{agendamento.statusConsulta}}</span>

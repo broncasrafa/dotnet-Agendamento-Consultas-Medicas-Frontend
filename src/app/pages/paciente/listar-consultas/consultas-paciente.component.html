@@ -24,7 +24,7 @@
             <div class="agendamento-box-item-2">
               <div class="fs-10">
                 <p><span class="bold">Status:</span> {{ agendamento.statusConsulta }}</p>
-                <p><span class="bold">Data do agendamento:</span> {{ agendamento.dataConsulta | dateFormatted:false:false:agendamento.horarioConsulta  }}</p>
+                <p><span class="bold">Data do agendamento:</span> {{ agendamento.dataConsulta | dateExtensoFormatted:false:false:agendamento.horarioConsulta  }}</p>
                 <p><span class="bold">Endereço:</span> {{ agendamento.localAtendimento | addressFormatted }}</p>
               </div>
             </div>

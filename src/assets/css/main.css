@@ -2271,3 +2271,9 @@ section,
 .tc-white {
   color: #ffffff !important;
 }
+
+.is-link {
+  color: var(--accent-color);
+  cursor: pointer;
+  text-decoration: none;
+}

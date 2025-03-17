@@ -1,0 +1,230 @@
+<section class="py-3 py-md-5 py-xl-2 height-auto" *ngIf="loadDataIsReady()">
+  <div class="container">
+
+    <div class="row gy-5 gy-lg-0">
+      <div class="col-12">
+        <h1>Dados da conta</h1>
+      </div>
+    </div>
+
+    <!-- Dados pessoais -->
+    <div class="row">
+      <div class="col-12">
+        <section class="py-3 py-md-5">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-12 col-sm-10 col-md-7 col-lg-6 col-xl-5 col-xxl-4">
+                <div class="card widget-card border-light shadow-sm">
+                  <div class="card-body p-4">
+                    <h5 class="card-title widget-card-title mb-4">Dados Pessoais</h5>
+                    <div class="row gy-4">
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0">E-mail</h6>
+                                <p class="text-secondary m-0 fs-7">{{paciente.email}}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end is-link"><i class="bi bi-arrow-right-circle"></i></h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0">Senha</h6>
+                                <p class="text-secondary m-0 fs-7">**************</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end is-link"><i class="bi bi-arrow-right-circle"></i></h6>
+                          </div>
+                        </div>
+                      </div>
+                      <hr />
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0">Nome completo</h6>
+                                <p class="text-secondary m-0 fs-7">{{paciente.nome}}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end"></h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0">Telefone</h6>
+                                <p class="text-secondary m-0 fs-7">{{paciente.telefone | telefoneFormatted}}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end"></h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0">Gênero</h6>
+                                <p class="text-secondary m-0 fs-7">{{paciente.genero}}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end"></h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0">CPF</h6>
+                                <p class="text-secondary m-0 fs-7">{{paciente.cpf | cpfFormatted}}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end"></h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0">Nascimento</h6>
+                                <p class="text-secondary m-0 fs-7">{{paciente.dataNascimento | dateFormatted}}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end"></h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row align-items-center is-link">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0 is-link">Alterar</h6>
+                                <p class="text-secondary m-0 fs-7"></p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end is-link"><i class="bi bi-arrow-right-circle"></i></h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Meus convênios -->
+    <div class="row">
+      <div class="col-12">
+        <section class="py-3">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-12 col-sm-10 col-md-7 col-lg-6 col-xl-5 col-xxl-4">
+                <div class="card widget-card border-light shadow-sm">
+                  <div class="card-body p-4">
+                    <h5 class="card-title widget-card-title mb-4">Meus convênios</h5>
+                    <div class="row gy-4 mb-5">
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-6">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0"></h6>
+                                <p class="text-secondary m-0 fs-7"></p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <h6 class="text-end is-link"><i class="bi bi-plus-circle"></i>Adicionar convênio</h6>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-12" *ngFor="let plano of paciente.planosMedicos; let i = index;">
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0">{{plano.convenioMedico}}</h6>
+                                <p class="text-secondary m-0 fs-7">
+                                  {{plano.nomePlano}}
+                                  <br />
+                                  {{plano.numCartao}}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end">
+                              <div class="dropdown ms-auto">
+                                <i class="bi bi-three-dots-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                <ul class="dropdown-menu">
+                                  <li>
+                                    <span class="dropdown-item">
+                                      <i class="fas fa-pen mx-2"></i> Editar convênio
+                                    </span>
+                                  </li>
+                                  <li>
+                                    <span class="dropdown-item">
+                                        <i class="fas fa-trash mx-2"></i> Remover convênio
+                                    </span>
+                                  </li>
+                                </ul>
+                            </div>
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</section>

@@ -7,14 +7,11 @@ import { AppUtils } from 'src/app/core/utils/app.util';
 })
 export class DateFormattedPipe implements PipeTransform {
 
-  transform(
-    date: string,
-    incluirAno: boolean = false,
-    capitalizarPrimeiraLetra: boolean = false,
-    horario?: string): string | null {
+  transform(date: string): string | null {
     if (AppUtils.isNullOrEmpty(date)) return null;
 
-    return AppUtils.formatarDataExtenso(date, incluirAno, capitalizarPrimeiraLetra, horario);
+    const [ano, mes, dia] = date.split('T')[0].split('-').map(Number);
+    return `${dia.toString().padStart(2, '0')}/${mes.toString().padStart(2, '0')}/${ano}`;
   }
 
 }

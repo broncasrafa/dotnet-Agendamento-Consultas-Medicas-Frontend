@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 
 import { AppUtils } from 'src/app/core/utils/app.util';
-import { DateFormattedPipe } from 'src/app/shared/pipes/date-formatted.pipe';
+import { DateExtensoFormattedPipe } from 'src/app/shared/pipes/date-extenso-formatted.pipe';
 import { AddressFormattedPipe } from 'src/app/shared/pipes/address-formatted.pipe';
 import { LoadingService } from 'src/app/shared/services/loading.service';
 import { CryptoService } from 'src/app/shared/services/crypto.service';
@@ -18,7 +18,7 @@ import { AgendamentoResponse } from 'src/app/core/models/agendamento/response/Ag
   imports: [
     CommonModule,
     RouterModule,
-    DateFormattedPipe,
+    DateExtensoFormattedPipe,
     AddressFormattedPipe,
   ],
   templateUrl: './consultas-paciente-detalhes.component.html',
@@ -71,8 +71,7 @@ export class ConsultasPacienteDetalhesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          this.agendamento = response
-          console.log(this.agendamento)
+          this.agendamento = response;
         },
         error: err => this.notificationService.showHttpResponseErrorNotification(err)
     });

@@ -73,15 +73,14 @@ export class AgendamentoConsultaComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams.subscribe(params => {
       if (params['filters']) {
         this.dadosAgendamento = this.cryptoService.descriptografar(params['filters']);
-        console.log(this.dadosAgendamento)
+        this.obterDadosEspecialista();
       }
     });
+
+    this.obterDadosPaciente();
   }
 
   ngOnInit(): void {
-    this.obterDadosEspecialista();
-    this.obterDadosPaciente();
-
     this.dataConsulta = `${AppUtils.formatarDataExtenso(this.dadosAgendamento.data)} às ${this.dadosAgendamento.horario}`;
     this.setValoresFormInit();
   }
@@ -92,7 +91,7 @@ export class AgendamentoConsultaComponent implements OnInit, OnDestroy {
   }
 
   loadDataIsReady() {
-    return this.especialista !== null && this.especialista !== undefined && this.paciente !== null && this.paciente !== undefined;
+    return !AppUtils.isNullOrUndefined(this.especialista) && !AppUtils.isNullOrUndefined(this.paciente);
   }
 
   isNullOrEmpty(value: any): boolean {
@@ -131,8 +130,7 @@ export class AgendamentoConsultaComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) =>  {
-          this.especialista = response!
-          console.log(this.especialista)
+          this.especialista = response!;
         },
         error: err => this.notificationService.showHttpResponseErrorNotification(err)
       })
@@ -147,7 +145,6 @@ export class AgendamentoConsultaComponent implements OnInit, OnDestroy {
         next: (response) =>  {
           this.paciente = response!
           this.agendamentoForm.controls.telefoneContato.setValue(this.paciente.telefone);
-          console.log(this.paciente)
         },
         error: err => this.notificationService.showHttpResponseErrorNotification(err)
       })
@@ -166,7 +163,6 @@ export class AgendamentoConsultaComponent implements OnInit, OnDestroy {
             this.notificationService.showSuccessNotification('Agendamento', 'Agendamento realizado com sucesso');
             this.router.navigate(['/paciente/consultas']);
           }
-          console.log(response)
         },
         error: err => this.notificationService.showHttpResponseErrorNotification(err)
       })
