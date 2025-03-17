@@ -9,6 +9,7 @@ import { PacienteResponse } from 'src/app/core/models/paciente/response/Paciente
 import { PacientePlanoMedicoResponse } from 'src/app/core/models/paciente/response/PacientePlanoMedicoResponse';
 import { CreatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/CreatePacientePlanoMedicoRequest';
 import { UpdatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/UpdatePacientePlanoMedicoRequest';
+import { DeletePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/DeletePacientePlanoMedicoRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,14 @@ export class PacienteService {
 
   updatePacientePlanoMedico(pacienteid: number, request: UpdatePacientePlanoMedicoRequest): Observable<boolean> {
     return this.http.put<ApiResponse<boolean>>(`${this.base_api_url}/${pacienteid}/planos-medicos`, request)
+      .pipe(map(response => response.data!));
+  }
+
+  deletePacientePlanoMedico(pacienteid: number, request: DeletePacientePlanoMedicoRequest): Observable<boolean> {
+    const options = {
+      body: request
+    };
+    return this.http.delete<ApiResponse<boolean>>(`${this.base_api_url}/${pacienteid}/planos-medicos`, options)
       .pipe(map(response => response.data!));
   }
 }

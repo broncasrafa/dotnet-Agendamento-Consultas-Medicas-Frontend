@@ -20,6 +20,7 @@ import { DisplayValidationErrorsComponent } from 'src/app/shared/components/disp
 import * as bootstrap from 'bootstrap';
 import { CreatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/CreatePacientePlanoMedicoRequest';
 import { UpdatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/UpdatePacientePlanoMedicoRequest';
+import { DeletePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/DeletePacientePlanoMedicoRequest';
 
 @Component({
   selector: 'app-dados-conta-paciente',
@@ -53,6 +54,9 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
   modalInstance?: Modal | null;
   paciente: PacienteResponse;
   conveniosMedicos: ConvenioMedicoResponse[] = [];
+  dadosModal: any; // Variável para armazenar os dados do modal
+  pacienteId: number;
+  planoMedicoId: number;
 
   formAddConvenioMedico = this.formBuilder.group({
     pacienteId: [0, [Validators.required]],
@@ -119,7 +123,11 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
       });
   }
 
-  abrirModal(modalId: string){
+  abrirModal(modalId: string, dados?: any) {
+    if (dados) {
+      this.dadosModal = dados; // Armazena os dados
+    }
+
     const modalElement = document.getElementById(modalId);
     if (modalElement) {
       this.modalInstance = new Modal(modalElement);
@@ -130,6 +138,7 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
   fecharModal(modalId: string) {
     const modalElement = document.getElementById(modalId);
     if (modalElement && this.modalInstance) {
+      this.dadosModal = null;
       this.modalInstance.hide();
       this.modalInstance = null; // Reseta a instância do modal
     }
@@ -189,7 +198,7 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (response) => {
             if (!AppUtils.isNullOrUndefined(response) && response) {
-              this.atualizarPlanoMedicoNaLista(this.paciente.planosMedicos, request.planoMedicoId, {
+              this.atualizarItemNaListaById(this.paciente.planosMedicos, request.planoMedicoId, {
                 nomePlano: request.nomePlano,
                 numCartao: request.numeroCarteirinha
               });
@@ -201,17 +210,41 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
         })
     }
   }
-  atualizarPlanoMedicoNaLista(lista: any[], planoMedicoId: number, novosDados: Partial<any>) {
-    const item = lista.find(c => c.id === planoMedicoId);
+  atualizarItemNaListaById(lista: any[], id: number, novosDados: Partial<any>) {
+    const item = lista.find(c => c.id === id);
     if (item) {
       Object.assign(item, novosDados);
     }
   }
 
-  onclick_ShowModalRemoverConvenioMedico() {
+  onclick_ShowModalRemoverConvenioMedico(pacienteId: number, planoMedicoId: number) {
+    this.pacienteId = pacienteId;
+    this.planoMedicoId = planoMedicoId;
 
+    this.abrirModal('modalDeleteConvenios');
   }
-  onclick_RemoverConvenioMedico() {
+  onclick_RemoverConvenioMedico(pacienteId: number, planoMedicoId: number) {
+    const request = new DeletePacientePlanoMedicoRequest();
+    request.pacienteId = pacienteId;
+    request.planoMedicoId = planoMedicoId;
 
+    this.pacienteService.deletePacientePlanoMedico(this.paciente.id, request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (!AppUtils.isNullOrUndefined(response) && response) {
+            this.removerItemNaListaById(this.paciente.planosMedicos, planoMedicoId);
+            this.fecharModal('modalDeleteConvenios');
+            this.notificationService.showSuccessNotification('Deletar', 'Plano medico removido com sucesso');
+          }
+        },
+        error: err => this.notificationService.showHttpResponseErrorNotification(err)
+      })
+  }
+  removerItemNaListaById(lista: any[], removeId: number) {
+    const index = lista.findIndex(item => item.id === removeId);
+    if (index !== -1) {
+      lista.splice(index, 1);
+    }
   }
 }
