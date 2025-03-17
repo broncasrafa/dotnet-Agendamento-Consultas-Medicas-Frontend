@@ -1,1 +1,68 @@
-<p>consultas-paciente-detalhes works!</p>
+<section class="py-3 py-md-5 py-xl-2 height-auto" *ngIf="loadDataIsReady()">
+  <div class="container">
+
+    <div class="row gy-5 gy-lg-0">
+      <div class="col-12">
+        <h1>Detalhes do agendamento</h1>
+      </div>
+      <!-- Botão voltar para o historico de agendamentos -->
+      <div class="col-12 div-espaco">
+        <div class="my-3">
+          <button class="cta-btn-primary" (click)="onclick_VoltarHistorico()">Voltar para minhas consultas</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <!-- dados do especialista -->
+            <figure class="d-flex align-items-center m-0 p-0">
+              <img class="img-fluid rounded rounded-circle m-0 border" loading="lazy" src="{{agendamento.profissional.foto}}" alt="{{agendamento.profissional.nome}}" width="90" height="90" >
+              <figcaption class="ms-3">
+                <h4 class="mb-1 h5">{{agendamento.profissional.nome}}</h4>
+                <h5 class="fs-6 text-secondary mb-0">{{agendamento.profissional.especialidades[0].nome}}</h5>
+                @if (agendamento.profissional.avaliacao !== undefined && agendamento.profissional.avaliacao !== null) {
+                  <div class="bsb-ratings text-warning mb-3" data-bsb-star="agendamento.profissional.avaliacao" data-bsb-star-off="0"></div>
+                }
+              </figcaption>
+            </figure>
+            <div class="mt-3 fs-11">
+              <p class="mb-10px">
+                <span class="bold">Data do agendamento</span><br />
+                <span>{{agendamento.dataConsulta | dateFormatted:false:false:agendamento.horarioConsulta }}</span>
+              </p>
+              <p>
+                <span class="bold">Status</span>: <span>{{agendamento.statusConsulta}}</span>
+              </p>
+
+              <!-- dados do agendamento -->
+              <hr />
+              <p class="mb-10px">
+                <span class="bold">Agendado para</span><br />
+                <span>{{agendamento.paciente}}</span>
+              </p>
+              <p class="mb-10px">
+                <span class="bold">Convênio ou Particular</span><br />
+                <span>{{agendamento.metodoPagamento}}</span>
+              </p>
+              <p class="mb-10px">
+                <span class="bold">Motivo da consulta</span><br />
+                <span>{{agendamento.motivoConsulta}}</span>
+              </p>
+
+              <!-- local de atendimento -->
+              <hr />
+              <p class="mb-10px">
+                <span class="bold">Localização e contato</span><br />
+                <span>{{ agendamento.localAtendimento | addressFormatted }} </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

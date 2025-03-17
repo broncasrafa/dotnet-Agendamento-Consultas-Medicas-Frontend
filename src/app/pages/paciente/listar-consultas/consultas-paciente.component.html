@@ -20,6 +20,7 @@
                 <small class="text-muted mb-2">{{agendamento.especialidade.nome}}</small>
               </div>
             </div>
+
             <div class="agendamento-box-item-2">
               <div class="fs-10">
                 <p><span class="bold">Status:</span> {{ agendamento.statusConsulta }}</p>
@@ -27,6 +28,7 @@
                 <p><span class="bold">Endereço:</span> {{ agendamento.localAtendimento | addressFormatted }}</p>
               </div>
             </div>
+
             <div class="agendamento-box-item-3">
               <div class="d-grid gap-2 w-full">
                 <button class="btn btn-primary" type="button" (click)="onclick_DetalhesAgendamento(agendamento.id)">Detalhes da consulta</button>
@@ -35,84 +37,9 @@
             </div>
           </div>
         </div>
-        <!--
-        <div class="agendamento-container">
-
-          <div class="parte foto-info">
-            <img class="foto" loading="lazy" src="{{agendamento.profissional.foto}}" alt="{{agendamento.profissional.nome}}" width="90" height="90" >
-            <div class="info-text">
-              <div class="tipo-consulta"><span class="badge bg-primary mb-2">{{agendamento.tipoConsulta}}</span></div>
-              <div class="nome-profissional">{{agendamento.profissional.nome}}</div>
-              <div class="especialidade"><small class="text-muted mb-2">{{agendamento.especialidade.nome}}</small></div>
-            </div>
-          </div>
-
-          <div class="parte detalhes">
-            <div class="status-agendamento"><strong>Status: </strong> {{ agendamento.statusConsulta }}</div>
-            <div class="data-agendamento"><strong>Data do agendamento: </strong> {{ agendamento.dataConsulta | dateFormatted:false:false:agendamento.horarioConsulta  }}</div>
-            <div class="endereco"><strong>Endereço: </strong> {{ agendamento.localAtendimento | addressFormatted }}</div>
-          </div>
-
-          <div class="parte botoes">
-            <div class="text-center">
-              <button class="cta-btn-primary w-200">Detalhes da consulta</button>
-            </div>
-            <div class="text-center">
-              <button class="cta-btn-danger w-200">Cancelar consulta</button>
-            </div>
-          </div>
-
-
-
-        </div>
-        -->
-
-
-
-
-
-       <!-- <div class="card">
-          <div class="card-body">
-            <div class="row">
-
-
-              <div class="col-4">
-                <div class="div-espaco fs-11">
-                  <figure class="d-flex align-items-center m-0 p-0">
-                    <img class="img-fluid rounded rounded-circle m-0 border border-5" loading="lazy" src="{{agendamento.profissional.foto}}" alt="{{agendamento.profissional.nome}}" width="90" height="90" >
-                    <figcaption class="ms-3">
-                      <span class="badge bg-primary mb-2">{{agendamento.tipoConsulta}}</span>
-                      <h6 class="mb-1">{{agendamento.profissional.nome}}</h6>
-                      <small class="text-muted mb-2">{{agendamento.especialidade.nome}}</small>
-                    </figcaption>
-                  </figure>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="div-espaco">
-                  <span class="fs-11">
-                    <strong>Status: </strong> {{ agendamento.statusConsulta }}
-                    <br />
-                    <strong>Data do agendamento: </strong> {{ agendamento.dataConsulta | dateFormatted:false:false:agendamento.horarioConsulta  }}
-                    <br />
-                    <strong>Endereço: </strong> {{ agendamento.localAtendimento | addressFormatted }}
-                  </span>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="div-espaco">
-                  <div class="d-grid gap-2">
-                    <button class="btn btn-primary" type="button">Button</button>
-                    <button class="btn btn-primary" type="button">Button</button>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div> -->
 
       </div>
+
     </div>
   </div>
 </section>
