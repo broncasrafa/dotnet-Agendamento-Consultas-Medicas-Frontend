@@ -19,6 +19,7 @@ import { DisplayValidationErrorsComponent } from 'src/app/shared/components/disp
 
 import * as bootstrap from 'bootstrap';
 import { CreatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/CreatePacientePlanoMedicoRequest';
+import { UpdatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/UpdatePacientePlanoMedicoRequest';
 
 @Component({
   selector: 'app-dados-conta-paciente',
@@ -53,11 +54,18 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
   paciente: PacienteResponse;
   conveniosMedicos: ConvenioMedicoResponse[] = [];
 
-  formConvenioMedico = this.formBuilder.group({
+  formAddConvenioMedico = this.formBuilder.group({
     pacienteId: [0, [Validators.required]],
     convenioMedicoId: [0, [Validators.required]],
     nomePlano: ['', [Validators.required]],
     numCartao: ['', [Validators.required]],
+  });
+
+  formUpdateConvenioMedico = this.formBuilder.group({
+    pacienteId: [0, [Validators.required]],
+    planoMedicoId: [0, [Validators.required]],
+    nomePlano: ['', [Validators.required]],
+    numeroCarteirinha: ['', [Validators.required]],
   });
 
   constructor() {
@@ -85,10 +93,6 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
     return AppUtils.isNullOrUndefined(value);
   }
 
-  setValoresFormInit() {
-
-  }
-
   obterDadosPaciente() {
     const userLoggedInfo = this.authService.getUserInfo();
     const pacienteId = userLoggedInfo.id;
@@ -98,7 +102,7 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response) => {
           this.paciente = response!;
-          this.formConvenioMedico.controls.pacienteId.setValue(this.paciente.id);
+          this.formAddConvenioMedico.controls.pacienteId.setValue(this.paciente.id);
         },
         error: err => this.notificationService.showHttpResponseErrorNotification(err)
       });
@@ -150,8 +154,8 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
     this.abrirModal('modalAddConvenios')
   }
   onclick_AdicionarConvenioMedico(formDirective: FormGroupDirective) {
-    if (this.formConvenioMedico.valid) {
-      const request = this.formConvenioMedico.value as CreatePacientePlanoMedicoRequest;
+    if (this.formAddConvenioMedico.valid) {
+      const request = this.formAddConvenioMedico.value as CreatePacientePlanoMedicoRequest;
       this.pacienteService.createPacientePlanoMedico(this.paciente.id, request)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -167,10 +171,41 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
     }
   }
 
-  onclick_ShowModalAlterarConvenioMedico() {
-  }
-  onclick_AlterarConvenioMedico() {
+  onclick_ShowModalAlterarConvenioMedico(planoMedicoId: number) {
+    const planoMedico = this.paciente.planosMedicos.find(c => c.id == planoMedicoId)
 
+    this.formUpdateConvenioMedico.controls.pacienteId.setValue(this.paciente.id);
+    this.formUpdateConvenioMedico.controls.planoMedicoId.setValue(planoMedico!.id);
+    this.formUpdateConvenioMedico.controls.nomePlano.setValue(planoMedico!.nomePlano);
+    this.formUpdateConvenioMedico.controls.numeroCarteirinha.setValue(planoMedico!.numCartao);
+
+    this.abrirModal('modalUpdateConvenios');
+  }
+  onclick_AlterarConvenioMedico(formDirective: FormGroupDirective) {
+    if (this.formUpdateConvenioMedico.valid) {
+      const request = this.formUpdateConvenioMedico.value as UpdatePacientePlanoMedicoRequest;
+      this.pacienteService.updatePacientePlanoMedico(this.paciente.id, request)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            if (!AppUtils.isNullOrUndefined(response) && response) {
+              this.atualizarPlanoMedicoNaLista(this.paciente.planosMedicos, request.planoMedicoId, {
+                nomePlano: request.nomePlano,
+                numCartao: request.numeroCarteirinha
+              });
+              this.fecharModal('modalUpdateConvenios');
+              this.notificationService.showSuccessNotification('Alteração', 'Plano medico alterado com sucesso');
+            }
+          },
+          error: err => this.notificationService.showHttpResponseErrorNotification(err)
+        })
+    }
+  }
+  atualizarPlanoMedicoNaLista(lista: any[], planoMedicoId: number, novosDados: Partial<any>) {
+    const item = lista.find(c => c.id === planoMedicoId);
+    if (item) {
+      Object.assign(item, novosDados);
+    }
   }
 
   onclick_ShowModalRemoverConvenioMedico() {

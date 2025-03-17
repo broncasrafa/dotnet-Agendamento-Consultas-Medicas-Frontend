@@ -8,6 +8,7 @@ import { AgendamentoResponse } from 'src/app/core/models/agendamento/response/Ag
 import { PacienteResponse } from 'src/app/core/models/paciente/response/PacienteResponse';
 import { PacientePlanoMedicoResponse } from 'src/app/core/models/paciente/response/PacientePlanoMedicoResponse';
 import { CreatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/CreatePacientePlanoMedicoRequest';
+import { UpdatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/UpdatePacientePlanoMedicoRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,11 @@ export class PacienteService {
 
   createPacientePlanoMedico(pacienteid: number, request: CreatePacientePlanoMedicoRequest): Observable<PacientePlanoMedicoResponse> {
     return this.http.post<ApiResponse<PacientePlanoMedicoResponse>>(`${this.base_api_url}/${pacienteid}/planos-medicos`, request)
+      .pipe(map(response => response.data!));
+  }
+
+  updatePacientePlanoMedico(pacienteid: number, request: UpdatePacientePlanoMedicoRequest): Observable<boolean> {
+    return this.http.put<ApiResponse<boolean>>(`${this.base_api_url}/${pacienteid}/planos-medicos`, request)
       .pipe(map(response => response.data!));
   }
 }

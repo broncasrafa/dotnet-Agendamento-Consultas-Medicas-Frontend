@@ -2277,3 +2277,6 @@ section,
   cursor: pointer;
   text-decoration: none;
 }
+.cursor-pointer {
+  cursor: pointer;
+}

@@ -192,8 +192,8 @@
                           </div>
                           <div class="col-4">
                             <h6 class="text-end">
-                              <i class="bi bi-pencil mx-2 px-1"></i>
-                              <i class="bi bi-trash mx-2"></i>
+                              <i class="bi bi-pencil mx-2 px-1 cursor-pointer" (click)="onclick_ShowModalAlterarConvenioMedico(plano.id)"></i>
+                              <i class="bi bi-trash mx-2 cursor-pointer"></i>
                             </h6>
                           </div>
                         </div>
@@ -219,7 +219,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form [formGroup]="formConvenioMedico" #formDirective="ngForm" (ngSubmit)="onclick_AdicionarConvenioMedico(formDirective)">
+            <form [formGroup]="formAddConvenioMedico" #formDirective="ngForm" (ngSubmit)="onclick_AdicionarConvenioMedico(formDirective)">
               <div class="row">
                 <div class="col-12">
                   <div class="form-floating mb-3">
@@ -228,26 +228,26 @@
                       <option value="{{item.id}}" *ngFor="let item of conveniosMedicos; let i = index;">{{item.nome}}</option>
                     </select>
                     <label for="convenioMedicoId">Convênio médico *</label>
-                    <app-display-validation-errors [control]="formConvenioMedico.controls.convenioMedicoId" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                    <app-display-validation-errors [control]="formAddConvenioMedico.controls.convenioMedicoId" [formGroupDirective]="formDirective"></app-display-validation-errors>
                   </div>
                 </div>
                 <div class="col-12">
                   <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="nomePlano" placeholder="Digite o nome do plano *" formControlName="nomePlano">
                     <label for="nomePlano">Plano *</label>
-                    <app-display-validation-errors [control]="formConvenioMedico.controls.nomePlano" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                    <app-display-validation-errors [control]="formAddConvenioMedico.controls.nomePlano" [formGroupDirective]="formDirective"></app-display-validation-errors>
                   </div>
                 </div>
                 <div class="col-12">
                   <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="numCartao" placeholder="Digite o nº da carteirinha *" formControlName="numCartao">
                     <label for="numCartao">Número da carteirinha *</label>
-                    <app-display-validation-errors [control]="formConvenioMedico.controls.numCartao" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                    <app-display-validation-errors [control]="formAddConvenioMedico.controls.numCartao" [formGroupDirective]="formDirective"></app-display-validation-errors>
                   </div>
                 </div>
                 <div class="col-12">
                   <div class="text-center mt-2 d-grid w-full">
-                    <button type="submit" class="cta-btn-primary mb-3 me-2" [disabled]="!formConvenioMedico.valid">Cadastrar novo convênio</button>
+                    <button type="submit" class="cta-btn-primary mb-3 me-2" [disabled]="!formAddConvenioMedico.valid">Cadastrar novo convênio</button>
                   </div>
                 </div>
               </div>
@@ -255,6 +255,49 @@
           </div>
         </div>
       </div>
-     </div>
+    </div>
+
+    <!-- modal alterar plano medico -->
+    <div class="modal fade" id="modalUpdateConvenios" tabindex="-1" aria-labelledby="modalUpdateConveniosLabel" data-bs-backdrop="static" aria-modal="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalUpdateConveniosLabel">Editar convênio</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="formUpdateConvenioMedico" #formDirective="ngForm" (ngSubmit)="onclick_AlterarConvenioMedico(formDirective)">
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nomePlano" placeholder="Digite o nome do plano *" formControlName="nomePlano">
+                    <label for="nomePlano">Plano *</label>
+                    <app-display-validation-errors [control]="formUpdateConvenioMedico.controls.nomePlano" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="numeroCarteirinha" placeholder="Digite o nº da carteirinha *" formControlName="numeroCarteirinha">
+                    <label for="numeroCarteirinha">Número da carteirinha *</label>
+                    <app-display-validation-errors [control]="formUpdateConvenioMedico.controls.numeroCarteirinha" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="text-center mt-2 d-grid w-full">
+                    <button type="submit" class="cta-btn-primary mb-3 me-2" [disabled]="!formUpdateConvenioMedico.valid">Salvar alterações</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
   </div>
 </section>

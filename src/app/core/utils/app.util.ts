@@ -157,4 +157,5 @@ export class AppUtils {
   public static orderByAscending<T>(lista: T[], campoCriterio: keyof T): T[] {
     return [...lista].sort((a, b) => (a[campoCriterio] > b[campoCriterio] ? 1 : -1));
   }
+
 }
