@@ -139,6 +139,41 @@ export const matchPasswordsValidator: ValidatorFn = (formGroup: AbstractControl)
   return null;
 };
 
+
+/**
+ * Função para validar se os e-mails são iguais
+ * @param formGroup
+ * @returns ValidationErrors | null
+ */
+export const matchEmailsValidator: ValidatorFn = (formGroup: AbstractControl): ValidationErrors | null => {
+  const group = formGroup as FormGroup;
+  const emailControl = group.get('email');
+  const confirmEmailControl = group.get('confirmEmail');
+
+  if (!emailControl || !confirmEmailControl) return null;
+
+  const email = emailControl.value;
+  const confirmEmail = confirmEmailControl.value;
+
+  if (!confirmEmail) {
+    return null; // Deixa o erro `required` ser tratado separadamente
+  }
+
+  if (email !== confirmEmail) {
+    confirmEmailControl.setErrors({ ...confirmEmailControl.errors, emailsDontMatch: true });
+    return { emailsDontMatch: true };
+  }
+
+  // Remove apenas o erro emailsDontMatch sem apagar outros erros
+  if (confirmEmailControl.hasError('emailsDontMatch')) {
+    const newErrors = { ...confirmEmailControl.errors };
+    delete newErrors['emailsDontMatch'];
+    confirmEmailControl.setErrors(Object.keys(newErrors).length > 0 ? newErrors : null);
+  }
+
+  return null;
+};
+
 /**
  * Função que cria um validador personalizado para verificar se todos os dígitos são iguais, excluindo o DDD e o dígito 9 inicial
  * @returns ValidationErrors | null

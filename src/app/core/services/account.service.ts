@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ApiResponse } from 'src/app/core/models/ApiResponse';
 import { RegisterPacienteRequest } from 'src/app/core/models/account/request/RegisterPacienteRequest';
@@ -88,17 +88,19 @@ export class AccountService {
   /**
    * Atualizar os dados do usuário logado na plataforma
    * @param request Dados do usuário logado.
-   * @returns Observable<ApiResponse<boolean>> indicando sucesso ou falha.
+   * @returns Observable<boolean> indicando sucesso ou falha.
    */
-  updateUserLoggedInfo(request: UpdateAuthenticatedUserInfoRequest): Observable<ApiResponse<boolean>> {
-    return this.http.put<ApiResponse<boolean>>(`${this.base_api_url}/manage/info`, request);
+  updateUserLoggedInfo(request: UpdateAuthenticatedUserInfoRequest): Observable<boolean> {
+    return this.http.put<ApiResponse<boolean>>(`${this.base_api_url}/manage/info`, request)
+        .pipe(map(response => response.data!));
   }
 
   /**
    * Deleta os dados do usuário logado na plataforma
-   * @returns Observable<ApiResponse<boolean>> indicando sucesso ou falha.
+   * @returns Observable<boolean> indicando sucesso ou falha.
    */
-  deleteUserLoggedInfo(): Observable<ApiResponse<boolean>> {
-    return this.http.delete<ApiResponse<boolean>>(`${this.base_api_url}/manage/info`);
+  deleteUserLoggedInfo(): Observable<boolean> {
+    return this.http.delete<ApiResponse<boolean>>(`${this.base_api_url}/manage/info`)
+      .pipe(map(response => response.data!));
   }
 }

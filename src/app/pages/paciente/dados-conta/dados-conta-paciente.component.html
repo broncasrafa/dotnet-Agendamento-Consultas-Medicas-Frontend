@@ -29,7 +29,7 @@
                             </div>
                           </div>
                           <div class="col-4">
-                            <h6 class="text-end is-link"><i class="bi bi-arrow-right-circle"></i></h6>
+                            <h6 class="text-end is-link" (click)="onclick_ShowModalAlterarEmail()"><i class="bi bi-arrow-right-circle"></i></h6>
                           </div>
                         </div>
                       </div>
@@ -365,6 +365,11 @@
                   </div>
                 </div>
                 <div class="col-12">
+                  <div class="mt-1 mb-4">
+                    <p class="text-xs text-gray-500">Este número será utilizado apenas para que os profissionais, clínicas e consultórios possam entrar em contato com você.</p>
+                  </div>
+                </div>
+                <div class="col-12">
                   <div class="text-center mt-2 d-grid w-full">
                     <button type="submit" class="cta-btn-primary mb-3 me-2">Salvar alterações</button>
                   </div>
@@ -376,7 +381,42 @@
       </div>
     </div>
 
-
+    <!-- modal alterar e-mail -->
+    <div class="modal fade" id="modalUpdateEmail" tabindex="-1" aria-labelledby="modalUpdateEmailLabel" data-bs-backdrop="static" aria-modal="true" [attr.inert]="isModalFechado ? true : null">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalUpdateEmailLabel">Editar e-mail</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="formUpdateEmail" #formDirective="ngForm" (ngSubmit)="onclick_AlterarEmail(formDirective)">
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="email" placeholder="Novo e-mail" formControlName="email">
+                    <label for="email">Novo e-mail *</label>
+                    <app-display-validation-errors [control]="formUpdateEmail.controls.email" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="confirmEmail" placeholder="Confirme seu novo e-mail" formControlName="confirmEmail">
+                    <label for="confirmEmail">Confirme seu novo e-mail *</label>
+                    <app-display-validation-errors [control]="formUpdateEmail.controls.confirmEmail" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="text-center mt-2 d-grid w-full">
+                    <button type="submit" class="cta-btn-primary mb-3 me-2" [disabled]="!formUpdateEmail.valid">Salvar alterações</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 </section>

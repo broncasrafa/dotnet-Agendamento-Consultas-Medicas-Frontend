@@ -6,6 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { Modal } from 'bootstrap';
 import { NgxMaskDirective } from 'ngx-mask';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { AccountService } from 'src/app/core/services/account.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { PacienteService } from 'src/app/core/services/paciente.service';
 import { ConvenioMedicoService } from 'src/app/core/services/convenio-medico.service';
@@ -16,13 +17,14 @@ import { CpfFormattedPipe } from 'src/app/shared/pipes/cpf-formatted.pipe';
 import { DateFormattedPipe } from 'src/app/shared/pipes/date-formatted.pipe';
 import { TelefoneFormattedPipe } from 'src/app/shared/pipes/telefone-formatted.pipe';
 import { DisplayValidationErrorsComponent } from 'src/app/shared/components/display-validation-errors/display-validation-errors.component';
-
-import * as bootstrap from 'bootstrap';
 import { CreatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/CreatePacientePlanoMedicoRequest';
 import { UpdatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/UpdatePacientePlanoMedicoRequest';
 import { DeletePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/DeletePacientePlanoMedicoRequest';
-import { dateOfBirthFormatValidator, fullNameValidator, phoneNumberValidator } from 'src/app/core/utils/form-validators.util';
 import { UpdatePacienteRequest } from 'src/app/core/models/paciente/request/UpdatePacienteRequest';
+import { UpdateAuthenticatedUserInfoRequest } from 'src/app/core/models/account/request/UpdateAuthenticatedUserInfoRequest';
+import { dateOfBirthFormatValidator, fullNameValidator, matchEmailsValidator, phoneNumberValidator } from 'src/app/core/utils/form-validators.util';
+
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-dados-conta-paciente',
@@ -49,6 +51,7 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   private activatedRoute = inject(ActivatedRoute);
   private authService = inject(AuthenticationService);
+  private accountService = inject(AccountService);
   private notificationService = inject(NotificationService);
   private pacienteService = inject(PacienteService);
   private convenioMedicoService = inject(ConvenioMedicoService);
@@ -83,6 +86,12 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
     dataNascimento: ['', [Validators.required, dateOfBirthFormatValidator(false)]],
     email: ['', [Validators.required]],
   });
+
+  formUpdateEmail = this.formBuilder.group({
+    pacienteId: [0, [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
+    confirmEmail: ['', [Validators.required]]
+  }, { validators: matchEmailsValidator });
 
   constructor() {
     this.obterDadosPaciente();
@@ -119,6 +128,7 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.paciente = response!;
           this.formAddConvenioMedico.controls.pacienteId.setValue(this.paciente.id);
+          this.formUpdateEmail.controls.pacienteId.setValue(this.paciente.id);
         },
         error: err => this.notificationService.showHttpResponseErrorNotification(err)
       });
@@ -165,6 +175,39 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
   }
   onclick_AlterarSenha() {
 
+  }
+
+  onclick_ShowModalAlterarEmail() {
+    this.abrirModal('modalUpdateEmail');
+  }
+  onclick_AlterarEmail(formDirective: FormGroupDirective) {
+    console.log(this.formUpdateEmail.controls)
+    console.log(this.formUpdateEmail.value.pacienteId)
+    console.log(this.formUpdateEmail.value.email)
+    if (this.formUpdateEmail.valid) {
+
+      const userLogged = this.authService.getUserInfo();
+
+      const request = {
+        nomeCompleto: this.paciente.nome,
+        telefone: this.paciente.telefone,
+        email: this.formUpdateEmail.value.email,
+        username: userLogged.username
+      } as UpdateAuthenticatedUserInfoRequest;
+
+      this.accountService.updateUserLoggedInfo(request)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            this.fecharModal('modalUpdateEmail');
+            this.notificationService.showSuccessNotification('Alteração', 'E-mail alterado com sucesso');
+            this.obterDadosPaciente();
+            this.authService.logout();
+            this.router.navigate(['/login']);
+          },
+          error: err => this.notificationService.showHttpResponseErrorNotification(err)
+        });
+    }
   }
 
   onclick_ShowModalAlterarDadosPaciente() {

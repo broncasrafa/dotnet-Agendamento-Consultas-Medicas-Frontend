@@ -15,6 +15,7 @@
   <div *ngIf="control.errors?.dateFormatInvalid"><small>Data em formato invalido.</small></div>
   <div *ngIf="control.errors?.passwordInvalid"><small>A senha deve ter pelo menos 5 caracteres, 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial.</small></div>
   <div *ngIf="control.errors?.passwordsDontMatch"><small>As senhas não coincidem.</small></div>
+  <div *ngIf="control.errors?.emailsDontMatch"><small>Os e-mails não coincidem.</small></div>
   <div *ngIf="control.errors?.allDigitsEqual"><small>Você não pode cadastrar números iguais.</small></div>
   <div *ngIf="control.errors?.email"><small>O e-mail informado não é válido.</small></div>
   <div *ngIf="control.errors?.invalidPhoneLength"><small>O telefone deve ter 10 ou 11 dígitos.</small></div>
