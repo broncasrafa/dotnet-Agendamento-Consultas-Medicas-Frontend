@@ -10,6 +10,7 @@ import { PacientePlanoMedicoResponse } from 'src/app/core/models/paciente/respon
 import { CreatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/CreatePacientePlanoMedicoRequest';
 import { UpdatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/UpdatePacientePlanoMedicoRequest';
 import { DeletePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/DeletePacientePlanoMedicoRequest';
+import { UpdatePacienteRequest } from 'src/app/core/models/paciente/request/UpdatePacienteRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,13 @@ export class PacienteService {
     return this.http.get<ApiResponse<PacienteResponse>>(`${this.base_api_url}/${id}`, { responseType: 'json' })
       .pipe(map(response => response.data));
   }
+
+  updatePacienteById(pacienteid: number, request: UpdatePacienteRequest): Observable<boolean> {
+    return this.http.put<ApiResponse<boolean>>(`${this.base_api_url}/${pacienteid}`, request)
+      .pipe(map(response => response.data!));
+  }
+
+
 
   getHistoricoAgendamentosPaciente(id: Number): Observable<AgendamentoResponse[]> {
     return this.http.get<ApiResponse<PacienteResultListResponse<AgendamentoResponse>>>(`${this.base_api_url}/${id}/agendamentos`, { responseType: 'json' })

@@ -21,6 +21,8 @@ import * as bootstrap from 'bootstrap';
 import { CreatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/CreatePacientePlanoMedicoRequest';
 import { UpdatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/UpdatePacientePlanoMedicoRequest';
 import { DeletePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/DeletePacientePlanoMedicoRequest';
+import { dateOfBirthFormatValidator, fullNameValidator, phoneNumberValidator } from 'src/app/core/utils/form-validators.util';
+import { UpdatePacienteRequest } from 'src/app/core/models/paciente/request/UpdatePacienteRequest';
 
 @Component({
   selector: 'app-dados-conta-paciente',
@@ -54,6 +56,7 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
   modalInstance?: Modal | null;
   paciente: PacienteResponse;
   conveniosMedicos: ConvenioMedicoResponse[] = [];
+  isModalFechado = false;
   dadosModal: any; // Variável para armazenar os dados do modal
   pacienteId: number;
   planoMedicoId: number;
@@ -70,6 +73,15 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
     planoMedicoId: [0, [Validators.required]],
     nomePlano: ['', [Validators.required]],
     numeroCarteirinha: ['', [Validators.required]],
+  });
+
+  formUpdatePaciente = this.formBuilder.group({
+    pacienteId: [0, [Validators.required]],
+    nomeCompleto: ['', [Validators.required, fullNameValidator]],
+    genero: ['', [Validators.required]],
+    telefone: ['', [Validators.required, phoneNumberValidator]],
+    dataNascimento: ['', [Validators.required, dateOfBirthFormatValidator(false)]],
+    email: ['', [Validators.required]],
   });
 
   constructor() {
@@ -132,6 +144,7 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
     if (modalElement) {
       this.modalInstance = new Modal(modalElement);
       this.modalInstance.show();
+      this.isModalFechado = false;
     }
   }
 
@@ -140,6 +153,8 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
     if (modalElement && this.modalInstance) {
       this.dadosModal = null;
       this.modalInstance.hide();
+      this.isModalFechado = true;
+      document.body.focus();
       this.modalInstance = null; // Reseta a instância do modal
     }
   }
@@ -153,10 +168,31 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
   }
 
   onclick_ShowModalAlterarDadosPaciente() {
-
+    this.formUpdatePaciente.controls.pacienteId.setValue(this.paciente.id);
+    this.formUpdatePaciente.controls.nomeCompleto.setValue(this.paciente.nome);
+    this.formUpdatePaciente.controls.email.setValue(this.paciente.email);
+    this.formUpdatePaciente.controls.telefone.setValue(this.paciente.telefone);
+    this.formUpdatePaciente.controls.genero.setValue(this.paciente.genero);
+    this.formUpdatePaciente.controls.dataNascimento.setValue(AppUtils.convertDateToLocaleDate(this.paciente.dataNascimento));
+    this.abrirModal('modalUpdatePaciente');
   }
-  onclick_AlterarDadosPaciente() {
+  onclick_AlterarDadosPaciente(formDirective: FormGroupDirective) {
+    if (this.formUpdatePaciente.valid) {
+      const request = this.formUpdatePaciente.value as UpdatePacienteRequest;
+      request.dataNascimento = AppUtils.convertToDateFormat(request.dataNascimento.replace('/','').replace('/',''));
 
+      this.pacienteService.updatePacienteById(request.pacienteId, request)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            this.fecharModal('modalUpdatePaciente');
+            this.notificationService.showSuccessNotification('Alteração', 'Dados alterado com sucesso');
+            this.obterDadosPaciente();
+          },
+          error: err => this.notificationService.showHttpResponseErrorNotification(err)
+        });
+
+    }
   }
 
   onclick_ShowModalAdicionarConvenioMedico() {

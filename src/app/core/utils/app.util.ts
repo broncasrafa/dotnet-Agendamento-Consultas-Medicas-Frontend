@@ -61,10 +61,15 @@ export class AppUtils {
   }
 
   /**
-   * Formatar por extenso a data
-   * @param dataString data no formato "yyyy-MM-dd"
+   * Converter data json 'yyyy-MM-dd' para locale date 'dd/MM/yyyy'
+   * @param dateJson data no formato "yyyy-MM-dd"
    * @returns a data formatada por extenso
    */
+  public static convertDateToLocaleDate(dateJson: string) {
+    const [ano, mes, dia] = dateJson.split('T')[0].split('-').map(Number);
+    const dataFormatada = new Date(ano, mes - 1, dia).toLocaleDateString('pt-BR');
+    return dataFormatada;
+  }
 
   /**
    * Formatar por extenso a data
