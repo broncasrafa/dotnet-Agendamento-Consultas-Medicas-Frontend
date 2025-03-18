@@ -22,9 +22,10 @@ import { UpdatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/r
 import { DeletePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/DeletePacientePlanoMedicoRequest';
 import { UpdatePacienteRequest } from 'src/app/core/models/paciente/request/UpdatePacienteRequest';
 import { UpdateAuthenticatedUserInfoRequest } from 'src/app/core/models/account/request/UpdateAuthenticatedUserInfoRequest';
-import { dateOfBirthFormatValidator, fullNameValidator, matchEmailsValidator, phoneNumberValidator } from 'src/app/core/utils/form-validators.util';
+import { dateOfBirthFormatValidator, fullNameValidator, matchEmailsValidator, matchPasswordsValidator, passwordComplexityValidator, phoneNumberValidator } from 'src/app/core/utils/form-validators.util';
 
 import * as bootstrap from 'bootstrap';
+import { ChangePasswordRequest } from 'src/app/core/models/account/request/ChangePasswordRequest';
 
 @Component({
   selector: 'app-dados-conta-paciente',
@@ -93,6 +94,13 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
     confirmEmail: ['', [Validators.required]]
   }, { validators: matchEmailsValidator });
 
+  formUpdateSenha = this.formBuilder.group({
+    pacienteId: [0, [Validators.required]],
+    oldPassword: ['', [Validators.required]],
+    password: ['', [Validators.required, passwordComplexityValidator ]],
+    confirmPassword: ['', [Validators.required]]
+  }, { validators: matchPasswordsValidator });
+
   constructor() {
     this.obterDadosPaciente();
     this.obterListaConveniosMedicos();
@@ -129,6 +137,7 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
           this.paciente = response!;
           this.formAddConvenioMedico.controls.pacienteId.setValue(this.paciente.id);
           this.formUpdateEmail.controls.pacienteId.setValue(this.paciente.id);
+          this.formUpdateSenha.controls.pacienteId.setValue(this.paciente.id);
         },
         error: err => this.notificationService.showHttpResponseErrorNotification(err)
       });
@@ -171,19 +180,37 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
 
 
   onclick_ShowModalAlterarSenha() {
-
+    this.abrirModal('modalUpdateSenha')
   }
-  onclick_AlterarSenha() {
+  onclick_AlterarSenha(formDirective: FormGroupDirective) {
 
+    if (this.formUpdateSenha.valid) {
+
+      var request = {
+        newPassword: this.formUpdateSenha.value.password,
+        oldPassword: this.formUpdateSenha.value.oldPassword
+      } as ChangePasswordRequest;
+
+      this.accountService.changeUserLoggedPassword(request)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            this.fecharModal('modalUpdateSenha');
+            this.notificationService.showSuccessNotification('Alteração', 'Senha alterada com sucesso');
+            this.obterDadosPaciente();
+            this.authService.logout();
+            this.router.navigate(['/login']);
+          },
+          error: err => this.notificationService.showHttpResponseErrorNotification(err)
+        });
+    }
   }
 
   onclick_ShowModalAlterarEmail() {
     this.abrirModal('modalUpdateEmail');
   }
   onclick_AlterarEmail(formDirective: FormGroupDirective) {
-    console.log(this.formUpdateEmail.controls)
-    console.log(this.formUpdateEmail.value.pacienteId)
-    console.log(this.formUpdateEmail.value.email)
+
     if (this.formUpdateEmail.valid) {
 
       const userLogged = this.authService.getUserInfo();
