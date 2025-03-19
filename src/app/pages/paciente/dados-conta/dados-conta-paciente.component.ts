@@ -21,11 +21,9 @@ import { CreatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/r
 import { UpdatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/UpdatePacientePlanoMedicoRequest';
 import { DeletePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/DeletePacientePlanoMedicoRequest';
 import { UpdatePacienteRequest } from 'src/app/core/models/paciente/request/UpdatePacienteRequest';
+import { ChangePasswordRequest } from 'src/app/core/models/account/request/ChangePasswordRequest';
 import { UpdateAuthenticatedUserInfoRequest } from 'src/app/core/models/account/request/UpdateAuthenticatedUserInfoRequest';
 import { dateOfBirthFormatValidator, fullNameValidator, matchEmailsValidator, matchPasswordsValidator, passwordComplexityValidator, phoneNumberValidator } from 'src/app/core/utils/form-validators.util';
-
-import * as bootstrap from 'bootstrap';
-import { ChangePasswordRequest } from 'src/app/core/models/account/request/ChangePasswordRequest';
 
 @Component({
   selector: 'app-dados-conta-paciente',

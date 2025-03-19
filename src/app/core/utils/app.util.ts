@@ -163,4 +163,31 @@ export class AppUtils {
     return [...lista].sort((a, b) => (a[campoCriterio] > b[campoCriterio] ? 1 : -1));
   }
 
+
+  /**
+   * Remover um item da lista pelo id
+   * @param lista lista de objetos
+   * @param removeId id para remover da lista
+   */
+  public static removerItemNaListaById(lista: any[], removeId: number) {
+    const index = lista.findIndex(item => item.id === removeId);
+    if (index !== -1) {
+      lista.splice(index, 1);
+    }
+  }
+
+
+  /**
+   * Atualizar o objeto na lista pelo id
+   * @param lista lista de objetos
+   * @param id id do objeto para atualizar
+   * @param novosDados novos dados do objeto
+   */
+  public static atualizarItemNaListaById(lista: any[], id: number, novosDados: Partial<any>) {
+    const item = lista.find(c => c.id === id);
+    if (item) {
+      Object.assign(item, novosDados);
+    }
+  }
+
 }

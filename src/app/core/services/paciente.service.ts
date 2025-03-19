@@ -7,10 +7,12 @@ import { PacienteResultListResponse } from 'src/app/core/models/paciente/respons
 import { AgendamentoResponse } from 'src/app/core/models/agendamento/response/AgendamentoResponse';
 import { PacienteResponse } from 'src/app/core/models/paciente/response/PacienteResponse';
 import { PacientePlanoMedicoResponse } from 'src/app/core/models/paciente/response/PacientePlanoMedicoResponse';
+import { PacienteDependenteResponse } from 'src/app/core/models/paciente/response/PacienteDependenteResponse';
 import { CreatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/CreatePacientePlanoMedicoRequest';
 import { UpdatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/UpdatePacientePlanoMedicoRequest';
 import { DeletePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/DeletePacientePlanoMedicoRequest';
 import { UpdatePacienteRequest } from 'src/app/core/models/paciente/request/UpdatePacienteRequest';
+import { CreatePacienteDependenteRequest } from '../models/paciente/request/CreatePacienteDependenteRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +22,7 @@ export class PacienteService {
   private readonly http = inject(HttpClient);
 
   private base_api_url = environment.api_url + '/pacientes';
+  private base_api_url_dependentes = environment.api_url + '/dependentes';
 
   getPacienteById(id: Number): Observable<PacienteResponse | undefined> {
     return this.http.get<ApiResponse<PacienteResponse>>(`${this.base_api_url}/${id}`, { responseType: 'json' })
@@ -40,6 +43,13 @@ export class PacienteService {
       );
   }
 
+  getDependentesPaciente(id: Number): Observable<PacienteDependenteResponse[]> {
+    return this.http.get<ApiResponse<PacienteResultListResponse<PacienteDependenteResponse>>>(`${this.base_api_url}/${id}/dependentes`, { responseType: 'json' })
+      .pipe(
+        map(response => response.data!.results)
+      );
+  }
+
   createPacientePlanoMedico(pacienteid: number, request: CreatePacientePlanoMedicoRequest): Observable<PacientePlanoMedicoResponse> {
     return this.http.post<ApiResponse<PacientePlanoMedicoResponse>>(`${this.base_api_url}/${pacienteid}/planos-medicos`, request)
       .pipe(map(response => response.data!));
@@ -55,6 +65,13 @@ export class PacienteService {
       body: request
     };
     return this.http.delete<ApiResponse<boolean>>(`${this.base_api_url}/${pacienteid}/planos-medicos`, options)
+      .pipe(map(response => response.data!));
+  }
+
+
+
+  createPacienteDependente(request: CreatePacienteDependenteRequest): Observable<PacienteDependenteResponse> {
+    return this.http.post<ApiResponse<PacienteDependenteResponse>>(`${this.base_api_url_dependentes}/`, request)
       .pipe(map(response => response.data!));
   }
 }

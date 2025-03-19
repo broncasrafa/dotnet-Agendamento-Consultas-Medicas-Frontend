@@ -2319,3 +2319,24 @@ section,
 .cursor-pointer {
   cursor: pointer;
 }
+
+.senha-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  z-index: 10;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.senha-toggle i {
+  font-size: 1.2rem;
+  color: #6c757d; /* Cinza padrão do Bootstrap */
+}
+
+.senha-toggle:focus {
+  outline: none;
+  box-shadow: none;
+}

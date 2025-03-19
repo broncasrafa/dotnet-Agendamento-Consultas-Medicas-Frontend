@@ -1,0 +1,160 @@
+<section class="py-3 py-md-5 py-xl-2 height-auto" *ngIf="loadDataIsReady()">
+  <div class="container">
+
+    <div class="row gy-5 gy-lg-0">
+      <div class="col-12">
+        <h1>Pacientes adicionais</h1>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <section class="py-3 py-md-5">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-12 col-sm-10 col-md-7 col-lg-6 col-xl-5 col-xxl-4">
+                <div class="card widget-card border-light shadow-sm">
+                  <div class="card-body p-4">
+                    <h5 class="card-title widget-card-title mb-4">Dados Pessoais</h5>
+                    <div class="row gy-4">
+                      <div class="col-12">
+                        <div class="mt-1 mb-4">
+                          <p class="text-xs text-gray-500">
+                            Cadastre pacientes adicionais, assim fica mais fácil na hora de agendar suas consultas.
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="mt-1 mb-4">
+                          <h6 class="text-center is-link" (click)="onclick_ShowModalAdicionarDependente()"><i class="bi bi-plus-circle"></i> Adicionar paciente</h6>
+                        </div>
+                      </div>
+
+                      <!-- lista de dependentes -->
+                       <div class="col-12" *ngFor="let dep of dependentes; let i = index;">
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="row align-items-center">
+                              <div class="col-9">
+                                <div class="d-flex align-items-center">
+                                  <div>
+                                    <h6 class="m-0">{{dep.nome}}</h6>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-3">
+                                <h6 class="text-end">
+                                  <i class="bi bi-pencil mx-2 px-1 cursor-pointer" (click)="onclick_editarDadosDependente(dep.id)"></i>
+                                  <i class="bi bi-trash mx-2 cursor-pointer" (click)="onclick_ShowModalRemoverDadosDependente(dep.id)"></i>
+                                </h6>
+                              </div>
+                              <div class="col-12">
+                                <div>
+                                  <p class="text-xs text-gray-500">
+                                    {{ dep.dataNascimento | dateFormatted}} - {{ dep.dataNascimento | idadeFormatted}}
+                                    <br />
+                                    {{ dep.telefone | telefoneFormatted }}
+                                    <br />
+                                    @if (!isNullOrUndefined(dep.planosMedicos)) {
+                                      {{ formatPlanosMedicos(dep.planosMedicos)}}
+                                    }
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <hr />
+                        </div>
+                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+
+    <!-- modal adicionar dependente -->
+    <div class="modal fade" id="modalAddDependente" tabindex="-1" aria-labelledby="modalAddDependenteLabel" data-bs-backdrop="static" aria-modal="true" [attr.inert]="isModalFechado ? true : null">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalAddConveniosLabel">Novo paciente</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="formAddDependente" #formDirective="ngForm" (ngSubmit)="onclick_AdicionarDependente(formDirective)">
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nomeCompleto" placeholder="Digite o nome do completo *" formControlName="nomeCompleto">
+                    <label for="nomeCompleto">Nome completo *</label>
+                    <app-display-validation-errors [control]="formAddDependente.controls.nomeCompleto" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="email" placeholder="Novo e-mail" formControlName="email">
+                    <label for="email">Novo e-mail *</label>
+                    <app-display-validation-errors [control]="formAddDependente.controls.email" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <select class="form-select" id="genero" aria-label="genero" formControlName="genero">
+                      <option value="" selected>Selecione...</option>
+                      <option value="Masculino" selected>Masculino</option>
+                      <option value="Feminino" selected>Feminino</option>
+                    </select>
+                    <label for="genero">Sexo *</label>
+                    <app-display-validation-errors [control]="formAddDependente.controls.genero" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="cpf" id="cpf" placeholder="Digite seu CPF" mask="000.000.000-00"
+                    [showMaskTyped]="true" pattern="[0-9]*" inputmode="numeric">
+                    <label for="cpf" class="form-label">CPF*</label>
+                    <app-display-validation-errors [control]="formAddDependente.controls.cpf" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="telefone" placeholder="Digite o nº do telefone *" formControlName="telefone"
+                      mask="(00) 00000-0000" pattern="[0-9]*" inputmode="numeric">
+                    <label for="telefone">Telefone *</label>
+                    <app-display-validation-errors [control]="formAddDependente.controls.telefone" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="dataNascimento" placeholder="Digite a data de nascimento *" formControlName="dataNascimento"
+                      mask="00/00/0000" [showMaskTyped]="true" inputmode="numeric">
+                    <label for="dataNascimento">Data de Nascimento *</label>
+                    <app-display-validation-errors [control]="formAddDependente.controls.dataNascimento" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="text-center mt-2 d-grid w-full">
+                    <button type="submit" class="cta-btn-primary mb-3 me-2" [disabled]="!formAddDependente.valid">Cadastrar novo paciente</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+  </div>
+</section>
+
