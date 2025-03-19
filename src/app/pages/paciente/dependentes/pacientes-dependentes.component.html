@@ -150,7 +150,30 @@
       </div>
     </div>
 
-
+    <!-- modal remover plano medico -->
+    <div class="modal fade" id="modalDeleteDependente" tabindex="-1" aria-labelledby="modalDeleteDependenteLabel" data-bs-backdrop="static" aria-modal="true" [attr.inert]="isModalFechado ? true : null">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalDeleteDependenteLabel">Remover paciente dependente</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <p>Deseja realmente remover esse paciente dependente?</p>
+              </div>
+              <div class="col-12">
+                <div class="text-end mt-2 w-full">
+                  <button type="submit" class="cta-btn-primary mb-3 me-2" (click)="onclick_RemoverDadosDependente(dependenteId)">Remover paciente dependente</button>
+                  <button type="submit" class="cta-btn-danger mb-3 me-2" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
 

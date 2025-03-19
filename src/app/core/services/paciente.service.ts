@@ -12,7 +12,8 @@ import { CreatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/r
 import { UpdatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/UpdatePacientePlanoMedicoRequest';
 import { DeletePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/DeletePacientePlanoMedicoRequest';
 import { UpdatePacienteRequest } from 'src/app/core/models/paciente/request/UpdatePacienteRequest';
-import { CreatePacienteDependenteRequest } from '../models/paciente/request/CreatePacienteDependenteRequest';
+import { CreatePacienteDependenteRequest } from 'src/app/core/models/paciente/request/CreatePacienteDependenteRequest';
+import { DeletePacienteDependenteRequest } from 'src/app/core/models/paciente/request/DeletePacienteDependenteRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -72,6 +73,14 @@ export class PacienteService {
 
   createPacienteDependente(request: CreatePacienteDependenteRequest): Observable<PacienteDependenteResponse> {
     return this.http.post<ApiResponse<PacienteDependenteResponse>>(`${this.base_api_url_dependentes}/`, request)
+      .pipe(map(response => response.data!));
+  }
+
+  deletePacienteDependente(request: DeletePacienteDependenteRequest): Observable<boolean> {
+    const options = {
+      body: request
+    };
+    return this.http.delete<ApiResponse<boolean>>(`${this.base_api_url_dependentes}/`, options)
       .pipe(map(response => response.data!));
   }
 }

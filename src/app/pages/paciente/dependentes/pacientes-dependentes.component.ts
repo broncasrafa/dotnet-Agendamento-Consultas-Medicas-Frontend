@@ -22,6 +22,7 @@ import { DisplayValidationErrorsComponent } from 'src/app/shared/components/disp
 import { cpfValidator, dateOfBirthFormatValidator, fullNameValidator, matchEmailsValidator, matchPasswordsValidator, passwordComplexityValidator, phoneNumberValidator } from 'src/app/core/utils/form-validators.util';
 import { PlanosMedicoResponse } from 'src/app/core/models/paciente/response/PlanosMedicoResponse';
 import { CreatePacienteDependenteRequest } from 'src/app/core/models/paciente/request/CreatePacienteDependenteRequest';
+import { DeletePacienteDependenteRequest } from 'src/app/core/models/paciente/request/DeletePacienteDependenteRequest';
 
 @Component({
   selector: 'app-pacientes-dependentes',
@@ -60,7 +61,7 @@ export class PacientesDependentesComponent implements OnInit, OnDestroy {
   dependentes: PacienteDependenteResponse[]=[];
   conveniosMedicos: ConvenioMedicoResponse[] = [];
   pacienteId: number;
-  planoMedicoId: number;
+  dependenteId: number;
 
 
   formAddDependente = this.formBuilder.group({
@@ -142,9 +143,26 @@ export class PacientesDependentesComponent implements OnInit, OnDestroy {
   }
 
   onclick_ShowModalRemoverDadosDependente(dependenteId: number) {
+    this.dependenteId = dependenteId;
     this.modalService.abrirModal('modalDeleteDependente');
   }
   onclick_RemoverDadosDependente(dependenteId: number) {
+    const request = {
+      dependenteId: dependenteId,
+      pacientePrincipalId: this.pacienteId
+    } as DeletePacienteDependenteRequest;
 
+    this.pacienteService.deletePacienteDependente(request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (!AppUtils.isNullOrUndefined(response) && response) {
+            AppUtils.removerItemNaListaById(this.dependentes, dependenteId);
+            this.modalService.fecharModal('modalDeleteDependente');
+            this.notificationService.showSuccessNotification('Deletar', 'Dependente removido com sucesso');
+          }
+        },
+        error: err => this.notificationService.showHttpResponseErrorNotification(err)
+      })
   }
 }
