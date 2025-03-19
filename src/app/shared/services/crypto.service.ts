@@ -10,15 +10,32 @@ export class CryptoService {
 
   constructor() { }
 
+  /**
+   * Função para criptografar e tornar seguro para URL
+   * @param dados objeto para criptografar
+   * @returns string criptografada
+   */
   criptografar(dados: any): string {
-    const dadosString = JSON.stringify(dados);
-    return CryptoJS.AES.encrypt(dadosString, this.secretKey).toString();
+    const jsonString = JSON.stringify(dados); // Converte o objeto para string JSON
+    const encrypted = CryptoJS.AES.encrypt(jsonString, this.secretKey).toString();
+    return btoa(encrypted) // Converte para Base64
+      .replace(/\+/g, '-') // Substitui + por -
+      .replace(/\//g, '_') // Substitui / por _
+      .replace(/=+$/, ''); // Remove = para evitar problemas na URL
   }
 
+  /**
+   * Função para descriptografar um objeto
+   * @param dadosCriptografados string criptografada
+   * @returns objeto descriptografado
+   */
   descriptografar(dadosCriptografados: string): any {
     try {
-      const bytes = CryptoJS.AES.decrypt(dadosCriptografados, this.secretKey);
-      return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+      const base64 = dadosCriptografados
+        .replace(/-/g, '+')
+        .replace(/_/g, '/'); // Restaura os caracteres removidos para URL
+      const decrypted = CryptoJS.AES.decrypt(atob(base64), this.secretKey).toString(CryptoJS.enc.Utf8);
+      return JSON.parse(decrypted); // Converte de volta para objeto JSON
     } catch (e) {
       console.error('Erro ao descriptografar:', e);
       return null;

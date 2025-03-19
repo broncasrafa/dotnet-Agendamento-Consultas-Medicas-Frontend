@@ -3,5 +3,6 @@ export class PlanosMedicoResponse {
   nomePlano: string
   numCartao: string
   convenioMedico: string
+  convenioMedicoId?: number
   ativo: boolean
 }

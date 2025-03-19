@@ -77,8 +77,13 @@ export const routes: Routes = [
         canActivate: [authGuard]
       },
       {
-        path: 'paciente/dependentes',
+        path: 'paciente/dependente',
         loadComponent: () => import('./pages/paciente/dependentes/pacientes-dependentes.component').then(c => c.PacientesDependentesComponent),
+        canActivate: [authGuard]
+      },
+      {
+        path: 'paciente/dependente/:id',
+        loadComponent: () => import('./pages/paciente/dependentes-detalhes/pacientes-dependentes-detalhes.component').then(c => c.PacientesDependentesDetalhesComponent),
         canActivate: [authGuard]
       }
     ]

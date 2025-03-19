@@ -12,8 +12,6 @@ import { CreatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/r
 import { UpdatePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/UpdatePacientePlanoMedicoRequest';
 import { DeletePacientePlanoMedicoRequest } from 'src/app/core/models/paciente/request/DeletePacientePlanoMedicoRequest';
 import { UpdatePacienteRequest } from 'src/app/core/models/paciente/request/UpdatePacienteRequest';
-import { CreatePacienteDependenteRequest } from 'src/app/core/models/paciente/request/CreatePacienteDependenteRequest';
-import { DeletePacienteDependenteRequest } from 'src/app/core/models/paciente/request/DeletePacienteDependenteRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +21,6 @@ export class PacienteService {
   private readonly http = inject(HttpClient);
 
   private base_api_url = environment.api_url + '/pacientes';
-  private base_api_url_dependentes = environment.api_url + '/dependentes';
 
   getPacienteById(id: Number): Observable<PacienteResponse | undefined> {
     return this.http.get<ApiResponse<PacienteResponse>>(`${this.base_api_url}/${id}`, { responseType: 'json' })
@@ -34,8 +31,6 @@ export class PacienteService {
     return this.http.put<ApiResponse<boolean>>(`${this.base_api_url}/${pacienteid}`, request)
       .pipe(map(response => response.data!));
   }
-
-
 
   getHistoricoAgendamentosPaciente(id: Number): Observable<AgendamentoResponse[]> {
     return this.http.get<ApiResponse<PacienteResultListResponse<AgendamentoResponse>>>(`${this.base_api_url}/${id}/agendamentos`, { responseType: 'json' })
@@ -66,21 +61,6 @@ export class PacienteService {
       body: request
     };
     return this.http.delete<ApiResponse<boolean>>(`${this.base_api_url}/${pacienteid}/planos-medicos`, options)
-      .pipe(map(response => response.data!));
-  }
-
-
-
-  createPacienteDependente(request: CreatePacienteDependenteRequest): Observable<PacienteDependenteResponse> {
-    return this.http.post<ApiResponse<PacienteDependenteResponse>>(`${this.base_api_url_dependentes}/`, request)
-      .pipe(map(response => response.data!));
-  }
-
-  deletePacienteDependente(request: DeletePacienteDependenteRequest): Observable<boolean> {
-    const options = {
-      body: request
-    };
-    return this.http.delete<ApiResponse<boolean>>(`${this.base_api_url_dependentes}/`, options)
       .pipe(map(response => response.data!));
   }
 }

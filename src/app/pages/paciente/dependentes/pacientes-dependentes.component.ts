@@ -1,25 +1,23 @@
-import { Component, ElementRef, inject, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators, FormGroupDirective } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
-import { Modal } from 'bootstrap';
 import { NgxMaskDirective } from 'ngx-mask';
 import { BsModalService } from 'src/app/shared/services/bs-modal.service';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
-import { AccountService } from 'src/app/core/services/account.service';
+import { CryptoService } from 'src/app/shared/services/crypto.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { PacienteService } from 'src/app/core/services/paciente.service';
-import { ConvenioMedicoService } from 'src/app/core/services/convenio-medico.service';
+import { PacienteDependenteService } from 'src/app/core/services/paciente-dependente.service';
 import { PacienteDependenteResponse } from 'src/app/core/models/paciente/response/PacienteDependenteResponse';
 import { ConvenioMedicoResponse } from 'src/app/core/models/convenio-medico/response/ConvenioMedicoResponse';
 import { AppUtils } from 'src/app/core/utils/app.util';
-import { CpfFormattedPipe } from 'src/app/shared/pipes/cpf-formatted.pipe';
 import { DateFormattedPipe } from 'src/app/shared/pipes/date-formatted.pipe';
 import { TelefoneFormattedPipe } from 'src/app/shared/pipes/telefone-formatted.pipe';
 import { IdadeFormattedPipe } from 'src/app/shared/pipes/idade-formatted.pipe';
 import { DisplayValidationErrorsComponent } from 'src/app/shared/components/display-validation-errors/display-validation-errors.component';
-import { cpfValidator, dateOfBirthFormatValidator, fullNameValidator, matchEmailsValidator, matchPasswordsValidator, passwordComplexityValidator, phoneNumberValidator } from 'src/app/core/utils/form-validators.util';
+import { cpfValidator, dateOfBirthFormatValidator, fullNameValidator, phoneNumberValidator } from 'src/app/core/utils/form-validators.util';
 import { PlanosMedicoResponse } from 'src/app/core/models/paciente/response/PlanosMedicoResponse';
 import { CreatePacienteDependenteRequest } from 'src/app/core/models/paciente/request/CreatePacienteDependenteRequest';
 import { DeletePacienteDependenteRequest } from 'src/app/core/models/paciente/request/DeletePacienteDependenteRequest';
@@ -34,7 +32,6 @@ import { DeletePacienteDependenteRequest } from 'src/app/core/models/paciente/re
     ReactiveFormsModule,
     DisplayValidationErrorsComponent,
     NgxMaskDirective,
-    CpfFormattedPipe,
     DateFormattedPipe,
     TelefoneFormattedPipe,
     IdadeFormattedPipe
@@ -48,12 +45,11 @@ export class PacientesDependentesComponent implements OnInit, OnDestroy {
 
   private router = inject(Router);
   private formBuilder = inject(FormBuilder);
-  private activatedRoute = inject(ActivatedRoute);
   private authService = inject(AuthenticationService);
-  private accountService = inject(AccountService);
   private notificationService = inject(NotificationService);
   private pacienteService = inject(PacienteService);
-  private convenioMedicoService = inject(ConvenioMedicoService);
+  private pacienteDependenteService = inject(PacienteDependenteService);
+  private cryptoService = inject(CryptoService);
   private modalService = inject(BsModalService);
 
 
@@ -125,7 +121,7 @@ export class PacientesDependentesComponent implements OnInit, OnDestroy {
       const request = this.formAddDependente.value as CreatePacienteDependenteRequest;
       request.dataNascimento = AppUtils.convertToDateFormat(request.dataNascimento.replace('/','').replace('/',''));
 
-      this.pacienteService.createPacienteDependente(request)
+      this.pacienteDependenteService.createPacienteDependente(request)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
@@ -139,7 +135,13 @@ export class PacientesDependentesComponent implements OnInit, OnDestroy {
   }
 
   onclick_editarDadosDependente(dependenteId: number) {
-
+    const id = this.cryptoService.criptografar(dependenteId);
+    const pacientePrincipalId = this.cryptoService.criptografar(this.pacienteId);
+    this.router.navigate(['/paciente/dependente/' + id], {
+      queryParams: {
+        pacientePrincipalId: pacientePrincipalId
+      }
+    });
   }
 
   onclick_ShowModalRemoverDadosDependente(dependenteId: number) {
@@ -152,7 +154,7 @@ export class PacientesDependentesComponent implements OnInit, OnDestroy {
       pacientePrincipalId: this.pacienteId
     } as DeletePacienteDependenteRequest;
 
-    this.pacienteService.deletePacienteDependente(request)
+    this.pacienteDependenteService.deletePacienteDependente(request)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {

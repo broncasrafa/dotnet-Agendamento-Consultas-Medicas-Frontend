@@ -1,0 +1,402 @@
+<section class="py-3 py-md-5 py-xl-2 height-auto" *ngIf="loadDataIsReady()">
+  <div class="container">
+
+    <div class="row gy-5 gy-lg-0">
+      <div class="col-12">
+        <h1>Dados do dependente</h1>
+      </div>
+    </div>
+
+    <!-- Dados pessoais -->
+    <div class="row">
+      <div class="col-12">
+        <section class="py-3 py-md-5">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-12 col-sm-10 col-md-7 col-lg-6 col-xl-5 col-xxl-4">
+                <div class="card widget-card border-light shadow-sm">
+                  <div class="card-body p-4">
+                    <h5 class="card-title widget-card-title mb-4">Dados pessoais</h5>
+                    <div class="row gy-4">
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0">Nome completo</h6>
+                                <p class="text-secondary m-0 fs-7">{{dependente.nome}}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end"></h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0">E-mail</h6>
+                                <p class="text-secondary m-0 fs-7">{{!isNullOrEmpty(dependente.email) ? dependente.email : 'Não informado' }}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end"></h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0">Telefone</h6>
+                                <p class="text-secondary m-0 fs-7">{{ !isNullOrEmpty(dependente.telefone) ? (dependente.telefone | telefoneFormatted) : 'Não informado' }}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end"></h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0">Sexo</h6>
+                                <p class="text-secondary m-0 fs-7">{{dependente.genero}}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end"></h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0">CPF</h6>
+                                <p class="text-secondary m-0 fs-7">{{ !isNullOrEmpty(dependente.cpf) ? (dependente.cpf | cpfFormatted) : 'Não informado' }}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end"></h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0">Nascimento</h6>
+                                <p class="text-secondary m-0 fs-7">{{dependente.dataNascimento | dateFormatted}}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end"></h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="row align-items-center is-link" (click)="onclick_ShowModalAlterarDadosPacienteDepedente()">
+                          <div class="col-8">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0 is-link">Alterar</h6>
+                                <p class="text-secondary m-0 fs-7"></p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <h6 class="text-end is-link"><i class="bi bi-arrow-right-circle"></i></h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Meus convênios -->
+    <div class="row">
+      <div class="col-12">
+        <section class="py-3">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-12 col-sm-10 col-md-7 col-lg-6 col-xl-5 col-xxl-4">
+                <div class="card widget-card border-light shadow-sm">
+                  <div class="card-body p-4">
+                    <h5 class="card-title widget-card-title mb-4">Meus convênios</h5>
+                    <div class="row gy-4 mb-5">
+                      <div class="col-12">
+                        <div class="row align-items-center">
+                          <div class="col-6">
+                            <div class="d-flex align-items-center">
+                              <div>
+                                <h6 class="m-0"></h6>
+                                <p class="text-secondary m-0 fs-7"></p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <h6 class="text-end is-link" (click)="onclick_ShowModalAdicionarConvenioMedico()"><i class="bi bi-plus-circle"></i>Adicionar convênio</h6>
+                          </div>
+                        </div>
+                      </div>
+
+                      @for(plano of dependente.planosMedicos; track plano.id; let idx = $index) {
+                        <div class="col-12">
+                          <div class="row align-items-center">
+                            <div class="col-8">
+                              <div class="d-flex align-items-center">
+                                <div>
+                                  <h6 class="m-0">{{plano.convenioMedico}}</h6>
+                                  <p class="text-secondary m-0 fs-7">
+                                    {{plano.nomePlano}}
+                                    <br />
+                                    {{plano.numCartao}}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-4">
+                              <h6 class="text-end">
+                                <i class="bi bi-pencil mx-2 px-1 cursor-pointer" (click)="onclick_ShowModalAlterarConvenioMedico(plano.id)"></i>
+                                <i class="bi bi-trash mx-2 cursor-pointer" (click)="onclick_ShowModalRemoverConvenioMedico(dependente.id, plano.id)"></i>
+                              </h6>
+                            </div>
+                          </div>
+                        </div>
+                      } @empty {
+                        <div class="col-12">
+                          <div class="mt-1 mb-4">
+                            <p class="text-xs text-gray-500">Sem convênios medicos no momento</p>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+
+
+    <!-- modal atualizar dependente -->
+    <div class="modal fade" id="modalUpdateDependente" tabindex="-1" aria-labelledby="modalUpdateDependenteLabel" data-bs-backdrop="static" aria-modal="true" [attr.inert]="isModalFechado ? true : null">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalAddConveniosLabel">Editar dados</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="formUpdateDadosDependente" #formDirective="ngForm" (ngSubmit)="onclick_AtualizarDadosDependente(formDirective)">
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nomeCompleto" placeholder="Digite o nome do completo *" formControlName="nomeCompleto">
+                    <label for="nomeCompleto">Nome completo *</label>
+                    <app-display-validation-errors [control]="formUpdateDadosDependente.controls.nomeCompleto" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="email" placeholder="Novo e-mail" formControlName="email">
+                    <label for="email">Novo e-mail *</label>
+                    <app-display-validation-errors [control]="formUpdateDadosDependente.controls.email" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <select class="form-select" id="genero" aria-label="genero" formControlName="genero">
+                      <option value="" selected>Selecione...</option>
+                      <option value="Masculino" selected>Masculino</option>
+                      <option value="Feminino" selected>Feminino</option>
+                    </select>
+                    <label for="genero">Sexo *</label>
+                    <app-display-validation-errors [control]="formUpdateDadosDependente.controls.genero" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="cpf" id="cpf" placeholder="Digite seu CPF" mask="000.000.000-00"
+                    [showMaskTyped]="true" pattern="[0-9]*" inputmode="numeric">
+                    <label for="cpf" class="form-label">CPF*</label>
+                    <app-display-validation-errors [control]="formUpdateDadosDependente.controls.cpf" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="telefone" placeholder="Digite o nº do telefone *" formControlName="telefone"
+                      mask="(00) 00000-0000" pattern="[0-9]*" inputmode="numeric">
+                    <label for="telefone">Telefone *</label>
+                    <app-display-validation-errors [control]="formUpdateDadosDependente.controls.telefone" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="dataNascimento" placeholder="Digite a data de nascimento *" formControlName="dataNascimento"
+                      mask="00/00/0000" [showMaskTyped]="true" inputmode="numeric">
+                    <label for="dataNascimento">Data de Nascimento *</label>
+                    <app-display-validation-errors [control]="formUpdateDadosDependente.controls.dataNascimento" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="mt-1 mb-4">
+                    <p class="text-xs text-gray-500">Este número será utilizado apenas para que os profissionais, clínicas e consultórios possam entrar em contato com você.</p>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="text-center mt-2 d-grid w-full">
+                    <button type="submit" class="cta-btn-primary mb-3 me-2" [disabled]="!formUpdateDadosDependente.valid">Salvar alterações</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- modal remover plano medico -->
+    <div class="modal fade" id="modalDeleteConvenios" tabindex="-1" aria-labelledby="modalDeleteConveniosLabel" data-bs-backdrop="static" aria-modal="true" [attr.inert]="isModalFechado ? true : null">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalDeleteConveniosLabel">Remover convênio</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <p>Deseja realmente remover esse Plano medico?</p>
+              </div>
+              <div class="col-12">
+                <div class="text-end mt-2 w-full">
+                  <button type="submit" class="cta-btn-primary mb-3 me-2" (click)="onclick_RemoverConvenioMedico(dependenteId, planoMedicoId)">Remover convênio</button>
+                  <button type="submit" class="cta-btn-danger mb-3 me-2" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- modal adicionar convenio medico -->
+    <div class="modal fade" id="modalAddConvenios" tabindex="-1" aria-labelledby="modalAddConveniosLabel" data-bs-backdrop="static" aria-modal="true" [attr.inert]="isModalFechado ? true : null">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalAddConveniosLabel">Novo convênio</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="formAddConvenioMedico" #formDirective="ngForm" (ngSubmit)="onclick_AdicionarConvenioMedico(formDirective)">
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <select class="form-select" id="convenioMedicoId" aria-label="convenioMedicoId" formControlName="convenioMedicoId">
+                      <option value="" selected>Selecione...</option>
+                      <option value="{{item.id}}" *ngFor="let item of conveniosMedicos; let i = index;">{{item.nome}}</option>
+                    </select>
+                    <label for="convenioMedicoId">Convênio médico *</label>
+                    <app-display-validation-errors [control]="formAddConvenioMedico.controls.convenioMedicoId" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nomePlano" placeholder="Digite o nome do plano *" formControlName="nomePlano">
+                    <label for="nomePlano">Plano *</label>
+                    <app-display-validation-errors [control]="formAddConvenioMedico.controls.nomePlano" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="numCartao" placeholder="Digite o nº da carteirinha *" formControlName="numCartao">
+                    <label for="numCartao">Número da carteirinha *</label>
+                    <app-display-validation-errors [control]="formAddConvenioMedico.controls.numCartao" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="text-center mt-2 d-grid w-full">
+                    <button type="submit" class="cta-btn-primary mb-3 me-2" [disabled]="!formAddConvenioMedico.valid">Cadastrar novo convênio</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- modal alterar plano medico -->
+    <div class="modal fade" id="modalUpdateConvenios" tabindex="-1" aria-labelledby="modalUpdateConveniosLabel" data-bs-backdrop="static" aria-modal="true" [attr.inert]="isModalFechado ? true : null">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalUpdateConveniosLabel">Editar convênio</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="formUpdateConvenioMedico" #formDirective="ngForm" (ngSubmit)="onclick_AlterarConvenioMedico(formDirective)">
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <select class="form-select" id="convenioMedicoId" aria-label="convenioMedicoId" formControlName="convenioMedicoId">
+                      <option value="" selected>Selecione...</option>
+                      <option value="{{item.id}}" *ngFor="let item of conveniosMedicos; let i = index;">{{item.nome}}</option>
+                    </select>
+                    <label for="convenioMedicoId">Convênio médico *</label>
+                    <app-display-validation-errors [control]="formUpdateConvenioMedico.controls.convenioMedicoId" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nomePlano" placeholder="Digite o nome do plano *" formControlName="nomePlano">
+                    <label for="nomePlano">Plano *</label>
+                    <app-display-validation-errors [control]="formUpdateConvenioMedico.controls.nomePlano" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="numeroCarteirinha" placeholder="Digite o nº da carteirinha *" formControlName="numeroCarteirinha">
+                    <label for="numeroCarteirinha">Número da carteirinha *</label>
+                    <app-display-validation-errors [control]="formUpdateConvenioMedico.controls.numeroCarteirinha" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="text-center mt-2 d-grid w-full">
+                    <button type="submit" class="cta-btn-primary mb-3 me-2" [disabled]="!formUpdateConvenioMedico.valid">Salvar alterações</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
