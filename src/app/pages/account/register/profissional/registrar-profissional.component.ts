@@ -48,6 +48,9 @@ export class RegistrarProfissionalComponent implements OnInit, OnDestroy {
 
   especialidades: EspecialidadeResponse[] = [];
 
+  mostrarSenha = false;
+  mostrarSenhaConfirm = false;
+
   signupForm = this.formBuilder.group({
     nomeCompleto: ['', [Validators.required, fullNameValidator]],
     username: ['', [Validators.required, Validators.minLength(6)]],

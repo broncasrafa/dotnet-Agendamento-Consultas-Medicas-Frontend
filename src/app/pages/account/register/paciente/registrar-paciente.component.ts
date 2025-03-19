@@ -17,11 +17,13 @@ import {
   phoneNumberValidator
 } from 'src/app/core/utils/form-validators.util';
 import { AppUtils } from 'src/app/core/utils/app.util';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-registrar-paciente',
   standalone: true,
   imports: [
+    CommonModule,
     RouterModule,
     RouterLink,
     FormsModule,
@@ -42,6 +44,9 @@ export class RegistrarPacienteComponent implements OnDestroy {
   private router = inject(Router);
   private accountService = inject(AccountService);
   private notificationService = inject(NotificationService);
+
+  mostrarSenha = false;
+  mostrarSenhaConfirm = false;
 
   signupForm = this.formBuilder.group({
     nomeCompleto: ['', [Validators.required, fullNameValidator]],

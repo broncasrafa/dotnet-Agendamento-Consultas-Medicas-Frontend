@@ -8,11 +8,13 @@ import { AuthenticatedUserResponse } from 'src/app/core/models/account/response/
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { LoginRequest } from 'src/app/core/models/account/request/LoginRequest';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    CommonModule,
     RouterModule,
     RouterLink,
     FormsModule,
@@ -30,6 +32,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private authService = inject(AuthenticationService);
   private notificationService = inject(NotificationService);
+
+  mostrarSenha = false;
 
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],

@@ -431,23 +431,35 @@
               <div class="row">
                 <div class="col-12">
                   <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="oldPassword" placeholder="Senha atual" formControlName="oldPassword">
+                    <input class="form-control" id="oldPassword" placeholder="Senha atual" formControlName="oldPassword"
+                      [type]="mostrarSenhaOld ? 'text' : 'password'" >
                     <label for="oldPassword">Senha atual *</label>
                     <app-display-validation-errors [control]="formUpdateSenha.controls.oldPassword" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                    <button type="button" class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-3" (click)="mostrarSenhaOld = !mostrarSenhaOld">
+                      <i class="bi fs-17" [ngClass]="mostrarSenhaOld ? 'bi-eye-slash' : 'bi-eye'"></i>
+                    </button>
                   </div>
                 </div>
                 <div class="col-12">
                   <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="password" placeholder="Nova senha" formControlName="password">
+                    <input class="form-control" id="password" placeholder="Nova senha" formControlName="password"
+                      [type]="mostrarSenhaNew ? 'text' : 'password'">
                     <label for="password">Nova senha *</label>
                     <app-display-validation-errors [control]="formUpdateSenha.controls.password" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                    <button type="button" class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-3" (click)="mostrarSenhaNew = !mostrarSenhaNew">
+                      <i class="bi fs-17" [ngClass]="mostrarSenhaNew ? 'bi-eye-slash' : 'bi-eye'"></i>
+                    </button>
                   </div>
                 </div>
                 <div class="col-12">
                   <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirme sua nova senha" formControlName="confirmPassword">
+                    <input class="form-control" id="confirmPassword" placeholder="Confirme sua nova senha" formControlName="confirmPassword"
+                      [type]="mostrarSenhaNewConfirm ? 'text' : 'password'">
                     <label for="confirmPassword">Confirme sua nova senha *</label>
                     <app-display-validation-errors [control]="formUpdateSenha.controls.confirmPassword" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                    <button type="button" class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-3" (click)="mostrarSenhaNewConfirm = !mostrarSenhaNewConfirm">
+                      <i class="bi fs-17" [ngClass]="mostrarSenhaNewConfirm ? 'bi-eye-slash' : 'bi-eye'"></i>
+                    </button>
                   </div>
                 </div>
                 <div class="col-12">

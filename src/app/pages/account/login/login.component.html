@@ -27,9 +27,13 @@
                 </div>
                 <div class="col-12">
                   <div class="form-floating mb-3">
-                    <input type="password" class="form-control" formControlName="password" id="password" placeholder="Digite sua senha">
+                    <input class="form-control" formControlName="password" id="password" placeholder="Digite sua senha"
+                      [type]="mostrarSenha ? 'text' : 'password'">
                     <label for="password" class="form-label">Senha *</label>
                     <app-display-validation-errors [control]="loginForm.controls.password" [formGroupDirective]="formDirective"></app-display-validation-errors>
+                    <button type="button" class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-3" (click)="mostrarSenha = !mostrarSenha">
+                      <i class="bi fs-17" [ngClass]="mostrarSenha ? 'bi-eye-slash' : 'bi-eye'"></i>
+                    </button>
                   </div>
                 </div>
                 <div class="col-12">

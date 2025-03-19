@@ -64,6 +64,9 @@ export class DadosContaPacienteComponent implements OnInit, OnDestroy {
   dadosModal: any; // Variável para armazenar os dados do modal
   pacienteId: number;
   planoMedicoId: number;
+  mostrarSenhaOld = false;
+  mostrarSenhaNew = false;
+  mostrarSenhaNewConfirm = false;
 
   formAddConvenioMedico = this.formBuilder.group({
     pacienteId: [0, [Validators.required]],
