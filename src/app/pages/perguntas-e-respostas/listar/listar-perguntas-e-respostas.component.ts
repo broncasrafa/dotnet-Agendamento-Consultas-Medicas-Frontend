@@ -9,6 +9,7 @@ import { PerguntaResponse } from 'src/app/core/models/perguntas-respostas/respon
 import { EspecialidadeResponse } from 'src/app/core/models/especialidade/response/EspecialidadeResponse';
 import { PerguntasRespostasService } from 'src/app/core/services/perguntas-respostas.service';
 import { CreatePerguntaRequest } from 'src/app/core/models/perguntas-respostas/request/CreatePerguntaRequest';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { EspecialidadeService } from 'src/app/core/services/especialidade.service';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
@@ -38,6 +39,7 @@ export class PerguntasERespostasListarComponent implements OnInit, OnDestroy {
   private perguntaRespostaService = inject(PerguntasRespostasService);
   private especialidadeService = inject(EspecialidadeService);
   private authService = inject(AuthenticationService);
+  private loadingService = inject(LoadingService);
 
   perguntasList: PerguntaResponse[] = [];
   especialidades: EspecialidadeResponse[] = [];
@@ -50,13 +52,13 @@ export class PerguntasERespostasListarComponent implements OnInit, OnDestroy {
     termosUsoPolitica: [false, [Validators.required, checkboxRequiredValidator]]
   });
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor() {
     this.getPerguntasList();
     this.getEspecialidadesList();
   }
 
+  ngOnInit(): void {
+  }
 
   getPerguntasList(page: number = 1, pageSize: number = 20) {
     this.perguntaRespostaService.getPerguntasPaged(page, pageSize)

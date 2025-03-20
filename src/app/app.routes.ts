@@ -85,7 +85,17 @@ export const routes: Routes = [
         path: 'paciente/dependente/:id',
         loadComponent: () => import('./pages/paciente/dependentes-detalhes/pacientes-dependentes-detalhes.component').then(c => c.PacientesDependentesDetalhesComponent),
         canActivate: [authGuard]
-      }
+      },
+      {
+        path: 'paciente/painel',
+        loadComponent: () => import('./pages/paciente/painel/painel-paciente.component').then(c => c.PainelPacienteComponent),
+        canActivate: [authGuard]
+      },
+      {
+        path: 'paciente/favoritos',
+        loadComponent: () => import('./pages/paciente/favoritos/favoritos-paciente.component').then(c => c.FavoritosPacienteComponent),
+        canActivate: [authGuard]
+      },
     ]
   },
 

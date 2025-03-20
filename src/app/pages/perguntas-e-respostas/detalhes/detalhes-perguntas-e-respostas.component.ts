@@ -29,10 +29,10 @@ export class PerguntasERespostasDetalhesComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.perguntaId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.getPerguntaDetalhes();
   }
 
   ngOnInit(): void {
-    this.getPerguntaDetalhes();
   }
 
   ngOnDestroy(): void {
