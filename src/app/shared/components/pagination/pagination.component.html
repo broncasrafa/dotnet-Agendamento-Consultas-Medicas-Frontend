@@ -1,0 +1,27 @@
+<div class="d-flex justify-content-end align-items-center fs-9">
+  <!-- Dropdown de Itens por Página -->
+  <div class="d-flex align-items-center px-1">
+    <span class="me-2">Itens por página:</span>
+    <select class="form-select w-auto" [(ngModel)]="itemsPerPage" (change)="changePageSize(itemsPerPage)">
+      <option *ngFor="let size of itemsPerPageOptions" [value]="size">
+        {{ size }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Informações da Paginação -->
+  <div class="px-3">
+    {{ startItem }} - {{ endItem }} de {{ totalItems }}
+  </div>
+
+  <!-- Botões de Paginação -->
+  <div class="d-flex gap-2">
+    <button class="btn btn-outline-primary" [disabled]="currentPage === 1" (click)="prevPage()">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+
+    <button class="btn btn-outline-primary" [disabled]="currentPage === totalPages" (click)="nextPage()">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+</div>
