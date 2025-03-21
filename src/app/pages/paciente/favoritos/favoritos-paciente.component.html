@@ -22,14 +22,14 @@
                       </div>
                     </div>
                     <div class="flex-grow-1 ms-3">
-                      <h6 class="mb-0"><strong>{{especialista.nome}}</strong></h6>
-                      <p class="mb-1">{{especialista.especialidades[0].nome}}</p>
-                        <p class="mb-1">{{especialista.licenca}}</p>
-                        <div class="d-flex align-items-center" *ngIf="!isNullOrUndefined(especialista.avaliacao)">
-                            <app-rating-stars [ratingStar]="especialista.avaliacao!" [ratingStarOff]="0"></app-rating-stars>
-                            <span class="ms-2" *ngIf="!isNullOrUndefined(especialista.avaliacoes) && especialista.avaliacoes.length > 1">{{especialista.avaliacoes.length}} avaliações</span>
-                            <span class="ms-2" *ngIf="!isNullOrUndefined(especialista.avaliacoes) && especialista.avaliacoes.length == 1">1 avaliação</span>
-                        </div>
+                      <p class="mb-0 fs-11"><label class="lb-nome" (click)="onRedirect_EspecialistaDetalhes(especialista.id)">{{especialista.nome}}</label></p>
+                      <p class="mb-1 fs-9">{{especialista.especialidades[0].nome}}</p>
+                      <p class="mb-1 fs-9">{{especialista.licenca}}</p>
+                      <div class="d-flex align-items-center" *ngIf="!isNullOrUndefined(especialista.avaliacao)">
+                          <app-rating-stars [ratingStar]="especialista.avaliacao!" [ratingStarOff]="0"></app-rating-stars>
+                          <span class="ms-2" *ngIf="!isNullOrUndefined(especialista.avaliacoes) && especialista.avaliacoes.length > 1">{{especialista.avaliacoes.length}} avaliações</span>
+                          <span class="ms-2" *ngIf="!isNullOrUndefined(especialista.avaliacoes) && especialista.avaliacoes.length == 1">1 avaliação</span>
+                      </div>
                     </div>
                     <div class="flex-shrink-0 ms-3">
                       <div class="text-end">

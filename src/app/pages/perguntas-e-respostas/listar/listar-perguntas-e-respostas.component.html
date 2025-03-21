@@ -6,7 +6,7 @@
         <h1 class="display-3 fw-bold mb-1">Pergunte ao profissional de saúde</h1>
         <p class="fs-4 mb-5">Tire dúvidas com nossos médicos e demais profissionais de saúde.</p>
         <div class="d-grid gap-2 d-sm-flex">
-          <button type="button" class="btn btn-primary bsb-btn-2xl rounded-pill" *ngIf="!showFormSection" (click)="onShowForm()">Quero fazer uma pergunta</button>
+          <button type="button" class="btn btn-primary bsb-btn-2xl rounded-pill" *ngIf="!showFormSection" (click)="onShowModalFazerPergunta()">Quero fazer uma pergunta</button>
         </div>
       </div>
       <div class="col-12 col-lg-5 text-center">
@@ -17,7 +17,7 @@
 </section>
 
 <!-- Perguntas e respostas -->
- @if (showFormSection) {
+ <!-- @if (showFormSection) {
  <section class="section">
   <div class="container">
     <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onEnviarPergunta(formDirective)">
@@ -62,7 +62,7 @@
     </form>
   </div>
  </section>
-}
+} -->
 
 <!-- Como que funciona? -->
 <section id="services" class="services section">
@@ -135,7 +135,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-12 col-md-10 col-lg-12">
-                    <h5 class="mb-4 pergunta-text" (click)="onRedirectPergunta(pergunta.id)">{{pergunta.pergunta }}</h5>
+                    <h5 class="mb-4 pergunta-text" (click)="onRedirect_Pergunta(pergunta.id)">{{pergunta.pergunta }}</h5>
                     <p class="card-text mb-2"><small class="text-muted">{{pergunta.createdAtFormatted}}</small></p>
                   </div>
                 </div>
@@ -164,7 +164,7 @@
                 </div>
               } @else {
                 <div class="card-body">
-                  <p>
+                  <p class="text-xs text-gray-500">
                     Sem respostas até o momento
                   </p>
                 </div>
@@ -185,9 +185,35 @@
   }
 } @else {
   <div class="card-body">
-    <p>
-      Sem perguntas até o momento
-    </p>
+    <div class="mt-1 mb-4">
+      <p class="text-xs text-gray-500">Sem perguntas até o momento</p>
+    </div>
   </div>
 }
 </section>
+
+
+<!-- modal fazer pergunta -->
+<div class="modal fade" id="modalFazerPergunta" tabindex="-1" aria-labelledby="modalFazerPerguntaLabel" data-bs-backdrop="static" aria-modal="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalFazerPerguntaLabel">Fazer pergunta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <app-form-fazer-pergunta
+                [showEspecialidades]="true"
+                [especialidadeId]=""
+                (requestData)="getPerguntaRequestDataEmitted($event)">
+              </app-form-fazer-pergunta>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

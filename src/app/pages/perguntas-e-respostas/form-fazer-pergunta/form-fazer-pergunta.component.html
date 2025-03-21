@@ -1,0 +1,45 @@
+<div class="container">
+  <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onEnviarDadosPergunta(formDirective)">
+    <div class="row">
+      <div class="col-12">
+        <div class="form-floating mb-3">
+          <textarea class="form-control" placeholder="Faça sua pergunta aqui, mínimo de 50 caracteres e máximo de 300 caracteres" formControlName="pergunta" id="pergunta" style="height: 100px"
+                  appInputCharacterCount [maxLength]="300"></textarea>
+          <label for="pergunta">Faça sua pergunta aqui</label>
+          <app-display-validation-errors [control]="form.controls.pergunta" [formGroupDirective]="formDirective"></app-display-validation-errors>
+        </div>
+      </div>
+      <div class="col-12" *ngIf="showEspecialidades">
+        <div class="form-floating mb-3">
+          <select class="form-select" id="especialidadeId" aria-label="especialidadeId" formControlName="especialidadeId">
+            <option value="" selected>Selecione...</option>
+            <option *ngFor="let item of especialidades; let i = index;" [value]="item.id">{{item.nome}}</option>
+          </select>
+          <label for="especialidadeId" class="form-label">Escolha a especialidade</label>
+          <app-display-validation-errors [control]="form.controls.especialidadeId" [formGroupDirective]="formDirective"></app-display-validation-errors>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="box-consentimentos">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" formControlName="termosUsoPolitica" id="termosUsoPolitica" required>
+            <label class="form-check-label text-secondary" for="termosUsoPolitica">
+              Li e concordo com os <a href="javascript:void(0);" class="link-primary text-decoration-none">Termos de Uso e Política de Privacidade</a>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="my-3">
+          <button class="btn btn-primary" type="submit" [disabled]="!form.valid || !form.controls.termosUsoPolitica">Enviar pergunta</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<!--
+
+-->

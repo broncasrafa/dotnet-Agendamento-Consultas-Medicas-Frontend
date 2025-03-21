@@ -3,18 +3,20 @@ import { FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, Vali
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { AppUtils } from 'src/app/core/utils/app.util';
 import { DisplayValidationErrorsComponent } from 'src/app/shared/components/display-validation-errors/display-validation-errors.component';
+import { FormFazerPerguntaComponent } from 'src/app/pages/perguntas-e-respostas/form-fazer-pergunta/form-fazer-pergunta.component';
 import { InputCharacterCountDirective } from 'src/app/shared/directives/input-character-count.directive';
+import { selectValidator, checkboxRequiredValidator } from 'src/app/core/utils/form-validators.util';
 import { PerguntaResponse } from 'src/app/core/models/perguntas-respostas/response/PerguntaResponse';
 import { EspecialidadeResponse } from 'src/app/core/models/especialidade/response/EspecialidadeResponse';
-import { PerguntasRespostasService } from 'src/app/core/services/perguntas-respostas.service';
 import { CreatePerguntaRequest } from 'src/app/core/models/perguntas-respostas/request/CreatePerguntaRequest';
 import { LoadingService } from 'src/app/shared/services/loading.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { EspecialidadeService } from 'src/app/core/services/especialidade.service';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
-import { selectValidator, checkboxRequiredValidator } from 'src/app/core/utils/form-validators.util';
-import { AppUtils } from 'src/app/core/utils/app.util';
+import { PerguntasRespostasService } from 'src/app/core/services/perguntas-respostas.service';
+import { EspecialidadeService } from 'src/app/core/services/especialidade.service';
+import { BsModalService } from 'src/app/shared/services/bs-modal.service';
 
 @Component({
   selector: 'app-perguntas-e-respostas',
@@ -25,6 +27,7 @@ import { AppUtils } from 'src/app/core/utils/app.util';
     FormsModule,
     ReactiveFormsModule,
     DisplayValidationErrorsComponent,
+    FormFazerPerguntaComponent,
     InputCharacterCountDirective
   ],
   templateUrl: './listar-perguntas-e-respostas.component.html',
@@ -39,6 +42,7 @@ export class PerguntasERespostasListarComponent implements OnInit, OnDestroy {
   private perguntaRespostaService = inject(PerguntasRespostasService);
   private especialidadeService = inject(EspecialidadeService);
   private authService = inject(AuthenticationService);
+  private modalService = inject(BsModalService);
   private loadingService = inject(LoadingService);
 
   perguntasList: PerguntaResponse[] = [];
@@ -59,9 +63,13 @@ export class PerguntasERespostasListarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
   }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   getPerguntasList(page: number = 1, pageSize: number = 20) {
-    this.perguntaRespostaService.getPerguntasPaged(page, pageSize)
+    this.perguntaRespostaService.getPerguntasEspecialidadesPaged(page, pageSize)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -82,44 +90,31 @@ export class PerguntasERespostasListarComponent implements OnInit, OnDestroy {
       });
   }
 
-  onRedirectPergunta(id: number) {
+  onRedirect_Pergunta(id: number) {
     this.router.navigate(['/perguntas-e-respostas', id]);
   }
 
-  onShowForm() {
+  onShowModalFazerPergunta() {
     if (this.isLogged) {
-      this.showFormSection = true;
+      this.modalService.abrirModal('modalFazerPergunta');
     } else {
       this.router.navigate(['/login']);
     }
   }
 
-  onEnviarPergunta(formDirective: FormGroupDirective) {
-    if (this.form.value && this.form.valid) {
-      const user = this.authService.getUserInfo();
-      const request = new CreatePerguntaRequest(
-        Number(this.form.value.especialidadeId),
-        user.id!,
-        this.form.value.pergunta!,
-        this.form.value.termosUsoPolitica!);
-
-      this.perguntaRespostaService.createPergunta(request)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (response) => {
-            this.notificationService.showSuccessNotification('Pergunta', 'Pergunta enviada com sucesso');
-            this.showFormSection = false;
-            AppUtils.resetForm(formDirective, this.form);
-            this.getPerguntasList();
-          },
-          error: (err) => this.notificationService.showHttpResponseErrorNotification(err)
-        })
+  getPerguntaRequestDataEmitted(request: CreatePerguntaRequest) {
+    if (!AppUtils.isNullOrUndefined(request)) {
+      this.perguntaRespostaService.createPerguntaEspecialidade(request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.modalService.fecharModal('modalFazerPergunta')
+          this.notificationService.showSuccessNotification('Pergunta', 'Pergunta enviada com sucesso');
+          this.getPerguntasList();
+        },
+        error: (err) => this.notificationService.showHttpResponseErrorNotification(err)
+      })
     }
-
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
 }

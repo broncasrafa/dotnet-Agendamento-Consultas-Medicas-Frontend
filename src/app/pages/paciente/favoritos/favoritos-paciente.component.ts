@@ -125,4 +125,8 @@ export class FavoritosPacienteComponent implements OnInit, OnDestroy {
         error: err => this.notificationService.showHttpResponseErrorNotification(err)
       });
   }
+
+  onRedirect_EspecialistaDetalhes(especialistaId: number) {
+    this.router.navigate(['/especialista/'+ this.cryptoService.criptografar(especialistaId)]);
+  }
 }

@@ -8,6 +8,6 @@ export class PerguntaResponse {
   createdAtFormatted: string
   pacienteNome: string
   totalRespostas: number
-  especialidade: EspecialidadeResponse
+  especialidade?: EspecialidadeResponse
   respostas?: RespostaResponse[]
 }

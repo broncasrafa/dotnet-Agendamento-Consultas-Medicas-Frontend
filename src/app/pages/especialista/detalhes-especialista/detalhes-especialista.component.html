@@ -1,0 +1,208 @@
+<section class="py-3 py-md-5 py-xl-2 mb-8 height-auto" *ngIf="loadDataInfo()">
+  <div class="container">
+
+    <div class="row gy-5 gy-lg-0">
+
+      <!-- informações do especialista -->
+      <div class="col-7">
+        <div class="container my-4">
+          <div class="d-flex align-items-start">
+            <!-- Foto do Usuário -->
+            <div class="me-3">
+              <img src="{{especialista.foto}}" alt="Foto do Usuário {{especialista.nome}}" class="rounded-circle" width="112" height="112" />
+            </div>
+
+            <!-- Informações ao lado da foto -->
+            <div>
+                <span class="fs-16">
+                  {{especialista.nome}}
+                  <i class="bi bi-patch-check-fill text-primary" title="Verificado" *ngIf="especialista.tipo == 'Premium'"></i>
+                </span>
+                <div>
+                  <span class="me-2 fs-9">{{especialista.especialidades[0].nome}}</span>
+                </div>
+
+                <!-- Licença -->
+                <p class="fs-9">{{especialista.licenca}}</p>
+
+                <!-- Rating com Estrelinhas e total de avaliações -->
+                 @if (!isNullOrUndefined(especialista.avaliacao)) {
+                  <div class="d-flex align-items-center mt-2">
+                    <span class="me-2">
+                       <app-rating-stars [ratingStar]="especialista.avaliacao!" [ratingStarOff]="0"></app-rating-stars>
+                    </span>
+                    <a href="javascript:void(0)" class="text-decoration-none">{{especialista.avaliacoes.length}} avaliações</a>
+                  </div>
+                 }
+            </div>
+          </div>
+        </div>
+        <div class="container my-4">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" type="button" role="tab" data-bs-toggle="tab" aria-selected="true" id="consultorios-tab" data-bs-target="#consultorios" aria-controls="consultorios">Consultórios</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" type="button" role="tab" data-bs-toggle="tab" aria-selected="true" id="experiencia-tab" data-bs-target="#experiencia" aria-controls="experiencia">Experiência</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" type="button" role="tab" data-bs-toggle="tab" aria-selected="true" id="avaliacoes-tab" data-bs-target="#avaliacoes" aria-controls="avaliacoes">Avaliações</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" type="button" role="tab" data-bs-toggle="tab" aria-selected="true" id="pergunte-tab" data-bs-target="#pergunte" aria-controls="pergunte">Pergunte ao profissional</button>
+            </li>
+          </ul>
+          <div class="tab-content mt-3" id="myTabContent">
+            <div class="tab-pane fade show active" role="tabpanel" id="consultorios" aria-labelledby="consultorios-tab">
+              <div class="mt-6">
+
+              </div>
+            </div>
+            <div class="tab-pane fade show" role="tabpanel" id="experiencia" aria-labelledby="experiencia-tab">
+              <div class="mt-6">
+                <h6>Experiência profissional</h6>
+                <p class="fs-10">{{ !isNullOrEmpty(especialista.experienciaProfissional) ? especialista.experienciaProfissional : 'Sem informações' }}</p>
+                <hr />
+                <h6>Formação acadêmica</h6>
+                <p class="fs-10">{{ !isNullOrEmpty(especialista.formacaoAcademica) ? especialista.formacaoAcademica : 'Sem informações' }}</p>
+              </div>
+            </div>
+            <div class="tab-pane fade show" role="tabpanel" id="avaliacoes" aria-labelledby="avaliacoes-tab">
+              <div class="mt-6"></div>
+            </div>
+            <div class="tab-pane fade show" role="tabpanel" id="pergunte" aria-labelledby="pergunte-tab">
+              <div class="mt-6" *ngIf="isNullOrUndefined(perguntas) || perguntas.length == 0">
+                <div class="text-center">
+                  <h6 class="text-gray-500 font-roboto">
+                    Este profissional ainda não respondeu a nenhuma pergunta.<br />
+                    Deseja fazer uma pergunta a este especialista?
+                  </h6>
+                  <div class="text-center mt-4">
+                    <button type="button" class="btn btn-primary" (click)="onclick_ShowFormPergunta()">Quero fazer uma pergunta</button>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-6 box-perguntas" *ngIf="!isNullOrUndefined(perguntas) && perguntas.length > 0">
+                <div class="row">
+                  <div class="col-12 mb-3">
+                    <div class="box-fazer-pergunta">
+                      <div class="container">
+                        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+
+                          <!-- Lado esquerdo: Texto e botão -->
+                          <div class="text-left mb-3 mb-md-0">
+                            <p class="bold">Quer tirar dúvida com esse profissional?</p>
+                            <p class="bold">Faça uma pergunta agora.</p>
+                            <div class="mt-3">
+                              <button type="button" class="btn btn-primary" (click)="onclick_ShowFormPergunta()">Quero fazer uma pergunta</button>
+                            </div>
+                          </div>
+
+                          <!-- Lado direito: Imagem -->
+                          <div>
+                            <img class="img-fluid" width="321" height="200" src="../../../assets/img/faq-img-1.png" alt="Pergunta">
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <h5 class="bold">Dúvidas respondidas</h5>
+                      </div>
+
+                      <div class="card-body">
+                        <div class="container mt-4">
+                          @for(pergunta of perguntas; track pergunta.id; let i = $index) {
+                            <div class="">
+                              <!-- 1ª linha: Texto da pergunta -->
+                              <p class="mb-0">
+                                <a class="pergunta-title" routerLink="/perguntas-e-respostas/{{pergunta.id}}">{{pergunta.pergunta}}</a>
+                              </p>
+
+                              <!-- 2ª linha: Data da pergunta -->
+                              <p class="text-xs text-gray-500 small-xs">{{pergunta.createdAtFormatted}}</p>
+
+                              @if (!isNullOrUndefined(pergunta.respostas) && pergunta.respostas!.length > 0) {
+                                <!-- 3ª linha: Resposta + Foto do especialista -->
+                                <div class="d-flex flex-column flex-md-row justify-content-between mb-4">
+                                  <!-- Texto da resposta -->
+                                  <div class="resposta text-left">
+                                    <p class="text-xs text-gray-500 small-xs italic mb-0">{{pergunta.respostas![0].createdAtFormatted}}</p>
+                                    <p class="fs-11 font-roboto">{{pergunta.respostas![0].resposta}}</p>
+                                    <div class="text-end">
+                                      <i class="bi bi-hand-thumbs-up"></i> <span class="ms-1 fs-8">{{pergunta.respostas![0].likes | numberThousandsFormatted}}</span>
+                                      <i class="bi bi-hand-thumbs-down mx-2"></i> <span class="fs-8">{{pergunta.respostas![0].dislikes | numberThousandsFormatted}}</span>
+                                    </div>
+                                  </div>
+                                  <!-- Foto do especialista -->
+                                  <div class="img-profissional">
+                                    <img class="img-fluid rounded-circle" width="60" height="60" src="{{pergunta.respostas![0].especialista.foto}}" alt="{{pergunta.respostas![0].especialista.nome}}">
+                                  </div>
+                                </div>
+
+                                <!-- 4ª linha: Link para ver todas as respostas -->
+                                <a routerLink="/perguntas-e-respostas/{{pergunta.id}}" class="text-primary fs-9 mb-4">Ver todas as respostas</a>
+                              } @else {
+                                <p class="text-xs text-gray-500">
+                                  Sem respostas até o momento
+                                </p>
+                              }
+                            </div>
+                            <hr />
+                          } @empty {
+                            <p class="text-xs text-gray-500">
+                              Sem perguntas até o momento
+                            </p>
+                          }
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- box dos horarios -->
+      <div class="col-5">
+
+      </div>
+    </div>
+
+
+
+
+    <!-- modal fazer pergunta -->
+    <div class="modal fade" id="modalFazerPergunta" tabindex="-1" aria-labelledby="modalFazerPerguntaLabel" data-bs-backdrop="static" aria-modal="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalFazerPerguntaLabel">Fazer pergunta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                  <app-form-fazer-pergunta
+                    [showEspecialidades]="false"
+                    [especialidadeId]="especialidadeId.toString()"
+                    (requestData)="getPerguntaRequestDataEmitted($event)">
+                  </app-form-fazer-pergunta>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

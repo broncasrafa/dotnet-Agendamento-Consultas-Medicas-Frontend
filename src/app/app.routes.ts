@@ -96,6 +96,12 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/paciente/favoritos/favoritos-paciente.component').then(c => c.FavoritosPacienteComponent),
         canActivate: [authGuard]
       },
+
+      {
+        path: 'especialista/:id',
+        loadComponent: () => import('./pages/especialista/detalhes-especialista/detalhes-especialista.component').then(c => c.DetalhesEspecialistaComponent),
+        canActivate: [authGuard]
+      },
     ]
   },
 

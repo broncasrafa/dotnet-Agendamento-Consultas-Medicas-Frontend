@@ -1,0 +1,57 @@
+.font-roboto h6 {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.box-fazer-pergunta {
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 96rem;
+  margin-left: auto;
+  margin-right: auto;
+  --tw-bg-opacity: 1;
+  background-color: #cdebfa;
+  background-color: rgba(205, 235, 250, var(--tw-bg-opacity));
+}
+
+.box-perguntas .card-header {
+  background-color: #ffffff !important;
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.pergunta-title {
+  color: #2f395e;
+  line-height: 1.75rem;
+  font-size: 1.125rem;
+}
+
+.pergunta-title:hover {
+  --tw-text-opacity: 1;
+  text-decoration: underline;
+  color: #2f395e;
+  color: rgba(47, 57, 94, var(--tw-text-opacity));
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.resposta {
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: .375rem;
+  width: 100%;
+  position: relative;
+  margin-right: 1rem;
+  --tw-bg-opacity: 1;
+  background-color: #f2f4f6;
+  background-color: rgba(242, 244, 246, var(--tw-bg-opacity));
+}
+.img-profissional {
+  width: 3rem;
+  height: 3rem;
+  position: relative;
+}
