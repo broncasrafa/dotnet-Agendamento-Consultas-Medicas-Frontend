@@ -20,7 +20,7 @@ export class PaginationComponent {
 
   currentPage = 1;
 
-  itemsPerPageOptions = [5, 10, 20, 50, 100];
+  itemsPerPageOptions = [5, 10, 12, 20, 50, 100];
 
   get totalPages(): number {
     return Math.ceil(this.totalItems / this.itemsPerPage);

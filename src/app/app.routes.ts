@@ -61,6 +61,8 @@ export const routes: Routes = [
         path: 'especialistas/pesquisa',
         loadComponent: () => import('./pages/especialista/pesquisar-especialista/pesquisar-especialista.component').then(c => c.PesquisarEspecialistaComponent)
       },
+
+      // paciente
       {
         path: 'paciente/consultas',
         loadComponent: () => import('./pages/paciente/listar-consultas/consultas-paciente.component').then(c => c.ConsultasPacienteComponent),
@@ -97,9 +99,22 @@ export const routes: Routes = [
         canActivate: [authGuard]
       },
 
+      // especialista
       {
         path: 'especialista/:id',
         loadComponent: () => import('./pages/especialista/detalhes-especialista/detalhes-especialista.component').then(c => c.DetalhesEspecialistaComponent),
+        canActivate: [authGuard]
+      },
+
+      // especialidade
+      {
+        path: 'especialidades',
+        loadComponent: () => import('./pages/especialidades/listar-especialidades/listar-especialidades.component').then(c => c.ListarEspecialidadesComponent),
+        canActivate: [authGuard]
+      },
+      {
+        path: 'especialidades/:term/especialistas',
+        loadComponent: () => import('./pages/especialidades/listar-especialistas-especialidade/listar-especialistas-especialidade.component').then(c => c.ListarEspecialistasEspecialidadeComponent),
         canActivate: [authGuard]
       },
     ]

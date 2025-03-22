@@ -1,0 +1,62 @@
+<section class="py-3 py-md-5 py-xl-2 height-auto">
+  <div class="container">
+    <div class="row gy-5 gy-lg-0">
+      <div class="col-12">
+        <h1>Especialidades</h1>
+        <p class="mb-2"><small class="text-muted">Encontre atendimento por especialidade</small></p>
+      </div>
+
+      <div class="col-12 mt-3">
+        <div class="form-floating mb-3 position-relative">
+          <input type="text" class="form-control" id="buscaEspecialidade" placeholder="Procure por especialidade"
+            [(ngModel)]="termoBusca"
+            (keyup.enter)="buscarEspecialidade()">
+          <label for="buscaEspecialidade">Procure por especialidade</label>
+          <button class="cta-btn-primary btn-sm position-absolute end-0 top-50 translate-middle-y me-2" (click)="buscarEspecialidade()">
+            Buscar
+          </button>
+        </div>
+      </div>
+
+      <div class="col-12 mt-4" *ngIf="especialidadesPaginadas.length > 0">
+        <div class="row">
+
+          <div class="col-4 mb-3" *ngFor="let especialidade of especialidadesPaginadas; let i = index;">
+            <div class="card">
+              <div class="card-body">
+                <div class="text-center cursor-pointer" (click)="onRedirect_Especialistas(especialidade.term)">
+                  <p class="mb-0 text-xs text-gray-500">{{especialidade.grupo}}</p>
+                  <p class="mb-0 is-link">{{especialidade.nome}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="text-end">
+              <app-pagination
+                [totalItems]="totalItems"
+                [itemsPerPage]="itemsPerPage"
+                (pageChanged)="atualizarPagina($event.page, $event.pageSize)">
+              </app-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- Se não encontrou nada -->
+       <div class="col-12">
+        <div *ngIf="especialidadesFiltradas.length === 0" class="text-center mt-4">
+          <img src="../../../assets/img/doctor.png" alt="Lupa" width="100">
+          <p class="mt-3 text-muted">Desculpa, não encontramos nenhum resultado para sua busca :(</p>
+        </div>
+       </div>
+
+    </div>
+  </div>
+</section>
