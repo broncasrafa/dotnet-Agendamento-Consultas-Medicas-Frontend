@@ -11,6 +11,7 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
 import { AutocompleteSearchComponent } from 'src/app/shared/components/autocomplete-search/autocomplete-search.component';
 import { AppUtils } from 'src/app/core/utils/app.util';
 import { LoadingService } from 'src/app/shared/services/loading.service';
+import { DropdownPesquisarEspecialidadesComponent } from 'src/app/pages/especialidades/dropdown-pesquisar-especialidades/dropdown-pesquisar-especialidades.component';
 
 @Component({
   selector: 'app-agendamento-busca',
@@ -18,7 +19,8 @@ import { LoadingService } from 'src/app/shared/services/loading.service';
   imports: [
     CommonModule,
     RouterModule,
-    AutocompleteSearchComponent
+    AutocompleteSearchComponent,
+    DropdownPesquisarEspecialidadesComponent
   ],
   templateUrl: './agendamento-busca.component.html',
   styleUrl: './agendamento-busca.component.css'

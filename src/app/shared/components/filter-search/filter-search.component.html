@@ -1,0 +1,41 @@
+
+<div class="search-box">
+  <div class="row">
+    <button aria-label="Search icon">
+      <!-- svg -->
+    </button>
+    <label for="search" class="visually-hidden">Search for anything</label>
+    <input
+      type="text"
+      class="search-bar"
+      id="search"
+      #searchInput
+      placeholder="Search for anything"
+      aria-label="Search input"
+      autocomplete="off"
+      aria-autocomplete="list"
+      aria-controls="search-results"
+      (input)="onSearch($event)"
+      (keydown)="onKeyDown($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur($event)"
+    />
+  </div>
+  <div class="results" *ngIf="isDropdownVisible">
+    <ul role="listbox">
+      <li
+        *ngFor="let item of filteredResults; let i = index"
+        role="option"
+        tabindex="0"
+        [attr.data-index]="i"
+        class="result-item"
+        (click)="selectItem(item)"
+      >
+        {{ item.text }}
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+

@@ -23,6 +23,9 @@ export class MenuHeaderComponent implements AfterViewInit  {
   private router = inject(Router);
 
   isLogged = this.authService.isLoggedIn();
+  isAdmin = this.authService.isAdmin();
+  isProfissional = this.authService.isProfissional();
+  isPaciente = this.authService.isPaciente();
 
   constructor(private el: ElementRef) {}
 

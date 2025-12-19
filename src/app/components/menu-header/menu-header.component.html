@@ -28,6 +28,7 @@
           <li><a routerLink="/inicio" routerLinkActive="active" (click)="closeMobileNavOnLinkClick()">Home<br></a></li>
           <li><a routerLink="/sobre-nos" routerLinkActive="active" (click)="closeMobileNavOnLinkClick()">Sobre nós</a></li>
           <li><a routerLink="/perguntas-e-respostas" routerLinkActive="active">Pergunte ao Profissional de Saúde</a></li>
+          <li><a routerLink="/encontre-um-medico" routerLinkActive="active">Encontre um médico</a></li>
 
           @if (!isLogged) {
             <li class="dropdown">
@@ -51,7 +52,7 @@
             </li>
           }
 
-          @if (isLogged) {
+          @if (isLogged && isPaciente) {
             <li class="dropdown">
               <a href="javascript:void(0);">
                 <span>Conta</span> <i #dropdownItems class="bi bi-chevron-down toggle-dropdown" (click)="toggleDropdown($event)"></i>
@@ -61,6 +62,19 @@
                 <li><a routerLink="/paciente/painel">Painel</a></li>
                 <li><a routerLink="/paciente/consultas">Minhas consultas</a></li>
                 <li><a routerLink="/paciente/dependente">Pacientes adicionais</a></li>
+                <li><a href="javascript:void(0);" (click)="onLogout()">Sair</a></li>
+              </ul>
+            </li>
+          }
+
+          @if (isLogged && isAdmin) {
+            <li class="dropdown">
+              <a href="javascript:void(0);">
+                <span>Conta</span> <i #dropdownItems class="bi bi-chevron-down toggle-dropdown" (click)="toggleDropdown($event)"></i>
+              </a>
+              <ul>
+                <li><a routerLink="/admin/conta">Editar conta</a></li>
+                <li><a routerLink="/admin/painel">Painel</a></li>
                 <li><a href="javascript:void(0);" (click)="onLogout()">Sair</a></li>
               </ul>
             </li>

@@ -14,6 +14,9 @@
   --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
   --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
   --danger-color: #d43f67;
+
+  --default-horario-bg-color: #c6d3e7; /* Background color for the button horario */
+  --default-horario-text-color: #1662c6; /* Default text color for the button horario */
 }
 
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
@@ -2627,4 +2630,18 @@ section,
 .senha-toggle:focus {
   outline: none;
   box-shadow: none;
+}
+
+.picture {
+  overflow: hidden;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.picture img {
+  transition: ease-in-out 0.3s;
+}
+
+.text-center {
+  text-align: center;
 }

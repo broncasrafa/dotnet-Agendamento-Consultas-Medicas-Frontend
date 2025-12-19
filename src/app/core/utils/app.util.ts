@@ -123,6 +123,33 @@ export class AppUtils {
   }
 
   /**
+   * Retorna um número especificado de elementos contíguos desde o início de uma sequência.
+   * @param lista A sequência de onde retornar elementos.
+   * @param count O número de elementos a serem retornados.
+   * @returns Um T[] lista que contém o número especificado de elementos desde o início da origem.
+   */
+  public static take<T>(lista: T[], count: number): T[] {
+    if (this.isNullOrUndefined(lista))
+      return [];
+
+    return lista.slice(0, count);
+  }
+
+  /**
+   * Ignora um número especificado de elementos em uma sequência e retorna os elementos restantes.
+   * @param lista A sequência de onde retornar elementos.
+   * @param count O número de elementos a serem ignorados antes de retornar os elementos restantes.
+   * @returns Um T[] que contém elementos que ocorrem após o índice especificado na sequência de entrada.
+   */
+  public static skip<T>(lista: T[], count: number): T[] {
+    if (this.isNullOrUndefined(lista)) return [];
+    if (count < 1) return [];
+    if (count >= lista.length) return lista;
+
+    return lista.slice(count);
+  }
+
+  /**
    * Ordenar uma lista informando o campo para a ordenação e a direção (ascendente ou descendente)
    * @param lista lista de objetos
    * @param campoCriterio campo para a ordenação

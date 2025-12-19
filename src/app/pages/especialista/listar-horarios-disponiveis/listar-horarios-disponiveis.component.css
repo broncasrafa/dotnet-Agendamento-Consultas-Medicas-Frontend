@@ -1,3 +1,7 @@
+:root {
+
+}
+
 .show-more {
   margin-top: 14rem;;
 }
@@ -9,20 +13,20 @@
   cursor: not-allowed;
 }
 .btn-horario {
-  background-color: #eef4fd;
+  background-color: var(--default-horario-bg-color);
   border-color: transparent;
-  color: #1662c6;
+  color: var(--default-horario-text-color);
 }
 .btn-horario {
-  background-color: #eef4fd;
+  background-color: var(--default-horario-bg-color);
   border-color: transparent;
-  color: #1662c6;
+  color: var(--default-horario-text-color);
 }
 
 .btn-horario:hover {
   background-color: #dfeafb;
-  border-color: #1662c6;
-  color: #1662c6;
+  border-color: var(--default-horario-text-color);
+  color: var(--default-horario-text-color);
   text-decoration: none
 }
 

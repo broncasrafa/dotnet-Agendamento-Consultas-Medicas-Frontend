@@ -5,3 +5,6 @@ export class EspecialidadeResponse {
   term: string
   grupo: string
 }
+
+
+

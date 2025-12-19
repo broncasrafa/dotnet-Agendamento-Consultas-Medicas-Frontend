@@ -31,6 +31,7 @@
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/aos/dist/aos.css",
               "src/assets/css/fontawesome/all.css",
+              "src/assets/css/fontawesome/all2.css",
               "src/assets/css/glightbox/glightbox.min.css",
               "src/assets/css/swiper/swiper-bundle.min.css",
               "src/assets/css/main.css"

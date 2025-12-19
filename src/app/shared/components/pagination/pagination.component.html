@@ -11,7 +11,7 @@
 
   <!-- Informações da Paginação -->
   <div class="px-3">
-    {{ startItem }} - {{ endItem }} de {{ totalItems }}
+    {{ startItem }} - {{ endItem }} de {{ totalItems | numberThousandsFormatted }}
   </div>
 
   <!-- Botões de Paginação -->

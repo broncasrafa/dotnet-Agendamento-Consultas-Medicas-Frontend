@@ -14,6 +14,19 @@ export class EspecialistaService {
 
   constructor(private http: HttpClient) { }
 
+
+  getEspecialistasPaged(page: number = 1, itemsPerPage: number = 10): Observable<ApiPagedData<EspecialistaResponse>> {
+    return this.http.get<ApiPagedData<EspecialistaResponse>>(`${this.base_api_url}/?page=${page}&items=${itemsPerPage}`, { responseType: 'json' })
+              .pipe(map(response => response ?? null));
+  }
+
+  getEspecialistasByNamePaged(name: string, page: number = 1, itemsPerPage: number = 10): Observable<ApiPagedData<EspecialistaResponse>> {
+    const sanitizedTerm = encodeURIComponent(name.trim());
+    return this.http.get<ApiPagedData<EspecialistaResponse>>(`${this.base_api_url}/searchByName?name=${sanitizedTerm}&page=${page}&items=${itemsPerPage}`, { responseType: 'json' })
+              .pipe(map(response => response ?? null));
+  }
+
+
   getEspecialistasByFilter(especialidadeId: number, cidade: string, page: number = 1): Observable<ApiPagedData<EspecialistaResponse>> {
     return this.http.get<ApiPagedData<EspecialistaResponse>>(`${this.base_api_url}/filter/?cidade=${cidade}&especialidadeId=${especialidadeId}&page=${page}&items=10`, { responseType: 'json' })
               .pipe(

@@ -65,11 +65,6 @@ export class AuthenticationService {
    * @returns boolean indicando se o usuário está logado ou não.
    */
   isLoggedIn(): boolean {
-    // const JWT_TOKEN = StringExtensions.isNullOrEmpty(this.cookieService.get(CredentialsSessionKeys.JWT_TOKEN))
-    //                     ? localStorage.getItem(CredentialsSessionKeys.JWT_TOKEN)
-    //                     : this.cookieService.get(CredentialsSessionKeys.JWT_TOKEN);
-    // return JWT_TOKEN ? true : false;
-
     const JWT_TOKEN = localStorage.getItem(CredentialsSessionKeys.JWT_TOKEN);
     return StringExtensions.isNullOrEmpty(JWT_TOKEN) ? false : true;
   }
@@ -115,6 +110,67 @@ export class AuthenticationService {
     return localStorage.getItem(CredentialsSessionKeys.JWT_TOKEN); // Retorna o token JWT
   }
 
+  /**
+   * Obtém o token decodificado
+   * @returns any | null - Token decodificado ou null se não existir
+   */
+  getDecodedToken(): any | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    return this.jwtHelper.decodeToken(token);
+  }
+
+  /**
+   * Obtém o papel (role) do usuário a partir do token decodificado
+   * @returns string | null - Papel do usuário ou null se não existir
+   */
+  getUserRole(): string | null {
+    const decoded = this.getDecodedToken();
+    return decoded?.role ?? null;  // "Paciente"
+  }
+
+  /**
+   * Verifica se o token está expirado
+   * @returns boolean - True se o token está expirado, False caso contrário
+   */
+  isTokenExpired(): boolean {
+    const token = this.getToken();
+    return !token || this.jwtHelper.isTokenExpired(token);
+  }
+
+  /**
+   * Verifica se o usuário possui o papel de Administrador
+   * @returns boolean - True se o usuário é administrador, False caso contrário
+   */
+  isAdmin(): boolean {
+    return this.getUserRole() === 'Administrador';
+  }
+
+  /**
+   * Verifica se o usuário possui o papel de Paciente
+   * @returns boolean - True se o usuário é paciente, False caso contrário
+   */
+  isPaciente(): boolean {
+    return this.getUserRole() === 'Paciente';
+  }
+
+  /**
+   * Verifica se o usuário possui o papel de Profissional
+   * @returns boolean - True se o usuário é profissional, False caso contrário
+   */
+  isProfissional(): boolean {
+    return this.getUserRole() === 'Profissional';
+  }
+
+  /**
+   * Verifica se o usuário possui o papel de Consultor
+   * @returns boolean - True se o usuário é consultor, False caso contrário
+   */
+  isConsultor(): boolean {
+    return this.getUserRole() === 'Consultor';
+  }
+
 
   /**
    * Limpa os tokens do localStorage e do cookie
@@ -154,8 +210,6 @@ export class AuthenticationService {
     // this.cookieService.set(CredentialsSessionKeys.COOKIE_USER_INFO, data);
   }
 
-
-
   /**
      * Verifica o estado do token ao inicializar o serviço
      */
@@ -167,7 +221,7 @@ export class AuthenticationService {
         this.loggedIn.next(true); // Atualiza o estado de login
         this.startRefreshTokenTimer(); // Inicia o temporizador para renovação do token
     }
-}
+  }
 
   /**
      * Verifica se o token é válido

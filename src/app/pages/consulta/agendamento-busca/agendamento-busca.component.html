@@ -9,13 +9,13 @@
       </p>
       <form class="row g-2 justify-content-center">
           <div class="col-md-4">
-            <app-autocomplete-search
+            <app-dropdown-pesquisar-especialidades
                 [items]="especialidades"
                 [displayFn]="formatEspecialidade"
                 [placeholder]="placeholderEspecialidadeText"
                 (selected)="onEspecialidadeSelecionada($event)"
                 (input)="onEspecialidadeInput($event)">
-            </app-autocomplete-search>
+            </app-dropdown-pesquisar-especialidades>
           </div>
           <div class="col-md-4">
             <app-autocomplete-search
@@ -31,4 +31,5 @@
           </div>
       </form>
   </div>
+
 </div>

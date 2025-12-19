@@ -1,13 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { AppUtils } from 'src/app/core/utils/app.util';
+import { NumberThousandsFormattedPipe } from 'src/app/shared/pipes/number-thousands-formatted.pipe';
 
 @Component({
   selector: 'app-pagination',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    NumberThousandsFormattedPipe
   ],
   templateUrl: './pagination.component.html',
   styleUrl: './pagination.component.css'
@@ -23,6 +26,7 @@ export class PaginationComponent {
   itemsPerPageOptions = [5, 10, 12, 20, 50, 100];
 
   get totalPages(): number {
+    this.totalItems = AppUtils.isNullOrUndefined(this.totalItems) ? 0 : this.totalItems;
     return Math.ceil(this.totalItems / this.itemsPerPage);
   }
 
@@ -31,6 +35,7 @@ export class PaginationComponent {
   }
 
   get endItem(): number {
+    this.totalItems = AppUtils.isNullOrUndefined(this.totalItems) ? 0 : this.totalItems;
     return Math.min(this.startItem + this.itemsPerPage - 1, this.totalItems);
   }
 

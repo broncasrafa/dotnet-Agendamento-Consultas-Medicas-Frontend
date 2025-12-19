@@ -11,7 +11,11 @@ export class AddressFormattedPipe implements PipeTransform {
   transform(endereco: EspecialistaLocalAtendimentoResponse): string | null {
     if (AppUtils.isNullOrUndefined(endereco) || AppUtils.isNullOrEmpty(endereco.logradouro)) return null;
 
-    return `${endereco.logradouro}, ${!AppUtils.isNullOrEmpty(endereco.complemento) ? ', '+endereco.complemento : ''}${endereco.bairro}, ${endereco.cidade} - ${endereco.estado}`
+    if (!AppUtils.isNullOrEmpty(endereco.complemento)) {
+      return `${endereco.logradouro}, ${endereco.complemento}, ${endereco.bairro}, ${endereco.cidade} - ${endereco.estado} - ${endereco.cep.substring(0, 5)}-${endereco.cep.substring(endereco.cep.length, 5)}`;
+    }
+
+    return `${endereco.logradouro}, ${endereco.bairro}, ${endereco.cidade} - ${endereco.estado} - ${endereco.cep.substring(0, 5)}-${endereco.cep.substring(endereco.cep.length, 5)}`;
   }
 
 }
