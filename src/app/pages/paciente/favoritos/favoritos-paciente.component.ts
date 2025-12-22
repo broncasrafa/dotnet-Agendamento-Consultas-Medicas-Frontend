@@ -47,7 +47,7 @@ export class FavoritosPacienteComponent implements OnInit, OnDestroy {
   hasNextPage: boolean = false;
   totalItems: number = 0;
   currentPage: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 15;
 
   constructor() {
     const userLoggedInfo = this.authService.getUserInfo();

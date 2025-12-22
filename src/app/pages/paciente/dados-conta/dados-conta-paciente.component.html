@@ -162,7 +162,7 @@
                     <div class="row gy-4 mb-5">
                       <div class="col-12">
                         <div class="row align-items-center">
-                          <div class="col-6">
+                          <div class="col-4">
                             <div class="d-flex align-items-center">
                               <div>
                                 <h6 class="m-0"></h6>
@@ -170,7 +170,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-6">
+                          <div class="col-8">
                             <h6 class="text-end is-link" (click)="onclick_ShowModalAdicionarConvenioMedico()"><i class="bi bi-plus-circle"></i>Adicionar convênio</h6>
                           </div>
                         </div>
@@ -178,7 +178,7 @@
 
                       <div class="col-12" *ngFor="let plano of paciente.planosMedicos; let i = index;">
                         <div class="row align-items-center">
-                          <div class="col-8">
+                          <div class="col-9">
                             <div class="d-flex align-items-center">
                               <div>
                                 <h6 class="m-0">{{plano.convenioMedico}}</h6>
@@ -190,11 +190,11 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-4">
-                            <h6 class="text-end">
-                              <i class="bi bi-pencil mx-2 px-1 cursor-pointer" (click)="onclick_ShowModalAlterarConvenioMedico(plano.id)"></i>
+                          <div class="col-3 text-end">
+                            <span class="fs-11">
+                              <i class="bi bi-pencil cursor-pointer" (click)="onclick_ShowModalAlterarConvenioMedico(plano.id)"></i>
                               <i class="bi bi-trash mx-2 cursor-pointer" (click)="onclick_ShowModalRemoverConvenioMedico(paciente.id, plano.id)"></i>
-                            </h6>
+                            </span>
                           </div>
                         </div>
                       </div>

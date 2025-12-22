@@ -10,7 +10,8 @@
         <div class="form-floating mb-3 position-relative">
           <input type="text" class="form-control" id="buscaEspecialidade" placeholder="Procure por especialidade"
             [(ngModel)]="termoBusca"
-            (keyup.enter)="buscarEspecialidade()">
+            (keyup.enter)="buscarEspecialidade()"
+            (keyup)="onSearchIsBecomedEmpty()">
           <label for="buscaEspecialidade">Procure por especialidade</label>
           <button class="cta-btn-primary btn-sm position-absolute end-0 top-50 translate-middle-y me-2" (click)="buscarEspecialidade()">
             Buscar

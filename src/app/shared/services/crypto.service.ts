@@ -29,9 +29,13 @@ export class CryptoService {
    * @param dadosCriptografados string criptografada
    * @returns objeto descriptografado
    */
-  descriptografar(dadosCriptografados: string): any {
+  descriptografar(dadosCriptografados: string | null): any {
+    if (dadosCriptografados == undefined || dadosCriptografados == null) {
+      return null;
+    }
+
     try {
-      const base64 = dadosCriptografados
+      const base64 = dadosCriptografados!
         .replace(/-/g, '+')
         .replace(/_/g, '/'); // Restaura os caracteres removidos para URL
       const decrypted = CryptoJS.AES.decrypt(atob(base64), this.secretKey).toString(CryptoJS.enc.Utf8);

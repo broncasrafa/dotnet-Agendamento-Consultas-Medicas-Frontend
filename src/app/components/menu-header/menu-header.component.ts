@@ -26,6 +26,7 @@ export class MenuHeaderComponent implements AfterViewInit  {
   isAdmin = this.authService.isAdmin();
   isProfissional = this.authService.isProfissional();
   isPaciente = this.authService.isPaciente();
+  userInfo = this.authService.getUserInfo();
 
   constructor(private el: ElementRef) {}
 

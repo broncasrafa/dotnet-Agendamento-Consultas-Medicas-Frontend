@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule, RouterLink, Router } from '@angular/router';
+import { RouterModule, RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { DisplayValidationErrorsComponent } from 'src/app/shared/components/display-validation-errors/display-validation-errors.component';
 import { ApiResponse } from 'src/app/core/models/ApiResponse';
@@ -29,11 +29,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   private formBuilder = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
   private router = inject(Router);
   private authService = inject(AuthenticationService);
   private notificationService = inject(NotificationService);
 
   mostrarSenha = false;
+  returnUrl: string = '/';
 
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -41,8 +43,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
     if (this.authService.isLoggedIn()) {
-      this.router.navigateByUrl('/inicio');
+      if (this.returnUrl == '/') {
+        this.router.navigateByUrl('/inicio');
+      } else {
+        this.router.navigateByUrl(this.returnUrl);
+      }
     }
   }
 
@@ -53,7 +61,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: ApiResponse<AuthenticatedUserResponse>) => {
-          this.router.navigateByUrl('/inicio');
+          if (this.returnUrl == '/') {
+            this.router.navigateByUrl('/inicio');
+          } else {
+            this.router.navigateByUrl(this.returnUrl);
+          }
           this.notificationService.showSuccessNotification('Sucesso', `Bem vindo ${response.data!.usuario.nome}!`);
         },
         error: (err) => this.notificationService.showHttpResponseErrorNotification(err)

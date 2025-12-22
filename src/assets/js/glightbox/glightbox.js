@@ -1392,7 +1392,7 @@
           return subString;
         }
         div = null;
-        return subString + '... <a href="#" class="desc-more">' + wordBoundary + '</a>';
+        return subString + '... <a href="javascript:void(0);" class="desc-more">' + wordBoundary + '</a>';
       }
     }, {
       key: "descriptionEvents",

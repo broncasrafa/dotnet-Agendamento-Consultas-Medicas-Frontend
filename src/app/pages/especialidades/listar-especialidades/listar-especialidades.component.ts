@@ -32,11 +32,11 @@ export class ListarEspecialidadesComponent  implements OnInit, OnDestroy {
   private especialidadeService = inject(EspecialidadeService);
 
   especialidades: EspecialidadeResponse[] = []; // Lista completa ja carregada pelo cache
-  especialidadesPaginadas: EspecialidadeResponse[] = []; // Lista paginada (10 registros por vez)
+  especialidadesPaginadas: EspecialidadeResponse[] = []; // Lista paginada (15 registros por vez)
   especialidadesFiltradas: EspecialidadeResponse[] = []; // Lista filtrada após a busca
 
   totalItems = 0;
-  itemsPerPage = 12;
+  itemsPerPage = 15;
   currentPage = 1;
   termoBusca = '';
 
@@ -71,6 +71,7 @@ export class ListarEspecialidadesComponent  implements OnInit, OnDestroy {
 
   atualizarPagina(page: number, pageSize: number) {
     this.currentPage = page;
+    this.itemsPerPage = pageSize;
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
 
@@ -101,11 +102,18 @@ export class ListarEspecialidadesComponent  implements OnInit, OnDestroy {
     this.especialidadesFiltradas = [...this.especialidades];
     this.totalItems = this.especialidadesFiltradas.length;
     this.currentPage = 1;
+    this.itemsPerPage = 15;
     this.atualizarPagina(this.currentPage, this.itemsPerPage);
   }
 
   onRedirect_Especialistas(term: string) {
     this.router.navigate(['/especialidades/'+term+'/especialistas'])
+  }
+
+  onSearchIsBecomedEmpty() {
+    if (this.termoBusca.trim() === '') {
+      this.resetarBusca();
+    }
   }
 
 }

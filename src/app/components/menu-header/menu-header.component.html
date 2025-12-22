@@ -58,6 +58,13 @@
                 <span>Conta</span> <i #dropdownItems class="bi bi-chevron-down toggle-dropdown" (click)="toggleDropdown($event)"></i>
               </a>
               <ul>
+                <li>
+                  <div class="nome-divider">
+                    <strong>
+                      <small class="text-muted">{{ userInfo.nome }}</small>
+                    </strong><br />
+                  </div>
+                </li>
                 <li><a routerLink="/paciente/conta">Editar conta</a></li>
                 <li><a routerLink="/paciente/painel">Painel</a></li>
                 <li><a routerLink="/paciente/consultas">Minhas consultas</a></li>

@@ -16,54 +16,6 @@
   </div>
 </section>
 
-<!-- Perguntas e respostas -->
- <!-- @if (showFormSection) {
- <section class="section">
-  <div class="container">
-    <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onEnviarPergunta(formDirective)">
-      <div class="row">
-        <div class="col-12">
-          <div class="form-floating mb-3">
-            <textarea class="form-control" placeholder="Faça sua pergunta aqui, mínimo de 50 caracteres e máximo de 300 caracteres" formControlName="pergunta" id="pergunta" style="height: 100px"
-                    appInputCharacterCount [maxLength]="300"></textarea>
-            <label for="pergunta">Faça sua pergunta aqui</label>
-            <app-display-validation-errors [control]="form.controls.pergunta" [formGroupDirective]="formDirective"></app-display-validation-errors>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="form-floating mb-3">
-            <select class="form-select" id="especialidadeId" aria-label="especialidadeId" formControlName="especialidadeId">
-              <option value="" selected>Selecione...</option>
-              <option *ngFor="let item of especialidades; let i = index;" [value]="item.id">{{item.nome}}</option>
-            </select>
-            <label for="especialidadeId" class="form-label">Escolha a especialidade</label>
-            <app-display-validation-errors [control]="form.controls.especialidadeId" [formGroupDirective]="formDirective"></app-display-validation-errors>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="box-consentimentos">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" formControlName="termosUsoPolitica" id="termosUsoPolitica" required>
-              <label class="form-check-label text-secondary" for="termosUsoPolitica">
-                Li e concordo com os <a href="javascript:void(0);" class="link-primary text-decoration-none">Termos de Uso e Política de Privacidade</a>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-3">
-          <div class="d-grid my-3">
-            <button class="btn btn-primary btn-lg" type="submit" [disabled]="!form.valid || !form.controls.termosUsoPolitica">Enviar pergunta</button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
- </section>
-} -->
-
 <!-- Como que funciona? -->
 <section id="services" class="services section">
   <div class="container section-title" data-aos="fade-up">
@@ -77,7 +29,7 @@
           <div class="icon">
             <i class="fas fa-solid fa-1"></i>
           </div>
-          <a href="#" class="stretched-link">
+          <a href="javascript:void(0);" class="stretched-link">
             <h3>Pergunte</h3>
           </a>
           <p>
@@ -91,7 +43,7 @@
           <div class="icon">
             <i class="fas  fa-solid fa-2"></i>
           </div>
-          <a href="#" class="stretched-link">
+          <a href="javascript:void(0);" class="stretched-link">
             <h3>Envie e aguarde</h3>
           </a>
           <p>
@@ -105,7 +57,7 @@
           <div class="icon">
             <i class="fas  fa-solid fa-3"></i>
           </div>
-          <a href="#" class="stretched-link">
+          <a href="javascript:void(0);" class="stretched-link">
             <h3>Leia</h3>
           </a>
           <p>
@@ -124,65 +76,74 @@
     <h2>Principais perguntas sobre saúde</h2>
   </div>
 
-@if (perguntasList !== undefined && perguntasList !== null && perguntasList.length > 0) {
-  @for (pergunta of perguntasList; track pergunta.id; let idx = $index) {
 
-    <section style="margin-bottom: -6rem; margin-top: -6rem;">
-      <div class="container overflow-hidden">
-        <div class="row gy-3 gy-lg-4">
-          <div class="col-12 col-lg-12">
-            <div class="card">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-12 col-md-10 col-lg-12">
-                    <h5 class="mb-4 pergunta-text" (click)="onRedirect_Pergunta(pergunta.id)">{{pergunta.pergunta }}</h5>
-                    <p class="card-text mb-2"><small class="text-muted">{{pergunta.createdAtFormatted}}</small></p>
+
+@if (perguntasList !== undefined && perguntasList !== null && perguntasList.length > 0) {
+  <div class="row">
+    <div class="col-12">
+        @for (pergunta of perguntasPaginadas; track pergunta.id; let idx = $index) {
+          <section class="section-perguntas">
+            <div class="container overflow-hidden">
+              <div class="row gy-3 gy-lg-4">
+                <div class="col-12 col-lg-12">
+                  <div class="card">
+                    <div class="card-body pergunta-divider">
+                      <div class="row">
+                        <div class="col-12 col-md-10 col-lg-12">
+                          <p class="bd-lead pergunta-text bold mb-1" (click)="onRedirect_Pergunta(pergunta.id)">{{pergunta.pergunta }}</p>
+                          <p class="card-text mb-1"><small class="text-muted">{{pergunta.createdAtFormatted}}</small></p>
+                          <p class="card-text mb-1 lead"><small class="text-muted">{{pergunta.especialidade?.nome}}</small></p>
+                        </div>
+                      </div>
+                    </div>
+
+                    @if (pergunta.respostas !== undefined && pergunta.respostas !== null && pergunta.respostas.length > 0) {
+                      <div class="card-body p-4">
+                        <blockquote class="bsb-blockquote-icon mb-3">{{pergunta.respostas[0].resposta}}</blockquote>
+                        <p class="card-text"><small class="text-muted">{{pergunta.respostas[0].createdAtFormatted}}</small></p>
+                        <figure class="d-flex align-items-center m-0 p-0">
+                          <img class="img-fluid rounded rounded-circle m-0 border border-5" loading="lazy" src="assets/img/doctors/doctors-2.jpg" alt="{{pergunta.respostas[0].especialista.nome}}" width="80" height="80" >
+                          <figcaption class="ms-3">
+                            <h4 class="mb-1 h5">{{pergunta.respostas[0].especialista.nome}}</h4>
+                            <h5 class="fs-6 text-secondary mb-0">{{pergunta.respostas[0].especialista.especialidades[0].nome}}</h5>
+                            @if (pergunta.respostas[0].especialista.avaliacao !== undefined && pergunta.respostas[0].especialista.avaliacao !== null) {
+                              <div class="bsb-ratings text-warning mb-3" data-bsb-star="pergunta.respostas[0].especialista.avaliacao" data-bsb-star-off="0"></div>
+                            }
+                            <p class="mt-4">
+                              <button class="cta-btn-primary">Marcar consulta agora</button>
+                            </p>
+                          </figcaption>
+                        </figure>
+                      </div>
+                      <div class="card-body">
+                        <span><a href="javascript:void(0);" class="card-link link-primary text-decoration-none" (click)="onRedirect_Pergunta(pergunta.id)">Ver todas as respostas</a></span>
+                      </div>
+                    } @else {
+                      <div class="card-body">
+                        <span class="text-xs text-gray-500">
+                          Sem respostas até o momento
+                        </span>
+                      </div>
+                    }
                   </div>
                 </div>
               </div>
-
-              @if (pergunta.respostas !== undefined && pergunta.respostas !== null && pergunta.respostas.length > 0) {
-                <div class="card-body p-4">
-                  <blockquote class="bsb-blockquote-icon mb-3">{{pergunta.respostas[0].resposta}}</blockquote>
-                  <p class="card-text"><small class="text-muted">{{pergunta.respostas[0].createdAtFormatted}}</small></p>
-                  <figure class="d-flex align-items-center m-0 p-0">
-                    <img class="img-fluid rounded rounded-circle m-0 border border-5" loading="lazy" src="assets/img/doctors/doctors-2.jpg" alt="{{pergunta.respostas[0].especialista.nome}}" width="80" height="80" >
-                    <figcaption class="ms-3">
-                      <h4 class="mb-1 h5">{{pergunta.respostas[0].especialista.nome}}</h4>
-                      <h5 class="fs-6 text-secondary mb-0">{{pergunta.respostas[0].especialista.especialidades[0].nome}}</h5>
-                      @if (pergunta.respostas[0].especialista.avaliacao !== undefined && pergunta.respostas[0].especialista.avaliacao !== null) {
-                        <div class="bsb-ratings text-warning mb-3" data-bsb-star="pergunta.respostas[0].especialista.avaliacao" data-bsb-star-off="0"></div>
-                      }
-                      <p class="mt-4">
-                        <button class="cta-btn-primary">Marcar consulta agora</button>
-                      </p>
-                    </figcaption>
-                  </figure>
-                </div>
-                <div class="card-body">
-                  <p><a href="#" class="card-link link-primary text-decoration-none">Ver todas as respostas</a></p>
-                </div>
-              } @else {
-                <div class="card-body">
-                  <p class="text-xs text-gray-500">
-                    Sem respostas até o momento
-                  </p>
-                </div>
-              }
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-  } @empty {
-    <div class="card-body">
-      <p>
-        Sem perguntas até o momento
-      </p>
+          </section>
+        }
     </div>
-  }
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="container">
+        <app-pagination
+          [totalItems]="totalItems"
+          [itemsPerPage]="itemsPerPage"
+          (pageChanged)="atualizarPagina($event.page, $event.pageSize)">
+        </app-pagination>
+      </div>
+    </div>
+  </div>
 } @else {
   <div class="card-body">
     <div class="mt-1 mb-4">

@@ -57,6 +57,10 @@
   text-decoration: underline;
 }
 
+.pergunta-divider {
+  border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
+}
+
 .img-mask {
   -webkit-mask-image: url(../../../../assets/img/hero-img-blob-1.svg);
   mask-image: url(../../../../assets/img/hero-img-blob-1.svg);

@@ -14,9 +14,13 @@
   --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
   --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
   --danger-color: #d43f67;
+  --light-color: #e0e4e9;
 
   --default-horario-bg-color: #c6d3e7; /* Background color for the button horario */
   --default-horario-text-color: #1662c6; /* Default text color for the button horario */
+
+  --bs-border-width: 1px;
+  --bs-border-color-translucent: rgba(0, 0, 0, 0.175);
 }
 
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
@@ -372,6 +376,23 @@ h6 {
 .cta-btn-danger:focus:hover {
   color: var(--contrast-color);
   background: color-mix(in srgb, var(--danger-color), transparent 15%);
+}
+
+
+.cta-btn-light {
+  color: var(--default-color);
+  background-color: var(--light-color);
+  border-color: var(--light-color);
+  border: 0;
+  padding: 10px 35px;
+  transition: 0.4s;
+  border-radius: 50px;
+  font-size: 14px;
+}
+.cta-btn-light:hover,
+.cta-btn-light:focus:hover {
+  color: var(--default-color);
+  background: color-mix(in srgb, var(--light-color), transparent 15%);
 }
 
 
@@ -888,6 +909,14 @@ section,
   padding: 60px 0;
   scroll-margin-top: 72px;
   overflow: clip;
+}
+
+.section-perguntas {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  scroll-margin-top: 72px;
+  overflow: clip;
+  padding: 10px !important;
 }
 
 @media (max-width: 1199px) {
@@ -1787,6 +1816,8 @@ section,
   color: rgba(255, 184, 0, 1);
 }
 
+
+
 .text-gray-500 {
   --tw-text-opacity: 1;
   color: #8498ae;
@@ -1794,8 +1825,21 @@ section,
 }
 
 .text-xs {
-  font-size: .75rem;
+  font-size: .85rem;
   line-height: 1rem;
+}
+
+.bd-lead {
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.p-1-5 {
+  padding: 1.5rem !important;
+}
+
+.fs-7 {
+  font-size: .875rem !important
 }
 
 .fs-8 {
@@ -2342,10 +2386,6 @@ section,
   content: "★★★★★"
 }
 
-.fs-7 {
-  font-size: .875rem !important
-}
-
 .bsb-w-5 {
   width: 5px !important
 }
@@ -2644,4 +2684,27 @@ section,
 
 .text-center {
   text-align: center;
+}
+
+.like {
+  font-size:24px
+}
+.like:hover {
+    color: #1977cc;
+}
+
+.dislike {
+  font-size:24px
+}
+.dislike:hover {
+    color: red;
+}
+
+.like-solid {
+    color: #1977cc;
+    font-weight: 900;
+}
+.dislike-solid {
+    color: red;
+    font-weight: 900;
 }

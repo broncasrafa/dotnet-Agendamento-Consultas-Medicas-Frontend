@@ -80,8 +80,9 @@ export class ConsultasPacienteComponent implements OnInit, OnDestroy {
   }
 
   onclick_DetalhesAgendamento(agendamentoId: number) {
+    const pacienteId = this.cryptoService.criptografar(this.pacienteId);
     const id = this.cryptoService.criptografar(agendamentoId);
-    this.router.navigate(['/paciente/consultas/' + this.pacienteId], {
+    this.router.navigate(['/paciente/consultas/' + pacienteId], {
       queryParams: {
         agendamentoId: id
       }

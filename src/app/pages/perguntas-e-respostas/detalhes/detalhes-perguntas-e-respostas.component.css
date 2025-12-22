@@ -1,0 +1,12 @@
+#modalFazerLogin .modal-body {
+    border-top: none !important;
+    padding: 20px;
+}
+
+#modalFazerLogin .modal-footer {
+    border-top: none !important;
+    padding: 20px;
+}
+#modalFazerLogin .modal-header {
+    border-bottom: none !important;
+}

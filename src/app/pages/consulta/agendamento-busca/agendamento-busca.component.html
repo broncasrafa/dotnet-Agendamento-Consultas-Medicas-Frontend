@@ -22,6 +22,8 @@
               [items]="cidades"
               [displayFn]="formatCidade"
               [placeholder]="placeholderCidadeText"
+              [displayIcone]="true"
+              [srcIcone]="'../../../assets/img/cityscape.png'"
               (selected)="onCidadeSelecionada($event)"
               (input)="onCidadeInput($event)">
             </app-autocomplete-search>

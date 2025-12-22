@@ -5,3 +5,8 @@
 .mobile-nav-active .mobile-nav-toggle {
   color: #fff;
 }
+
+.nome-divider {
+  padding-left: 1rem;
+  border-bottom: var(--bs-border-width) solid var(--bs-border-color-translucent);
+}

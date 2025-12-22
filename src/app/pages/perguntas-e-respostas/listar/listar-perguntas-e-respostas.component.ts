@@ -11,12 +11,14 @@ import { selectValidator, checkboxRequiredValidator } from 'src/app/core/utils/f
 import { PerguntaResponse } from 'src/app/core/models/perguntas-respostas/response/PerguntaResponse';
 import { EspecialidadeResponse } from 'src/app/core/models/especialidade/response/EspecialidadeResponse';
 import { CreatePerguntaRequest } from 'src/app/core/models/perguntas-respostas/request/CreatePerguntaRequest';
-import { LoadingService } from 'src/app/shared/services/loading.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { PerguntasRespostasService } from 'src/app/core/services/perguntas-respostas.service';
 import { EspecialidadeService } from 'src/app/core/services/especialidade.service';
 import { BsModalService } from 'src/app/shared/services/bs-modal.service';
+import { CryptoService } from 'src/app/shared/services/crypto.service';
+import { DateExtensoFormattedPipe } from 'src/app/shared/pipes/date-extenso-formatted.pipe';
+import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-perguntas-e-respostas',
@@ -26,8 +28,9 @@ import { BsModalService } from 'src/app/shared/services/bs-modal.service';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    DisplayValidationErrorsComponent,
     FormFazerPerguntaComponent,
+    PaginationComponent,
+    DisplayValidationErrorsComponent,
     InputCharacterCountDirective
   ],
   templateUrl: './listar-perguntas-e-respostas.component.html',
@@ -43,12 +46,19 @@ export class PerguntasERespostasListarComponent implements OnInit, OnDestroy {
   private especialidadeService = inject(EspecialidadeService);
   private authService = inject(AuthenticationService);
   private modalService = inject(BsModalService);
-  private loadingService = inject(LoadingService);
+  private cryptoService = inject(CryptoService);
 
-  perguntasList: PerguntaResponse[] = [];
-  especialidades: EspecialidadeResponse[] = [];
   isLogged = this.authService.isLoggedIn();
   showFormSection = false;
+
+  perguntasList: PerguntaResponse[] = [];
+  perguntasPaginadas: PerguntaResponse[] = [];
+  perguntasFiltradas: PerguntaResponse[] = [];
+  especialidades: EspecialidadeResponse[] = [];
+
+  totalItems = 0;
+  itemsPerPage = 15;
+  currentPage = 1;
 
   form = this.formBuilder.group({
     pergunta: ['', [Validators.required, Validators.minLength(50), Validators.maxLength(300)]],
@@ -68,19 +78,6 @@ export class PerguntasERespostasListarComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  getPerguntasList(page: number = 1, pageSize: number = 20) {
-    this.perguntaRespostaService.getPerguntasEspecialidadesPaged(page, pageSize)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response) => {
-          this.perguntasList = response.data!.results;
-        },
-        error: (err) => {
-          this.notificationService.showHttpResponseErrorNotification(err);
-        }
-      });
-  }
-
   getEspecialidadesList() {
     this.especialidadeService.getEspecialidades()
       .pipe(takeUntil(this.destroy$))
@@ -90,8 +87,35 @@ export class PerguntasERespostasListarComponent implements OnInit, OnDestroy {
       });
   }
 
+  getPerguntasList(page: number = 1, pageSize: number = 20) {
+    this.perguntaRespostaService.getPerguntasEspecialidadesPaged(page, pageSize)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.perguntasList = response.data!.results;
+          this.totalItems = response.data!.total;
+          this.currentPage = 1;
+          this.atualizarPagina(this.currentPage, this.itemsPerPage);
+        },
+        error: (err) => {
+          this.notificationService.showHttpResponseErrorNotification(err);
+        }
+      });
+  }
+
+  atualizarPagina(page: number, pageSize: number) {
+    this.currentPage = Number(page);
+    this.itemsPerPage = Number(pageSize);
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    // Filtro da página atual
+    this.perguntasPaginadas = this.perguntasList.slice(startIndex, endIndex);
+  }
+
   onRedirect_Pergunta(id: number) {
-    this.router.navigate(['/perguntas-e-respostas', id]);
+    const perguntaId = this.cryptoService.criptografar(id);
+    this.router.navigate(['/perguntas-e-respostas', perguntaId]);
   }
 
   onShowModalFazerPergunta() {

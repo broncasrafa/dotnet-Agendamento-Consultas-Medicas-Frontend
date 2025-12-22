@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ApiResponse } from 'src/app/core/models/ApiResponse';
 import { ApiPagedResponse } from 'src/app/core/models/ApiPagedResponse';
 import { PerguntaResponse } from 'src/app/core/models/perguntas-respostas/response/PerguntaResponse';
 import { CreatePerguntaRequest } from 'src/app/core/models/perguntas-respostas/request/CreatePerguntaRequest';
+import { CreateReacaoRespostaRequest } from 'src/app/core/models/perguntas-respostas/request/CreateReacaoRespostaRequest';
+import { DISABLE_GLOBAL_LOADING } from 'src/app/core/interceptors/loading-context';
 
 @Injectable({
   providedIn: 'root'
@@ -61,5 +63,30 @@ export class PerguntasRespostasService {
    */
   getPerguntasEspecialistasPaged(especialistaId: number, page: number, pageSize: number = 10): Observable<ApiPagedResponse<PerguntaResponse>> {
     return this.http.get<ApiPagedResponse<PerguntaResponse>>(`${this.base_api_url_especialista}/${especialistaId}/perguntas/?page=${page}&items=${pageSize}`, { responseType: 'json' });
+  }
+
+
+  /**
+   * Dar um like na resposta na API
+   * @param request dados da reacao a ser cadastrada
+   * @returns true se a reacao foi cadastrada com sucesso, caso contrário false.
+   */
+  likeResposta(request: CreateReacaoRespostaRequest): Observable<ApiResponse<boolean>> {
+    return this.http.post<ApiResponse<boolean>>(`${this.base_api_url_respostas}/like`, request, {
+      context: new HttpContext().set(DISABLE_GLOBAL_LOADING, true)
+    });
+  }
+
+  /**
+   * Dar um dislike na resposta na API
+   * @param request dados da reacao a ser cadastrada
+   * @returns true se a reacao foi cadastrada com sucesso, caso contrário false.
+   */
+  dislikeResposta(request: CreateReacaoRespostaRequest): Observable<ApiResponse<boolean>> {
+    return this.http.delete<ApiResponse<boolean>>(`${this.base_api_url_respostas}/dislike`,
+      {
+        body: request,
+        context: new HttpContext().set(DISABLE_GLOBAL_LOADING, true)
+      });
   }
 }

@@ -8,6 +8,8 @@ export class RespostaResponse {
   createdAtFormatted: string
   likes: number
   dislikes: number
+  likedByCurrentUser?: boolean
+  likesCount: number
   especialista: EspecialistaResponse
   pacientesLikeDislike: RespostaLikeDislikeResponse[]
 }

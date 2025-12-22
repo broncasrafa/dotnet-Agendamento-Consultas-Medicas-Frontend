@@ -14,6 +14,8 @@ export class AutocompleteSearchComponent {
   @Input() placeholder: string = 'Digite para buscar...';
   @Input() items: any[] = [];
   @Input() displayFn?: (item: any) => string;
+  @Input() displayIcone: boolean = false;
+  @Input() srcIcone: string = '../../../assets/img/logo_1.png';
   @Output() selected = new EventEmitter<any>();
   @Output() search = new EventEmitter<string>();
 

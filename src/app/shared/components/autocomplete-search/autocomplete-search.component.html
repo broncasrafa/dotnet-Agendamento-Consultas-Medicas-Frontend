@@ -1,6 +1,6 @@
 <div class="autocomplete-container">
 
-  <input #searchInput type="text" class="form-control"
+  <input #searchInput type="text" class="form-control"  name="ddl-autocomplete" id="ddl-autocomplete"
     [placeholder]="placeholder"
     [(ngModel)]="searchTerm"
     (input)="filterItems()"
@@ -9,9 +9,10 @@
     />
   <ul class="list-group autocomplete-dropdown" *ngIf="showDropdown">
     <li class="list-group-item" *ngFor="let item of filteredItems; let i = index"
-      [class.active]="i === highlightedIndex"
-      (click)="selectItem(item)"
-      (mouseenter)="highlightedIndex = i">
+      [class.active]="i === highlightedIndex" (click)="selectItem(item)" (mouseenter)="highlightedIndex = i">
+      @if (displayIcone) {
+        <img [src]="srcIcone" alt="dropdownImg" class="me-3" width="32" height="32">
+      }
       {{ displayFn! ? displayFn(item) : item }}
     </li>
   </ul>

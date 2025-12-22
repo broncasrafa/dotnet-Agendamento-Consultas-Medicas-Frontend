@@ -18,12 +18,12 @@ import { NumberThousandsFormattedPipe } from 'src/app/shared/pipes/number-thousa
 export class PaginationComponent {
 
   @Input() totalItems = 0; // Total de itens na API
-  @Input() itemsPerPage = 10; // Itens por página (default: 10)
+  @Input() itemsPerPage = 15; // Itens por página (default: 15)
   @Output() pageChanged = new EventEmitter<{ page: number; pageSize: number }>();
 
   currentPage = 1;
 
-  itemsPerPageOptions = [5, 10, 12, 20, 50, 100];
+  itemsPerPageOptions = [15, 30, 45];
 
   get totalPages(): number {
     this.totalItems = AppUtils.isNullOrUndefined(this.totalItems) ? 0 : this.totalItems;

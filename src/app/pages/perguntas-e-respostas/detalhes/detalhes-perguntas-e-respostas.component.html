@@ -5,7 +5,7 @@
         <div class="col-12 col-lg-8">
           <div class="row justify-content-xl-end">
             <div class="col-12 col-xl-11">
-              <p class="lead fs-4 text-secondary">{{pergunta.pergunta}}</p>
+              <p class="lead fs-4 text-secondary bold">{{pergunta.pergunta}}</p>
               <p class="card-text mb-2"><small class="text-muted">{{pergunta.createdAtFormatted}}</small></p>
             </div>
           </div>
@@ -19,10 +19,19 @@
   <section class="py-3 py-md-5 mb-5" style="height: auto !important;">
     <div class="container">
       @if (pergunta.respostas !== undefined && pergunta.respostas !== null && pergunta.respostas.length > 0) {
+        <div class="row">
+          <div class="col-12">
+            <div>
+              <p class="lead bold">
+                {{ pergunta.totalRespostas}} resposta(s) encontrada(s)
+              </p>
+            </div>
+          </div>
+        </div>
         <div class="row mb-3" *ngFor="let resposta of pergunta.respostas; let i = index">
           <div class="col-12 col-lg-12">
             <div class="card">
-              <div class="card-body p-4 p-xxl-5">
+              <div class="card-body p-1-5">
                 <blockquote class="bsb-blockquote-icon mb-3">{{resposta.resposta}}</blockquote>
                 <p class="card-text mb-2"><small class="text-muted">{{resposta.createdAtFormatted}}</small></p>
                 <figure class="d-flex align-items-center m-0 p-0">
@@ -33,16 +42,34 @@
                     @if (resposta.especialista.avaliacao !== undefined && resposta.especialista.avaliacao !== null) {
                       <div class="bsb-ratings text-warning mb-3" data-bsb-star="pergunta.respostas[0].especialista.avaliacao" data-bsb-star-off="0"></div>
                     }
-                    <div class="mt-4">
-                      <div class="form-check-inline">
-                        <i class='far fa-thumbs-up' style='font-size:24px'></i>
-                        <label class="form-check-label ms-2" for="inlineRadio1">{{resposta.likes}}</label>
+
+                    @if (isLogged) {
+                      <div class="d-flex align-items-center gap-1 mt-3">
+                        <button type="button" class="btn p-0 border-0 d-flex align-items-center"
+                          (click)="onToggleLike(resposta)"
+                          [ngClass]="{
+                            'text-danger': resposta.likedByCurrentUser,
+                            'text-muted': !resposta.likedByCurrentUser
+                          }"
+                        >
+                          <i class="far fa-heart" [ngClass]="resposta.likedByCurrentUser ? 'fa-solid' : 'fa-regular'"></i>
+                        </button>
+
+                        <span class="ms-1 small">
+                          {{ resposta.likesCount ?? 0 }}
+                        </span>
                       </div>
-                      <div class="form-check-inline ms-3">
-                        <i class='far fa-thumbs-down' style='font-size:24px'></i>
-                        <label class="form-check-label ms-2" for="inlineRadio2">{{resposta.dislikes}}</label>
-                      </div>
-                    </div>
+                      <!-- <div class="mt-4">
+                        <div class="form-check-inline">
+                          <i class='far fa-thumbs-up cursor-pointer like' [ngClass]="verifyReactionExists(resposta) == 'Like' ? 'like-solid' : '' " (click)="onclick_like(resposta.id)"></i>
+                          <label class="form-check-label ms-2" for="inlineRadio1">{{resposta.likes}}</label>
+                        </div>
+                        <div class="form-check-inline ms-3">
+                          <i class='far fa-thumbs-down cursor-pointer dislike' [ngClass]="verifyReactionExists(resposta) == 'Dislike' ? 'dislike-solid' : '' " (click)="onclick_dislike(resposta.id)"></i>
+                          <label class="form-check-label ms-2" for="inlineRadio2">{{resposta.dislikes}}</label>
+                        </div>
+                      </div> -->
+                    }
 
                   </figcaption>
                 </figure>
@@ -62,4 +89,39 @@
       }
     </div>
   </section>
+</div>
+
+
+
+<!-- modal informando login necessário -->
+<div class="modal fade" id="modalFazerLogin" tabindex="-1" aria-labelledby="modalFazerLoginLabel" data-bs-backdrop="static" aria-modal="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalFazerLoginLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="text-center">
+                <p>
+                  <i class="fas fa-exclamation-circle fa-5x text-primary mb-3"></i>
+                </p>
+                <p class="lead bold">Para avaliar é necessário estar logado. Deseja se logar?</p>
+                <small class="text-secondary">
+                  Caso não tenha cadastro, <a class="is-link" (click)="onclick_redirect_register()">clique aqui</a>
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="cta-btn-light" data-bs-dismiss="modal">cancelar</button>
+          <button type="button" class="cta-btn-primary" (click)="onclick_redirect_login()">logar</button>
+      </div>
+    </div>
+  </div>
 </div>
