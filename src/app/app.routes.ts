@@ -117,8 +117,8 @@ export const routes: Routes = [
         canActivate: [authGuard]
       },
       {
-        path: 'especialidades/:term/especialistas',
-        loadComponent: () => import('./pages/especialidades/listar-especialistas-especialidade/listar-especialistas-especialidade.component').then(c => c.ListarEspecialistasEspecialidadeComponent),
+        path: 'especialidades/:especialidadeterm/especialistas',
+        loadComponent: () => import('./pages/especialista/listar-especialistas-por-especialidade/listar-especialistas-por-especialidade.component').then(c => c.ListarEspecialistasPorEspecialidadeComponent),
         canActivate: [authGuard]
       },
     ]

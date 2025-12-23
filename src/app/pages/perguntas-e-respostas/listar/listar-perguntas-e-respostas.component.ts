@@ -87,7 +87,7 @@ export class PerguntasERespostasListarComponent implements OnInit, OnDestroy {
       });
   }
 
-  getPerguntasList(page: number = 1, pageSize: number = 20) {
+  getPerguntasList(page: number = 1, pageSize: number = 15) {
     this.perguntaRespostaService.getPerguntasEspecialidadesPaged(page, pageSize)
       .pipe(takeUntil(this.destroy$))
       .subscribe({

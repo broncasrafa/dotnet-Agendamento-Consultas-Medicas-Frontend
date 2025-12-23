@@ -41,7 +41,7 @@ export class EncontreUmMedicoComponent implements OnInit, OnDestroy {
   especialistasFiltradas: EspecialistaResponse[] = [];
 
   totalItems = 0;
-  itemsPerPage = 10;
+  itemsPerPage = 15;
   currentPage = 1;
   termoBusca = '';
 
@@ -167,6 +167,7 @@ export class EncontreUmMedicoComponent implements OnInit, OnDestroy {
     this.especialistasFiltradas = [...this.especialistas];
     this.totalItems = this.especialistasFiltradas.length;
     this.currentPage = 1;
+    this.itemsPerPage = 15;
     this.atualizarPagina(this.currentPage, this.itemsPerPage);
   }
 

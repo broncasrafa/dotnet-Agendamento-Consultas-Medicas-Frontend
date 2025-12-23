@@ -1,0 +1,119 @@
+<section class="py-3 py-md-5 py-xl-2 doctors section" id="doctors">
+    <div class="container">
+      @if (especialistasList !== undefined && especialistasList !== null && especialistasList.length > 0) {
+        <div class="row">
+          @for (especialista of especialistasList; track especialista.id; let idx = $index) {
+            <div class="col-lg-12 aos-init aos-animate doctors mb-3" data-aos="fade-up" data-aos-delay="100">
+              <div class="team-member d-flex align-items-start">
+                <div class="picture">
+                  <img [src]="especialista.foto" class="img-fluid" [alt]="especialista.nome" width="120" height="120">
+                </div>
+                <div class="member-info">
+                  <div>
+                    <h4 class="cursor-pointer" (click)="onClick_redirect_especialista_info(especialista.id)">
+                      {{especialista.nome}}
+                      <i class="bi bi-patch-check-fill text-primary" title="Verificado" *ngIf="especialista.tipo == 'Premium'"></i>
+                    </h4>
+                  </div>
+                  <div>
+                      <div class="me-2 bold">{{obterEspecialidadesParametroString(especialista.especialidades)}}</div>
+                      <div class="me-2 bold" *ngIf="showDemaisEspecialidades[especialista.id]">{{obterDemaisEspecialidadesString(especialista.especialidades)}}</div>
+                      <div *ngIf="especialista.especialidades.length > 1">
+                        <a href="javascript:void(0)" class="text-decoration-none" (click)="mostrarMaisEspecialidades(especialista.id)" *ngIf="!showDemaisEspecialidades[especialista.id]">Mais</a>
+                        <a href="javascript:void(0)" class="text-decoration-none" (click)="mostrarMaisEspecialidades(especialista.id)" *ngIf="showDemaisEspecialidades[especialista.id]">Menos</a>
+                      </div>
+                  </div>
+                  <div>
+                    <p>{{especialista.licenca}}</p>
+                  </div>
+                  <!-- Rating com Estrelinhas e total de avaliações especialista.locaisAtendimento -->
+                  @if (especialista.avaliacao !== undefined && especialista.avaliacao !== null) {
+                    <div class="social">
+                      <div class="d-flex align-items-center mt-2">
+                        <span class="me-2">
+                          <app-rating-stars [ratingStar]="especialista.avaliacao" [ratingStarOff]="0"></app-rating-stars>
+                        </span>
+                        <a href="javascript:void(0)" class="text-decoration-none" >{{especialista.avaliacoes.length | numberThousandsFormatted }} avaliações</a>
+                      </div>
+                    </div>
+                  }
+
+                  <div *ngIf="!isNullOrUndefined(especialista.locaisAtendimento)">
+                      <div *ngIf="especialista.locaisAtendimento.length > 0">
+                        <div class="d-flex align-items-center justify-content-between" *ngIf="!isNullOrEmpty(especialista.locaisAtendimento[0].logradouro)" style="gap: 2rem">
+                          <div>
+                            <i class="bi bi-geo-alt text-primary fs-19"></i>
+                          </div>
+                          <div>
+                            <p class="fs-10 text-uppercase title mb-0">Endereço da unidade</p>
+                            <p class="fs-11 title mt-0" *ngIf="!isNullOrEmpty(especialista.locaisAtendimento[0].nome)">{{especialista.locaisAtendimento[0].nome}}</p>
+                            <p class="fs-10 text-muted mt-0">
+                              {{especialista.locaisAtendimento[0] | addressFormatted}}
+                            </p>
+                          </div>
+                        </div>
+                        <hr />
+                      </div>
+                      <div *ngIf="especialista.locaisAtendimento.length > 1 && showDemaisLocaisAtendimento[especialista.id]">
+                        <div *ngFor="let local of skip(especialista.locaisAtendimento, 1); let i = index;" >
+                          <div class="d-flex align-items-center" *ngIf="!isNullOrEmpty(local.logradouro)" style="gap: 2rem">
+                            <div>
+                              <i class="bi bi-geo-alt text-primary fs-19"></i>
+                            </div>
+                            <div>
+                              <p class="fs-10 text-uppercase title mb-0">Endereço da unidade</p>
+                              <p class="fs-11 title mt-0" *ngIf="!isNullOrEmpty(local.nome)">{{local.nome}}</p>
+                              <p class="fs-10 text-muted mt-0">
+                                {{local | addressFormatted}}
+                              </p>
+                            </div>
+                          </div>
+                          <hr />
+                        </div>
+                      </div>
+                      <div class="text-center fs-9" *ngIf="especialista.locaisAtendimento.length > 1">
+                        <a href="javascript:void(0)" class="text-decoration-none" (click)="mostrarMaisLocaisAtendimento(especialista.id)" *ngIf="!showDemaisLocaisAtendimento[especialista.id]">Mostrar mais unidades</a>
+                        <a href="javascript:void(0)" class="text-decoration-none" (click)="mostrarMaisLocaisAtendimento(especialista.id)" *ngIf="showDemaisLocaisAtendimento[especialista.id]">Mostrar menos unidades</a>
+                      </div>
+                  </div>
+
+                  <div class="social">
+                    <div class="text-center my-3">
+                      <button class="cta-btn-primary" (click)="onClick_redirect_especialista_info(especialista.id)">Marque sua consulta</button>
+                    </div>
+                  </div>
+
+                  <!-- <div class="social">
+                    <a href=""><i class="bi bi-twitter-x"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""> <i class="bi bi-linkedin"></i> </a>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+        <!-- Paginação -->
+        <div class="row">
+          <div class="col-12">
+            <div class="container">
+              <app-pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" (pageChanged)="atualizarPagina($event.page, $event.pageSize)">
+              </app-pagination>
+            </div>
+          </div>
+        </div>
+      }
+      @else {
+        <div class="row">
+          <div class="col-12">
+            <div class="card-body">
+              <div class="mt-1 mb-4">
+                <p class="text-xs text-gray-500">Nenhum resultado encontrado</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+</section>

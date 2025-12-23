@@ -60,6 +60,6 @@ export class PaginationComponent {
   }
 
   private emitChange() {
-    this.pageChanged.emit({ page: this.currentPage, pageSize: this.itemsPerPage });
+    this.pageChanged.emit({ page: Number(this.currentPage), pageSize: Number(this.itemsPerPage) });
   }
 }

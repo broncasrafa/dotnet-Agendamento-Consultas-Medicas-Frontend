@@ -6,6 +6,7 @@ import { EspecialistaPerguntaResponse } from "src/app/core/models/especialista/r
 
 export class EspecialistaResponse {
   id: number
+  userId: string
   nome: string
   licenca: string
   foto: string

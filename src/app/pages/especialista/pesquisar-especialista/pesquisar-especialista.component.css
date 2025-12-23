@@ -1,0 +1,5 @@
+.div-scroll-horarios{
+  height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

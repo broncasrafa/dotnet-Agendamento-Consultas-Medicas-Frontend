@@ -4,6 +4,8 @@ import { map, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ApiResponse } from 'src/app/core/models/ApiResponse';
 import { EspecialidadeResponse } from 'src/app/core/models/especialidade/response/EspecialidadeResponse';
+import { EspecialistaResponse } from 'src/app/core/models/especialista/response/EspecialistaResponse';
+import { ApiPagedResponse } from 'src/app/core/models/ApiPagedResponse';
 import { CacheService } from 'src/app/shared/services/cache.service';
 
 @Injectable({
@@ -36,5 +38,17 @@ export class EspecialidadeService {
         }
       })
     );
+  }
+
+  /**
+   * Obter a lista de especialistas associados a uma especialidade específica, de forma paginada
+   * @param term - termo da especialidade
+   * @param page - página atual
+   * @param pageSize - número de itens por página
+   * @returns Observable com os dados paginados de especialistas
+   */
+  getEspecialistasByEspecialidadeTermPaged(term: string, page: number, pageSize: number): Observable<ApiPagedResponse<EspecialistaResponse>> {
+    const url = `${this.base_api_url}/${term}/especialistas?page=${page}&items=${pageSize}`;
+    return this.http.get<ApiPagedResponse<EspecialistaResponse>>(url, { responseType: 'json' });
   }
 }

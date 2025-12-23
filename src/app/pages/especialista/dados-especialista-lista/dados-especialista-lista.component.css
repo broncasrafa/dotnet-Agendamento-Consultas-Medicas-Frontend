@@ -1,0 +1,11 @@
+.title {
+  color: #004186;
+  font-weight: 700;
+  line-height: 125%;
+  padding: 0;
+}
+
+.doctors .team-member h4:hover {
+  color: var(--default-horario-text-color);
+  cursor: pointer;
+}
