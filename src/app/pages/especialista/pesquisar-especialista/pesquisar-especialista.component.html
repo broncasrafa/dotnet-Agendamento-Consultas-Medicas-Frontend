@@ -4,7 +4,11 @@
       <div class="col-12 col-lg-8">
         <div class="row">
           <div class="col-12 col-xl-11">
-            <p class="lead bold fs-4 text-secondary">{{especialidade}}, {{cidade}}</p>
+            <p class="lead bold fs-4 text-secondary">
+              {{especialidade}}, {{cidade}} - {{estado}} -
+              <span class="is-link fs-4" (click)="stepper.openOffcanvas()">Editar busca</span>
+            </p>
+            <p class="mb-2" *ngIf="totalItems > 0"><small class="text-muted">{{totalItems | numberThousandsFormatted}} resultados encontrados</small></p>
             <p class="mb-2"><small class="text-muted">Agende online, sem custos adicionais</small></p>
           </div>
         </div>
@@ -14,7 +18,7 @@
 </section>
 
 <section class="py-3 py-md-5 py-xl-2">
-  <div class="container">
+  <div class="container" *ngIf="!isArrayNullOrEmpty(especialistas)">
     <div class="row gy-5 gy-lg-0 mb-3" *ngFor="let especialista of especialistas; let i = index;">
       <div class="col-12">
         <div class="card">
@@ -59,7 +63,7 @@
 
                 </div>
                 <!-- convenios atendidos -->
-                <div class="container my-4">
+                <div class="container my-4" *ngIf="especialista.conveniosMedicosAtendidos !== null && especialista.conveniosMedicosAtendidos !== undefined && especialista.conveniosMedicosAtendidos.length > 0">
                   <div class="row">
                     <div class="col-12">
                       <div class="d-grid gap-2">
@@ -184,7 +188,6 @@
         </div>
       </div>
     </div>
-
     <div class="row gy-5 gy-lg-0 mb-3">
       <div class="text-center my-3">
         <button class="cta-btn-primary" (click)="carregarMaisEspecialistas()" [disabled]="carregando || !temMaisItens" *ngIf="temMaisItens">
@@ -192,6 +195,18 @@
         </button>
       </div>
     </div>
-
   </div>
+  <div *ngIf="isArrayNullOrEmpty(especialistas)">
+    <app-result-response-empty></app-result-response-empty>
+  </div>
+
 </section>
+
+<!-- modal editar a busca -->
+<app-pesquisar-especialista-stepper
+    #stepper
+    [especialidades]="especialidades"
+    [cidades]="cidades"
+    [conveniosMedicos]="conveniosMedicos"
+    (searchResult)="edit_search_result_event($event)">
+</app-pesquisar-especialista-stepper>

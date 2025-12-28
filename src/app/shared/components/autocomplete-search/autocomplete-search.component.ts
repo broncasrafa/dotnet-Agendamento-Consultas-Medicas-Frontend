@@ -16,6 +16,7 @@ export class AutocompleteSearchComponent {
   @Input() displayFn?: (item: any) => string;
   @Input() displayIcone: boolean = false;
   @Input() srcIcone: string = '../../../assets/img/logo_1.png';
+
   @Output() selected = new EventEmitter<any>();
   @Output() search = new EventEmitter<string>();
 
@@ -47,12 +48,6 @@ export class AutocompleteSearchComponent {
     });
 
     this.search.emit(this.searchTerm);
-
-    // this.filteredItems = this.items.filter(item =>
-    //   this.displayFn ? this.displayFn(item).toLowerCase().includes(this.searchTerm.toLowerCase()) :
-    //   item.toLowerCase().includes(this.searchTerm.toLowerCase())
-    // );
-    // this.search.emit(this.searchTerm);
   }
 
   handleKeyDown(event: KeyboardEvent) {
@@ -74,6 +69,13 @@ export class AutocompleteSearchComponent {
     this.selected.emit(item);
   }
 
-
+  // Método para limpar o campo
+  clear(): void {
+    this.searchTerm = '';
+    this.filteredItems = [];
+    this.highlightedIndex = -1;
+    // como o input está com [(ngModel)]="searchTerm",
+    // o valor visual some automaticamente
+  }
 
 }

@@ -41,7 +41,7 @@ export const routes: Routes = [
       },
       {
         path: 'encontre-um-medico',
-        loadComponent: () => import('./pages/encontre-um-medico/encontre-um-medico.component').then(c => c.EncontreUmMedicoComponent)
+        loadComponent: () => import('./pages/especialista/encontre-um-medico/encontre-um-medico.component').then(c => c.EncontreUmMedicoComponent)
       },
       {
         path: 'perguntas-e-respostas',

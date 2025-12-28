@@ -1,0 +1,127 @@
+<div #offcanvasEditarBusca class="offcanvas offcanvas-start custom-width" tabindex="-1" aria-labelledby="menuLateralLabel">
+
+  <div class="offcanvas-header bg-primary py-3">
+    <!-- Botão / ícone de voltar (aparece a partir da etapa 2) -->
+    <button type="button" class="btn btn-link text-white p-0 me-2 align-items-center" (click)="goToPreviousStep()" *ngIf="currentStep > 1">
+      <i class="far fa-arrow-left me-1"></i>
+    </button>
+
+    <h5 class="offcanvas-title text-white text-center flex-grow-1 mb-0" id="menuLateralLabel">
+      Agendando uma <strong>Consulta presencial</strong>
+    </h5>
+    <button type="button" class="btn-close btn-close-white ms-2" aria-label="Fechar" (click)="onclick_fechar_offcanvas_editar_busca()"></button>
+  </div>
+
+  <div class="offcanvas-body d-flex flex-column">
+    <!-- progressbar -->
+    <div class="progress stepper-progress">
+      <div class="progress-bar bg-primary" role="progressbar"
+        [style.width.%]="progress"
+        [attr.aria-valuenow]="progress"
+        aria-valuemin="0"
+        aria-valuemax="100">
+      </div>
+    </div>
+    <!-- body do form -->
+    <div>
+      <form [formGroup]="form" autocomplete="off" novalidate class="d-flex flex-column flex-grow-1">
+          <div class="d-flex justify-content-center mb-4">
+
+            <div class="mb-3 w-100 text-center stepper-text" *ngIf="currentStep === 1">
+              <span class="bold fs-30">O que gostaria de agendar?</span>
+              <br />
+              <span class="fw-normal">Pesquise por especialidade, procedimento, sintoma ou doença.</span>
+            </div>
+            <div class="mb-3 w-100 text-left stepper-text" *ngIf="currentStep === 2">
+              <span class="bold fs-30">Onde?</span>
+              <br />
+              <span class="fw-normal">Use sua localização atual ou selecione uma cidade, bairro ou endereço para encontrarmos os profissionais mais próximos de você.</span>
+            </div>
+            <div class="mb-3 w-100 text-left stepper-text" *ngIf="currentStep === 3">
+              <span class="bold fs-30">Qual o tipo de agendamento?</span>
+              <br />
+              <span class="fw-normal">Selecione uma opção para continuar.</span>
+            </div>
+
+          </div>
+
+          <!-- Etapa 1: Especialidade -->
+          <div class="d-flex justify-content-center" *ngIf="currentStep === 1">
+              <div class="stepper-dropdownlist">
+                <app-dropdown-pesquisar-especialidades
+                  [items]="especialidades"
+                  [displayFn]="formatEspecialidade"
+                  [placeholder]="placeholderEspecialidadeText"
+                  [showButtonForMoreEspecialidades]="false"
+                  (selected)="onEspecialidadeSelecionada($event)"
+                  (input)="onEspecialidadeInput($event)">
+                </app-dropdown-pesquisar-especialidades>
+              </div>
+          </div>
+
+          <!-- Etapa 2: Cidade -->
+          <div class="d-flex justify-content-center" *ngIf="currentStep === 2">
+              <div class="stepper-dropdownlist">
+                <app-autocomplete-search
+                  [items]="cidades"
+                  [displayFn]="formatCidade"
+                  [placeholder]="placeholderCidadeText"
+                  [displayIcone]="true"
+                  [srcIcone]="'../../../assets/img/cityscape.png'"
+                  (selected)="onCidadeSelecionada($event)"
+                  (input)="onCidadeInput($event)">
+                </app-autocomplete-search>
+              </div>
+          </div>
+
+          <!-- Etapa 3: Forma de pagamento -->
+          <div class="d-flex justify-content-center" *ngIf="currentStep === 3">
+              <div class="row">
+
+                <div class="col-12 mb-3 cursor-pointer" (click)="onPagamentoParticularSelecionado()">
+                    <div class="rounded-3 p-3 stepper-dropdownlist" [ngClass]="pagamentoParticularSelecionado ? 'shadow-inner-gray-full-3-selected' : 'shadow-inner-gray-full-3'">
+                      <div class="d-flex align-items-center">
+                        <div class="box-particular-img bg-gray-100 flex rounded-full justify-center items-center">
+                          <img class="" alt="payment" width="30px" height="30px" src="../../../assets/img/payment1.png"   />
+                        </div>
+                        <div class="d-flex flex-column justify-content-center pl-1rem">
+                          <span class="fw-bold fs-13">Particular</span>
+                          <span class="text-muted fs-7">Com pagamento no local</span>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="col-12 text-center">
+                  <p><span>ou</span></p>
+                </div>
+
+                <div class="col-12">
+                  <div class="stepper-dropdownlist">
+                    <app-autocomplete-search
+                      #conveniosMedicosInput
+                      [items]="conveniosMedicos"
+                      [displayFn]="formatConvenioMedico"
+                      [placeholder]="placeholderConvenioMedicoText"
+                      [displayIcone]="true"
+                      [srcIcone]="'../../../assets/img/credit-card.png'"
+                      (selected)="onConvenioMedicoSelecionado($event)"
+                      (input)="onConvenioMedicoInput($event)"
+                      (search)="onConvenioMedicoFocus()">
+                    </app-autocomplete-search>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div class="offcanvas-footer border-top">
+    <div class="p-3 text-center">
+      <button type="button" class="btn btn-primary w-100" [disabled]="!canGoNext" (click)="onPrimaryButtonClick()">{{ primaryButtonText }}</button>
+    </div>
+  </div>
+</div>
+

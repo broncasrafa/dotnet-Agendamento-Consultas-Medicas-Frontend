@@ -7,6 +7,7 @@ import { AppUtils } from 'src/app/core/utils/app.util';
 import { EspecialistaResponse } from 'src/app/core/models/especialista/response/EspecialistaResponse';
 import { NumberThousandsFormattedPipe } from 'src/app/shared/pipes/number-thousands-formatted.pipe';
 import { DadosEspecialistaListaComponent } from 'src/app/pages/especialista/dados-especialista-lista/dados-especialista-lista.component';
+import { ResultResponseEmptyComponent } from 'src/app/shared/components/result-response-empty/result-response-empty.component';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { EspecialidadeService } from 'src/app/core/services/especialidade.service';
@@ -20,7 +21,8 @@ import { EspecialidadeService } from 'src/app/core/services/especialidade.servic
     FormsModule,
     ReactiveFormsModule,
     NumberThousandsFormattedPipe,
-    DadosEspecialistaListaComponent
+    DadosEspecialistaListaComponent,
+    ResultResponseEmptyComponent
   ],
   templateUrl: './listar-especialistas-por-especialidade.component.html',
   styleUrl: './listar-especialistas-por-especialidade.component.css'

@@ -19,9 +19,10 @@ export class PaginationComponent {
 
   @Input() totalItems = 0; // Total de itens na API
   @Input() itemsPerPage = 15; // Itens por página (default: 15)
+  @Input() currentPage = 1; // Itens por página (default: 15)
   @Output() pageChanged = new EventEmitter<{ page: number; pageSize: number }>();
 
-  currentPage = 1;
+  //currentPage = 1;
 
   itemsPerPageOptions = [15, 30, 45];
 

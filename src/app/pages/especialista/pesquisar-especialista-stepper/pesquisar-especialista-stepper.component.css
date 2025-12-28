@@ -1,0 +1,41 @@
+/*--------------------------------------------------------------
+# offcanvas
+--------------------------------------------------------------*/
+.offcanvas-header h5 {
+  color: white !important;
+}
+
+.offcanvas-header button.btn-close {
+  color: white !important;
+}
+
+.offcanvas-body {
+  padding: 0 !important;
+}
+
+.offcanvas-start.custom-width {
+  width: 920px;
+}
+/*--------------------------------------------------------------*/
+
+.progress-bar {
+  background-color: #6c09eb !important;
+}
+
+.stepper-progress {
+  height: 6px;
+}
+
+.stepper-text {
+  max-width: 35rem;
+}
+.stepper-dropdownlist {
+  width: 100%;
+  max-width: 35rem;
+}
+
+
+.box-particular-img {
+  width: 4rem;
+  height: 4rem;
+}

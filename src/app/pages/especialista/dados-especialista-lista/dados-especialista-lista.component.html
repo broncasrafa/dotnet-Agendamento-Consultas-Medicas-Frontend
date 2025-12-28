@@ -98,7 +98,11 @@
         <div class="row">
           <div class="col-12">
             <div class="container">
-              <app-pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" (pageChanged)="atualizarPagina($event.page, $event.pageSize)">
+              <app-pagination
+                  [totalItems]="totalItems"
+                  [itemsPerPage]="itemsPerPage"
+                  [currentPage]="currentPage"
+                  (pageChanged)="atualizarPagina($event.page, $event.pageSize)">
               </app-pagination>
             </div>
           </div>

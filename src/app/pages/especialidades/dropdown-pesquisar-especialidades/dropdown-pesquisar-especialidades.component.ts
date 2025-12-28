@@ -17,6 +17,7 @@ export class DropdownPesquisarEspecialidadesComponent {
 @Input() placeholder: string = 'Digite para buscar...';
   @Input() items: EspecialidadeResponse[] = [];
   @Input() displayFn?: (item: any) => string;
+  @Input() showButtonForMoreEspecialidades: boolean = true;
   @Output() selected = new EventEmitter<any>();
   @Output() search = new EventEmitter<string>();
 

@@ -117,6 +117,7 @@ export class AgendamentoBuscaComponent  implements OnInit, OnDestroy {
     this.router.navigate(['/especialistas/pesquisa'], {
       queryParams: {
         cidade: this.cidadeSelecionada.descricao,
+        estado: this.cidadeSelecionada.siglaEstado,
         especialidadeId: this.especialidadeSelecionada.id
       }
     });

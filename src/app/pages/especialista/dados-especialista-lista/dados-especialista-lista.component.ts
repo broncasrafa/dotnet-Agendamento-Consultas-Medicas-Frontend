@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -28,17 +28,19 @@ import { CryptoService } from 'src/app/shared/services/crypto.service';
   templateUrl: './dados-especialista-lista.component.html',
   styleUrl: './dados-especialista-lista.component.css'
 })
-export class DadosEspecialistaListaComponent implements OnInit, OnDestroy {
+export class DadosEspecialistaListaComponent implements OnInit, OnDestroy, OnChanges {
   @Input() especialistasList: EspecialistaResponse[] = [];
   @Input() totalItems = 0;
+  @Input() currentPage = 1;
+  @Input() itemsPerPage = 15;
   @Output() itemsPerPageUpdated = new EventEmitter<any>();
 
   private destroy$ = new Subject<void>();
   private router = inject(Router);
   private cryptoService = inject(CryptoService);
 
-  currentPage = 1;
-  itemsPerPage = 15;
+
+  // itemsPerPage = 15;
   showDemaisLocaisAtendimento: { [key: number]: boolean } = {};
   showDemaisEspecialidades: { [key: number]: boolean } = {};
   especialistasPaginadas: EspecialistaResponse[] = [];
@@ -46,14 +48,18 @@ export class DadosEspecialistaListaComponent implements OnInit, OnDestroy {
   constructor() {
   }
 
+
   ngOnInit(): void {
     this.currentPage = 1;
     this.atualizarPagina(this.currentPage, this.itemsPerPage);
+  }
+  ngOnChanges(changes: SimpleChanges): void {
   }
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
 
   isNullOrUndefined(value: any): boolean {
     return AppUtils.isNullOrUndefined(value);

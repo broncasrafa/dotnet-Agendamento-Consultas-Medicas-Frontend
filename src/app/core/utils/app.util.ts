@@ -61,6 +61,15 @@ export class AppUtils {
   }
 
   /**
+   * Verificar se o array esta null ou vazio
+   * @param obj array
+   * @returns true se for null ou vazio
+   */
+  public static isArrayNullOrEmpty<T>(obj: T[] | null | undefined): boolean {
+    return obj === null || obj === undefined || obj.length === 0;
+  }
+
+  /**
    * Converter data json 'yyyy-MM-dd' para locale date 'dd/MM/yyyy'
    * @param dateJson data no formato "yyyy-MM-dd"
    * @returns a data formatada por extenso
