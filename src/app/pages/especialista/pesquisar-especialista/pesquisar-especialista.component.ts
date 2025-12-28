@@ -108,6 +108,7 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.activatedRoute.queryParams.subscribe(params => {
+      this.paginaAtual = 1; // reinicia a paginação a cada nova busca
       this.cidade = params['cidade'] || null;
       this.estado = params['estado'] || null;
       this.especialidadeId = params['especialidadeId'] ? Number(params['especialidadeId']) : null;
@@ -177,13 +178,11 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (resp: any) => {
-        if (!AppUtils.isNullOrUndefined(resp) && resp.data.results.length > 0) {
+        if (!AppUtils.isNullOrUndefined(resp)) {
           this.especialistas = resp.data.results
           this.paginaAtual++;
           this.temMaisItens = resp.data.hasNextPage;
           this.totalItems = resp.data.total;
-        } else {
-          this.temMaisItens = false;
         }
       },
       error: err => this.notificationService.showHttpResponseErrorNotification(err)
@@ -249,8 +248,7 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
   }
 
   edit_search_result_event(event: any) {
-    console.log('Novo evento recebido:', event);
-
+    //console.log('Novo evento recebido:', event);
     this.router.navigate(['/especialistas/pesquisa'], {
         queryParams: {
           cidade: event.cidade,
