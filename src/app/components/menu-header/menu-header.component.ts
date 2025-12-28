@@ -1,5 +1,6 @@
 import { Component, HostListener, AfterViewInit, ElementRef, ViewChild, inject } from '@angular/core';
 import { RouterLinkActive, RouterModule, RouterLink, Router } from '@angular/router';
+import { AppConstants } from 'src/app/core/constants/app.const';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
@@ -14,7 +15,8 @@ import { AuthenticationService } from 'src/app/core/services/authentication.serv
   styleUrl: './menu-header.component.css'
 })
 export class MenuHeaderComponent implements AfterViewInit  {
-  emailContact = "rsfrancisco.applications@gmail.com";
+  emailContact = AppConstants.EMAIL_CONTATO;
+  telefoneContact = AppConstants.TELEFONE_CONTATO;
 
   @ViewChild('mobileNavToggleBtn') mobileNavToggleBtn!: ElementRef;
 

@@ -107,7 +107,7 @@ export const routes: Routes = [
       {
         path: 'especialista/:id',
         loadComponent: () => import('./pages/especialista/detalhes-especialista/detalhes-especialista.component').then(c => c.DetalhesEspecialistaComponent),
-        canActivate: [authGuard]
+        //canActivate: [authGuard]
       },
 
       // especialidade

@@ -94,11 +94,11 @@ export class AuthenticationService {
      */
   getUserInfo(): Usuario {
     var userLoggedInfo = JSON.parse(localStorage.getItem(CredentialsSessionKeys.USER_INFO)!) as Usuario;
-    if (AppUtils.isNullOrUndefined(userLoggedInfo)) {
-      this.logout();
-      this.router.navigate(['/login']);
-      return userLoggedInfo;
-    }
+    // if (AppUtils.isNullOrUndefined(userLoggedInfo)) {
+    //   this.logout();
+    //   this.router.navigate(['/login']);
+    //   return userLoggedInfo;
+    // }
     return userLoggedInfo;
   }
 

@@ -3,64 +3,67 @@
   <div class="container footer-top">
     <div class="row gy-4">
       <div class="col-lg-4 col-md-6 footer-about">
-        <a href="index.html" class="logo d-flex align-items-center">
+        <a routerLink="/inicio" class="logo d-flex align-items-center">
           <span class="sitename">ConsultaNet</span>
         </a>
+        <div class="footer-intro">
+          <p>A plataforma mais completa para agendamento de consultas médicas, exames e procedimentos em todo o Brasil.</p>
+        </div>
         <div class="footer-contact pt-3">
           <p>Avenida Fagundes de Oliveira</p>
           <p>Diadema, SP 09950300</p>
-          <p class="mt-3"><strong>Phone:</strong> <span>+55 11 9.6064-1048</span></p>
-          <p><strong>Email:</strong> <span>{{emailContato}}</span></p>
+          <p class="mt-3"><strong>Phone: </strong> <span>{{telefoneContato}}</span></p>
+          <p><strong>Email: </strong> <span>{{emailContato}}</span></p>
         </div>
         <div class="social-links d-flex mt-4">
-          <a href=""><i class="bi bi-twitter-x"></i></a>
-          <a href=""><i class="bi bi-facebook"></i></a>
-          <a href=""><i class="bi bi-instagram"></i></a>
-          <a href=""><i class="bi bi-linkedin"></i></a>
+          <a href="javascript:void(0);"><i class="bi bi-twitter-x"></i></a>
+          <a href="javascript:void(0);"><i class="bi bi-facebook"></i></a>
+          <a href="javascript:void(0);"><i class="bi bi-instagram"></i></a>
+          <a href="javascript:void(0);"><i class="bi bi-linkedin"></i></a>
         </div>
       </div>
 
       <div class="col-lg-2 col-md-3 footer-links">
-        <h4>Useful Links</h4>
+        <h4>Links Rápidos</h4>
         <ul>
-          <li><a href="javascript:void(0);">Home</a></li>
-          <li><a href="javascript:void(0);">About us</a></li>
-          <li><a href="javascript:void(0);">Services</a></li>
-          <li><a href="javascript:void(0);">Terms of service</a></li>
-          <li><a href="javascript:void(0);">Privacy policy</a></li>
+          <li><a routerLink="/inicio">Home</a></li>
+          <li><a routerLink="/sobre-nos">Sobre Nós</a></li>
+          <li><a routerLink="/perguntas-e-respostas">Perguntas Frequentes</a></li>
+          <li><a routerLink="/encontre-um-medico">Encontre um médico</a></li>
         </ul>
       </div>
 
       <div class="col-lg-2 col-md-3 footer-links">
-        <h4>Our Services</h4>
+        <h4>Especialidades</h4>
         <ul>
-          <li><a href="javascript:void(0);">Web Design</a></li>
-          <li><a href="javascript:void(0);">Web Development</a></li>
-          <li><a href="javascript:void(0);">Product Management</a></li>
-          <li><a href="javascript:void(0);">Marketing</a></li>
-          <li><a href="javascript:void(0);">Graphic Design</a></li>
+          <li><a routerLink="/especialidades/cardiologistas/especialistas">Cardiologia</a></li>
+          <li><a routerLink="/especialidades/dermatologistas/especialistas">Dermatologia</a></li>
+          <li><a routerLink="/especialidades/ortopedistas/especialistas">Ortopedia</a></li>
+          <li><a routerLink="/especialidades/oftalmologistas/especialistas">Oftalmologia</a></li>
+          <li><a routerLink="/especialidades/pediatras/especialistas">Pediatria</a></li>
+          <li><a routerLink="/especialidades">Ver todas</a></li>
         </ul>
       </div>
 
       <div class="col-lg-2 col-md-3 footer-links">
-        <h4>Hic solutasetp</h4>
+        <h4>Pacientes</h4>
         <ul>
-          <li><a href="javascript:void(0);">Molestiae accusamus iure</a></li>
-          <li><a href="javascript:void(0);">Excepturi dignissimos</a></li>
-          <li><a href="javascript:void(0);">Suscipit distinctio</a></li>
-          <li><a href="javascript:void(0);">Dilecta</a></li>
-          <li><a href="javascript:void(0);">Sit quas consectetur</a></li>
+          <li><a routerLink="/login">Entrar</a></li>
+          <li><a routerLink="/paciente/registrar">Criar Conta</a></li>
+          <li><a routerLink="/encontre-um-medico">Especialistas e clínicas</a></li>
+          <li><a routerLink="/especialidades">Especialidades e Procedimentos</a></li>
+          <li><a routerLink="/convenios">Convênio Médico e Odontológico</a></li>
+          <li><a routerLink="/sintomas-e-doencas">Sintomas e Doenças</a></li>
+          <li><a routerLink="/perguntas-e-respostas">Pergunte ao Profissional de Saúde</a></li>
         </ul>
       </div>
 
       <div class="col-lg-2 col-md-3 footer-links">
-        <h4>Nobis illum</h4>
+        <h4>Especialistas da Saúde</h4>
         <ul>
-          <li><a href="javascript:void(0);">Ipsam</a></li>
-          <li><a href="javascript:void(0);">Laudantium dolorum</a></li>
-          <li><a href="javascript:void(0);">Dinera</a></li>
-          <li><a href="javascript:void(0);">Trodelas</a></li>
-          <li><a href="javascript:void(0);">Flexo</a></li>
+          <li><a routerLink="/profissionais/login">Entrar</a></li>
+          <li><a routerLink="/profissionais/registrar">Criar Conta</a></li>
+          <li><a routerLink="/profissionais">Saiba mais</a></li>
         </ul>
       </div>
 
@@ -68,9 +71,9 @@
   </div>
 
   <div class="container copyright text-center mt-4">
-    <p>© <span>Copyright</span> <strong class="px-1 sitename">ConsultaNet</strong> <span>All Rights Reserved</span></p>
+    <p><strong class="px-1 sitename">ConsultaNet</strong><span> {{currentYear}}</span></p>
     <div class="credits">
-      Designed by <a href="https://github.com/broncasrafa/" target="_blank">RSFrancisco Applications</a> Distributed by <a href="https://github.com/broncasrafa/"  target="_blank">ConsultaNet</a>
+      Desenvolvido por <a href="https://github.com/broncasrafa/" target="_blank">RSFrancisco Applications</a>
     </div>
   </div>
 

@@ -1,1 +1,31 @@
-<p>signin-and-signup-suggestion works!</p>
+<div class="modal fade" id="modalFazerLogin" tabindex="-1" aria-labelledby="modalFazerLoginLabel" data-bs-backdrop="static" aria-modal="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalFazerLoginLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="text-center">
+                <p>
+                  <i class="fas fa-exclamation-circle fa-5x text-primary mb-3"></i>
+                </p>
+                <p class="lead bold">Para avaliar é necessário estar logado. Deseja se logar?</p>
+                <small class="text-secondary">
+                  Caso não tenha cadastro, <a class="is-link" (click)="onclick_redirect_register()">clique aqui</a>
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="cta-btn-light" data-bs-dismiss="modal">cancelar</button>
+          <button type="button" class="cta-btn-primary" (click)="onclick_redirect_login()">logar</button>
+      </div>
+    </div>
+  </div>
+</div>
