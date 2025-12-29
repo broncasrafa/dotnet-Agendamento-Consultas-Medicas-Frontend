@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { map, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AppUtils } from 'src/app/core/utils/app.util';
@@ -9,6 +9,7 @@ import { ApiPagedData } from 'src/app/core/models/ApiPagedResponse';
 import { CacheService } from 'src/app/shared/services/cache.service';
 import { EspecialistaResponse } from 'src/app/core/models/especialista/response/EspecialistaResponse';
 import { SintomasDoencasResponse } from 'src/app/core/models/sintomas-e-doencas/response/SintomasDoencasResponse';
+import { DISABLE_GLOBAL_LOADING } from 'src/app/core/interceptors/loading-context';
 
 @Injectable({
   providedIn: 'root'
@@ -84,7 +85,7 @@ export class SintomasEDoencasService {
    * @param itemsPerPage - número de itens por página
    * @returns Observable com os dados paginados de sintomas e doenças
    */
-  getSintomasDoencasEspecialistasByFilterPaged(sintomasDoencasId: number, especialidadeId?: number, page: number = 1, itemsPerPage: number = 15): Observable<ApiPagedData<EspecialistaResponse>> {
+  getSintomasDoencasEspecialistasByFilterPaged(sintomasDoencasId: number, especialidadeId?: number, page: number = 1, itemsPerPage: number = 15, disableLoading: boolean = false): Observable<ApiPagedResponse<EspecialistaResponse >> {
     let url = `${this.base_api_url}/filter?page=${page}&items=${itemsPerPage}`;
 
     if (!AppUtils.isNullOrUndefined<Number>(sintomasDoencasId))
@@ -92,9 +93,21 @@ export class SintomasEDoencasService {
     if (!AppUtils.isNullOrUndefined<Number>(especialidadeId))
       url += `&especialidadeId=${especialidadeId}`;
 
-    return this.http.get<ApiPagedData<EspecialistaResponse>>(url, { responseType: 'json' })
-              .pipe(
-                map(response => response ?? null)
-              );
+    const options: any = {
+      responseType: 'json'
+    };
+
+    // Se NÃO quiser loading → seta contexto
+    const context = disableLoading
+      ? new HttpContext().set(DISABLE_GLOBAL_LOADING, true)
+      : undefined;
+
+    return this.http.get<ApiPagedResponse<EspecialistaResponse>>(url, {
+      // não precisa mexer em responseType, padrão já é 'json'
+      ...(context ? { context } : {})
+    });
   }
+
+
+
 }

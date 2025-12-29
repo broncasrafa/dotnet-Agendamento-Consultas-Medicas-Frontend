@@ -33,6 +33,7 @@ export class DadosEspecialistaListaComponent implements OnInit, OnDestroy, OnCha
   @Input() totalItems = 0;
   @Input() currentPage = 1;
   @Input() itemsPerPage = 15;
+  @Input() showPagination: boolean = true;
   @Output() itemsPerPageUpdated = new EventEmitter<any>();
 
   private destroy$ = new Subject<void>();

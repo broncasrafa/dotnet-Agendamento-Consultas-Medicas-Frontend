@@ -1,3 +1,4 @@
+import { ResultResponseEmptyComponent } from 'src/app/shared/components/result-response-empty/result-response-empty.component';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +17,8 @@ import { CryptoService } from 'src/app/shared/services/crypto.service';
     RouterModule,
     CommonModule,
     FormsModule,
-    DadosEspecialistaListaComponent
+    DadosEspecialistaListaComponent,
+    ResultResponseEmptyComponent
   ],
   templateUrl: './encontre-um-medico.component.html',
   styleUrl: './encontre-um-medico.component.css'

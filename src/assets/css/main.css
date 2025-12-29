@@ -2667,6 +2667,12 @@ section,
   cursor: pointer;
 }
 
+ul.no-bullets {
+  list-style-type: none; /* Removes the bullets */
+  padding: 0;            /* Removes default left padding */
+  margin: 0;             /* Removes default margins */
+}
+
 .senha-toggle {
   position: absolute;
   top: 50%;
