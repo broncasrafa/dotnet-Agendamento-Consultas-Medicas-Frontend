@@ -1,0 +1,61 @@
+<section class="py-3 py-md-5 py-xl-2 height-auto">
+  <div class="container">
+    <div class="row gy-5 gy-lg-0">
+      <div class="col-12">
+        <h1>Sintomas e Doenças</h1>
+        <p class="mb-2"><small class="text-muted">Encontre especialistas pelo sintoma ou doença</small></p>
+      </div>
+
+      <!-- campo de busca -->
+      <div class="col-12 mt-3">
+        <div class="form-floating mb-3 position-relative">
+          <input type="text" class="form-control" id="buscaSintomasDoencas" placeholder="Digite o nome do sintomas ou doenças"
+            [(ngModel)]="termoBusca"
+            (keyup.enter)="buscarSintomasDoencas()"
+            (keyup)="onSearchIsBecomedEmpty()">
+          <label for="buscaSintomasDoencas">Procure por sintomas ou doenças</label>
+          <button class="cta-btn-primary btn-sm position-absolute end-0 top-50 translate-middle-y me-2" (click)="buscarSintomasDoencas()">
+            Buscar
+          </button>
+        </div>
+      </div>
+      <div class="col-12 mt-3">
+        <app-filter-by-letter (selectionChanged)="letter_selected_emitted($event)"></app-filter-by-letter>
+      </div>
+
+      <!-- lista de resultados -->
+      <div class="col-12 mt-4" *ngIf="!isArrayNullOrEmpty(sintomasDoencasPaginadas)">
+        <div class="row">
+          <div class="col-4 mb-3" *ngFor="let sintoma of sintomasDoencasPaginadas; let i = index;">
+            <div class="card">
+              <div class="card-body">
+                <div class="text-center cursor-pointer" (click)="onclick_redirect_sintomasDoencas_detalhes(sintoma.id)">
+                  <p class="mb-0 is-link bold">{{sintoma.nome}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- pagiancao -->
+        <div class="row">
+          <div class="col-12">
+            <div class="text-end">
+              <app-pagination
+                [totalItems]="totalItems"
+                [itemsPerPage]="itemsPerPage"
+                [currentPage]="currentPage"
+                (pageChanged)="atualizarPagina($event.page, $event.pageSize)">
+              </app-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Se não encontrou nada -->
+      <div class="col-12" *ngIf="sintomasDoencasFiltradas.length === 0">
+        <app-result-response-empty></app-result-response-empty>
+      </div>
+
+    </div>
+  </div>
+</section>

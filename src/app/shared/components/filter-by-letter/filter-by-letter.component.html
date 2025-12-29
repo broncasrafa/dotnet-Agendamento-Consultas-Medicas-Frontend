@@ -1,0 +1,10 @@
+<div class="d-flex align-items-center flex-wrap gap-2">
+  <strong class="me-2">Filtre por letra:</strong>
+  <!-- Paginação A-Z py-1 px-2-->
+  <ul class="pagination pagination-md mb-0 flex-wrap">
+    <li class="page-item" *ngFor="let letter of letters" [class.active]="selectedLetter === letter">
+      <button type="button" class="page-link py-2 px-3" (click)="onSelect(letter)">{{ letter }}</button>
+    </li>
+  </ul>
+</div>
+

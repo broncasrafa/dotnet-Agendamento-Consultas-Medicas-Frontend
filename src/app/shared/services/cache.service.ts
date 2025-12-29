@@ -11,7 +11,8 @@ export class CacheService {
   keys = {
     especialidades: 'especialidades',
     conveniosMedicos: 'conveniosMedicos',
-    cidades: 'cidades'
+    cidades: 'cidades',
+    sintomasDoencas: 'sintomas-e-doencas'
   };
 
   /**

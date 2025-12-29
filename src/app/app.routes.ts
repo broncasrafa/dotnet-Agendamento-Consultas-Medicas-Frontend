@@ -114,12 +114,22 @@ export const routes: Routes = [
       {
         path: 'especialidades',
         loadComponent: () => import('./pages/especialidades/listar-especialidades/listar-especialidades.component').then(c => c.ListarEspecialidadesComponent),
-        canActivate: [authGuard]
+        //canActivate: [authGuard]
       },
       {
         path: 'especialidades/:especialidadeterm/especialistas',
         loadComponent: () => import('./pages/especialista/listar-especialistas-por-especialidade/listar-especialistas-por-especialidade.component').then(c => c.ListarEspecialistasPorEspecialidadeComponent),
-        canActivate: [authGuard]
+        //canActivate: [authGuard]
+      },
+
+      // sintomas-e-doencas
+      {
+        path: 'sintomas-e-doencas',
+        loadComponent: () => import('./pages/sintomas-e-doencas/listar-sintomas-e-doencas/listar-sintomas-e-doencas.component').then(c => c.ListarSintomasEDoencasComponent),
+      },
+      {
+        path: 'sintomas-e-doencas/:id',
+        loadComponent: () => import('./pages/sintomas-e-doencas/detalhes-sintomas-e-doencas/detalhes-sintomas-e-doencas.component').then(c => c.DetalhesSintomasEDoencasComponent),
       },
     ]
   },
