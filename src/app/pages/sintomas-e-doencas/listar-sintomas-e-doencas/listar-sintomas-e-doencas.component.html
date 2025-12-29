@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="col-12 mt-3">
-        <app-filter-by-letter (selectionChanged)="letter_selected_emitted($event)"></app-filter-by-letter>
+        <app-filter-by-letter [selectedLetter]="selectedLetter" (selectionChanged)="letter_selected_emitted($event)"></app-filter-by-letter>
       </div>
 
       <!-- lista de resultados -->

@@ -38,6 +38,7 @@ export class ListarSintomasEDoencasComponent implements OnInit, OnDestroy {
   itemsPerPage = 15;
   currentPage = 1;
   totalItems = 0;
+  selectedLetter = '';
   sintomasDoencasList: SintomasDoencasResponse[] = [];
   sintomasDoencasPaginadas: SintomasDoencasResponse[] = [];
   sintomasDoencasFiltradas: SintomasDoencasResponse[] = [];
@@ -80,6 +81,7 @@ export class ListarSintomasEDoencasComponent implements OnInit, OnDestroy {
     if (this.termoBusca.trim() === '') {
       this.resetarBusca();
     } else {
+      this.selectedLetter = '';
       const termoNormalizado = AppUtils.normalizarTexto(this.termoBusca);
       // Filtra a lista completa com base no termo de busca
       this.sintomasDoencasFiltradas = this.sintomasDoencasList.filter(sintoma =>
@@ -108,6 +110,7 @@ export class ListarSintomasEDoencasComponent implements OnInit, OnDestroy {
     this.totalItems = this.sintomasDoencasFiltradas.length;
     this.currentPage = 1;
     this.itemsPerPage = 15;
+    this.selectedLetter = '';
     this.atualizarPagina(this.currentPage, this.itemsPerPage);
   }
 
@@ -123,6 +126,7 @@ export class ListarSintomasEDoencasComponent implements OnInit, OnDestroy {
 
   letter_selected_emitted(event: any) {
     if (!AppUtils.isNullOrEmpty(event.selected)) {
+      this.selectedLetter = event.selected;
       // Filtra a lista completa com base na letra
       this.sintomasDoencasFiltradas = this.sintomasDoencasList.filter(x => x.nome?.charAt(0).toUpperCase() === event.selected);
       // Atualiza o total de itens e reseta para a primeira página
