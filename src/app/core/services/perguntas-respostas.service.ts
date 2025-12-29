@@ -50,10 +50,10 @@ export class PerguntasRespostasService {
   /**
    * Registrar uma nova pergunta DIRETAMENTE para o especialista na API
    * @param request dados da pergunta a ser cadastrada
-   * @returns true se a pergunta foi cadastrada com sucesso, false caso contrário.
+   * @returns o objeto criado.
    */
-  createPerguntaEspecialista(request: CreatePerguntaRequest): Observable<boolean> {
-    return this.http.post<ApiResponse<boolean>>(`${this.base_api_url_especialista}/${request.especialistaId}/perguntas`, request)
+  createPerguntaEspecialista(request: CreatePerguntaRequest): Observable<PerguntaResponse> {
+    return this.http.post<ApiResponse<PerguntaResponse>>(`${this.base_api_url_especialista}/${request.especialistaId}/perguntas`, request)
       .pipe(map(response => response.data!));
   }
 

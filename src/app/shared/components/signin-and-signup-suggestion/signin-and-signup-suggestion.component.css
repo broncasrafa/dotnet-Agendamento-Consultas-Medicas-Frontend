@@ -1,0 +1,6 @@
+.modalSignInAndRegister .modal-header  {
+  border-bottom: none !important;
+}
+.modalSignInAndRegister .modal-footer  {
+  border-top: none !important;
+}

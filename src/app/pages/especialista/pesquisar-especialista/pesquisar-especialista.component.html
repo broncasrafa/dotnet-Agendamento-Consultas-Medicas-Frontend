@@ -35,15 +35,35 @@
 
                     <!-- Informações ao lado da foto -->
                     <div>
-                        <h6 class="mb-1">
+                        <h6 class="mb-1 cursor-pointer is-link" (click)="onclick_DetalhesEspecialista(especialista.id)">
                           {{especialista.nome}}
                           <i class="bi bi-patch-check-fill text-primary" title="Verificado" *ngIf="especialista.tipo == 'Premium'"></i>
                         </h6>
                         <div>
-                            <span class="me-2">{{obterEspecialidadesParametroString(especialista.especialidades)}}</span>
-                            <span class="me-2" *ngIf="showDemaisEspecialidades[especialista.id]">{{obterDemaisEspecialidadesString(especialista.especialidades)}}</span>
-                            <a href="javascript:void(0)" class="text-decoration-none" (click)="mostrarMaisEspecialidades(especialista.id)" *ngIf="!showDemaisEspecialidades[especialista.id]">Mais</a>
-                            <a href="javascript:void(0)" class="text-decoration-none" (click)="mostrarMaisEspecialidades(especialista.id)" *ngIf="showDemaisEspecialidades[especialista.id]">Menos</a>
+                            <span class="me-2">{{especialista.especialidades[0].nome}}</span>
+                            <span class="me-2 is-link cursor-pointer" *ngIf="especialista.especialidades.length > 1" data-bs-toggle="modal" [attr.data-bs-target]="'#modalInfoEspecialidades_' + especialista.id">mais</span>
+                            <app-generic-simple-modal
+                              [modalId]="'modalInfoEspecialidades_' + especialista.id"
+                              title="Especialidades e Exames"
+                              [size]="ModalSize.MEDIUM"
+                              [showFooter]="false"
+                              [scrollable]="!isArrayNullOrEmpty(especialista.especialidades) && especialista.especialidades.length > 10"
+                              [showCloseButton]="false"
+                              [showPrimaryButton]="false">
+                              <p class="fs-15">
+                                <i class="far fa-heartbeat" aria-hidden="true"></i>
+                                <strong class="px-3">Especialidades atendidas</strong>
+                              </p>
+                              <p *ngIf="!isArrayNullOrEmpty(especialista.especialidades)"><small>Total de {{especialista.especialidades.length}} especialidades</small></p>
+                                <ul *ngIf="!isArrayNullOrEmpty(especialista.especialidades); else semEspecialidades" class="list-group list-group-flush">
+                                  <li class="list-group-item" *ngFor="let especialidade of especialista.especialidades">
+                                    {{ especialidade.nome }}
+                                  </li>
+                                </ul>
+                                <ng-template #semEspecialidades>
+                                  <p class="text-muted">Nenhuma especialidade cadastrada.</p>
+                                </ng-template>
+                            </app-generic-simple-modal>
                         </div>
 
                         <!-- Rating com Estrelinhas e total de avaliações -->
@@ -63,41 +83,36 @@
 
                 </div>
                 <!-- convenios atendidos -->
-                <div class="container my-4" *ngIf="especialista.conveniosMedicosAtendidos !== null && especialista.conveniosMedicosAtendidos !== undefined && especialista.conveniosMedicosAtendidos.length > 0">
+                <div class="container my-4" *ngIf="!isArrayNullOrEmpty(especialista.conveniosMedicosAtendidos)">
                   <div class="row">
                     <div class="col-12">
                       <div class="d-grid gap-2">
-                        <button class="btn btn-outline-secondary btn-sm mb-3" (click)="abrirModalConveniosAtendidos(especialista.conveniosMedicosAtendidos)">
-                          <i class="bi bi-shield-shaded"></i> Convênios atendidos
+                        <button class="btn btn-outline-secondary btn-sm mb-3" data-bs-toggle="modal" [attr.data-bs-target]="'#modalInfoConvenios_' + especialista.id">
+                          <i class="far fa-medkit"></i> Convênios atendidos
                         </button>
+                        <!-- modal de convenios atendidos -->
+                        <app-generic-simple-modal
+                            [modalId]="'modalInfoConvenios_' + especialista.id"
+                            title="Convênios atendidos"
+                            [size]="ModalSize.MEDIUM"
+                            [scrollable]="true"
+                            [showFooter]="false"
+                            [showCloseButton]="false"
+                            [showPrimaryButton]="false">
+                            <p *ngIf="!isArrayNullOrEmpty(especialista.conveniosMedicosAtendidos)"><small>Total de {{especialista.conveniosMedicosAtendidos.length}} convênios</small></p>
+                            <ul *ngIf="!isArrayNullOrEmpty(especialista.conveniosMedicosAtendidos); else semConvenios" class="list-group list-group-flush">
+                              <li class="list-group-item" *ngFor="let convenio of especialista.conveniosMedicosAtendidos">
+                                {{ convenio.nome }}
+                              </li>
+                            </ul>
+                            <ng-template #semConvenios>
+                              <p class="text-muted">Nenhum convênio atendido.</p>
+                            </ng-template>
+                        </app-generic-simple-modal>
                       </div>
                     </div>
                   </div>
-                  <!-- modal de convenios atendidos -->
-                   <div class="modal fade" id="modalConvenios" tabindex="-1" aria-labelledby="modalConveniosLabel" data-bs-backdrop="static" aria-modal="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="modalConveniosLabel">Convênios atendidos</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <p *ngIf="conveniosAtendidos.length > 0"><small>Total de {{conveniosAtendidos.length}} convênios</small></p>
-                          <ul *ngIf="conveniosAtendidos.length > 0; else semConvenios" class="list-group list-group-flush">
-                            <li class="list-group-item" *ngFor="let convenio of conveniosAtendidos">
-                              {{ convenio }}
-                            </li>
-                          </ul>
-                          <ng-template #semConvenios>
-                            <p class="text-muted">Nenhum convênio atendido.</p>
-                          </ng-template>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="cta-btn-primary" data-bs-dismiss="modal">Fechar</button>
-                        </div>
-                      </div>
-                    </div>
-                   </div>
+
                 </div>
 
                 <div class="container my-4">
@@ -117,45 +132,49 @@
                   </ul>
                   <div class="tab-content mt-3" [attr.id]="'myTabContent-' + i">
                     <div class="tab-pane fade show active" role="tabpanel" [attr.id]="'endereco-' + i" [attr.aria-labelledby]="'endereco-tab-' + i">
-                      <div *ngFor="let localAtend of especialista.locaisAtendimento; let j = index;" class="mt-3">
+                      <div class="col-12 mb-3 cursor-pointer" *ngIf="!isArrayNullOrEmpty(especialista.locaisAtendimento)">
+                          <div class="rounded-3 p-3 shadow-inner-gray-full-3" >
+                            <div class="d-flex flex-column">
+                              <div class="d-flex align-items-center">
+                                <i class="bi bi-geo-alt-fill me-2"></i>
+                                <small>
+                                  {{especialista.locaisAtendimento[0].logradouro}} {{ isNullOrEmpty(especialista.locaisAtendimento[0].complemento) ? '' : ' - ' + especialista.locaisAtendimento[0].complemento}} - {{especialista.locaisAtendimento[0].bairro}} - {{especialista.locaisAtendimento[0].cidade}}, {{especialista.locaisAtendimento[0].estado}}
+                                </small>
+                              </div>
+                              <div class="ps-4 mb-3">
+                                <small>{{ especialista.locaisAtendimento[0].nome }}</small>
+                              </div>
 
-                        <div class="d-flex flex-column" *ngIf="!isNullOrUndefined(localAtend.logradouro)">
-                          <div class="d-flex align-items-center">
-                            <i class="bi bi-geo-alt-fill me-2"></i>
-                            <small>
-                              {{localAtend.logradouro}} {{ isNullOrEmpty(localAtend.complemento) ? '' : ' - ' + localAtend.complemento}} - {{localAtend.bairro}} - {{localAtend.cidade}}, {{localAtend.estado}}
-                            </small>
-                          </div>
-                          <div class="ps-4 mb-3">
-                            <small>{{ localAtend.nome }}</small>
-                          </div>
-
-                          <div class="d-flex align-items-center justify-content-between mt-3">
-                            <div class="d-flex align-items-center">
-                              <i class="bi bi-building-add me-2"></i>
-                              <span>Consulta</span>
+                              <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                  <i class="bi bi-building-add me-2"></i>
+                                  <span>Consulta</span>
+                                </div>
+                                <span *ngIf="!(especialista.locaisAtendimento[0].precoDescricao | isNullOrUndefined)">{{ especialista.locaisAtendimento[0].precoDescricao}}</span>
+                                <span *ngIf="(especialista.locaisAtendimento[0].precoDescricao | isNullOrUndefined)">Preço não disponível</span>
+                              </div>
+                              <hr />
+                              <div class="d-flex align-items-center" *ngIf="!isArrayNullOrEmpty(especialista.locaisAtendimento) && especialista.locaisAtendimento.length > 1">
+                                <span class="mb-1 cursor-pointer is-link fs-11" (click)="onclick_DetalhesEspecialista(especialista.id)">mostrar mais locais de atendimento</span>
+                              </div>
                             </div>
-                            <span *ngIf="!(localAtend.precoDescricao | isNullOrUndefined)">{{ localAtend.precoDescricao}}</span>
-                            <span *ngIf="(localAtend.precoDescricao | isNullOrUndefined)">Preço não disponível</span>
                           </div>
-                          <hr />
-                        </div>
-
-
                       </div>
 
                     </div>
-                    <div class="tab-pane fade" role="tabpanel" [attr.id]="'teleconsulta-' + i" [attr.aria-labelledby]="'teleconsulta-tab-' + i">
 
-                      <div class="d-flex align-items-center justify-content-between mt-3">
-                        <div class="d-flex align-items-center">
-                          <i class="bi bi-building-add me-2"></i>
-                          <span>Teleconsulta</span>
+                    <div class="tab-pane fade" role="tabpanel" [attr.id]="'teleconsulta-' + i" [attr.aria-labelledby]="'teleconsulta-tab-' + i">
+                      <div class="rounded-3 p-3 shadow-inner-gray-full-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-house-check me-2"></i>
+                            <span>Teleconsulta</span>
+                          </div>
+                          <span *ngIf="!(especialista.telemedicinaPreco | isNullOrUndefined)">R$ {{ especialista.telemedicinaPreco }}</span>
+                          <span *ngIf="(especialista.telemedicinaPreco | isNullOrUndefined)">Preço não disponível</span>
                         </div>
-                        <span *ngIf="!(especialista.telemedicinaPreco | isNullOrUndefined)">R$ {{ especialista.telemedicinaPreco }}</span>
-                        <span *ngIf="(especialista.telemedicinaPreco | isNullOrUndefined)">Preço não disponível</span>
+                        <hr />
                       </div>
-                      <hr />
                     </div>
                   </div>
                 </div>

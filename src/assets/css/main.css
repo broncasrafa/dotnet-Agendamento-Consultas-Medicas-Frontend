@@ -33,6 +33,10 @@
   --nav-dropdown-hover-color: #1977cc; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .font-roboto {
   font-family: Roboto, Helvetica Neue, Helvetica, Segoe UI, Arial, sans-serif;
 }

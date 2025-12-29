@@ -90,7 +90,7 @@
                     <div class="card-body pergunta-divider">
                       <div class="row">
                         <div class="col-12 col-md-10 col-lg-12">
-                          <p class="bd-lead pergunta-text bold mb-1" (click)="onRedirect_Pergunta(pergunta.id)">{{pergunta.pergunta }}</p>
+                          <p class="bd-lead pergunta-text bold mb-1" (click)="onclick_redirect_pergunta(pergunta.id)">{{pergunta.pergunta }}</p>
                           <p class="card-text mb-1"><small class="text-muted">{{pergunta.createdAtFormatted}}</small></p>
                           <p class="card-text mb-1 lead"><small class="text-muted">{{pergunta.especialidade?.nome}}</small></p>
                         </div>
@@ -116,7 +116,7 @@
                         </figure>
                       </div>
                       <div class="card-body">
-                        <span><a href="javascript:void(0);" class="card-link link-primary text-decoration-none" (click)="onRedirect_Pergunta(pergunta.id)">Ver todas as respostas</a></span>
+                        <span><a href="javascript:void(0);" class="card-link link-primary text-decoration-none" (click)="onclick_redirect_pergunta(pergunta.id)">Ver todas as respostas</a></span>
                       </div>
                     } @else {
                       <div class="card-body">

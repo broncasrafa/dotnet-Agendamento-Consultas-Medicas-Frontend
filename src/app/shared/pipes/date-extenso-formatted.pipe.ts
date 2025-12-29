@@ -11,10 +11,11 @@ export class DateExtensoFormattedPipe implements PipeTransform {
     date: string,
     incluirAno: boolean = false,
     capitalizarPrimeiraLetra: boolean = false,
-    horario?: string): string | null {
+    horario?: string,
+    mostrarDiaExtenso: boolean = true): string | null {
     if (AppUtils.isNullOrEmpty(date)) return null;
 
-    return AppUtils.formatarDataExtenso(date, incluirAno, capitalizarPrimeiraLetra, horario);
+    return AppUtils.formatarDataExtenso(date, incluirAno, capitalizarPrimeiraLetra, horario, mostrarDiaExtenso);
   }
 
 }

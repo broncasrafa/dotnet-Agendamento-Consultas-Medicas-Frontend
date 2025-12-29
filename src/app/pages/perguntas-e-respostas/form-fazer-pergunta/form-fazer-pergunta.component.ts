@@ -30,6 +30,7 @@ import { CreatePerguntaRequest } from 'src/app/core/models/perguntas-respostas/r
 export class FormFazerPerguntaComponent implements OnInit, OnDestroy {
   @Input() showEspecialidades: boolean = true;
   @Input() especialidadeId?: string = undefined;
+  @Input() especialidadesList: EspecialidadeResponse[] = [];
   @Output() requestData = new EventEmitter<CreatePerguntaRequest>();
 
   private destroy$ = new Subject<void>();
@@ -49,10 +50,7 @@ export class FormFazerPerguntaComponent implements OnInit, OnDestroy {
   });
 
   constructor() {
-    if (this.showEspecialidades) {
-      this.getEspecialidadesList();
-    }
-    this.form.controls.especialidadeId.setValue("0");
+    this.initializeDropdownlistEspecialidades();
   }
 
   ngOnInit(): void {
@@ -60,6 +58,21 @@ export class FormFazerPerguntaComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+  ngOnChanges() {
+    this.initializeDropdownlistEspecialidades();
+  }
+
+  initializeDropdownlistEspecialidades() {
+    if (this.showEspecialidades && AppUtils.isArrayNullOrEmpty(this.especialidadesList)) {
+      this.getEspecialidadesList();
+    }
+    if (this.showEspecialidades && !AppUtils.isArrayNullOrEmpty(this.especialidadesList)) {
+      this.especialidades = [];
+      this.especialidades = this.especialidadesList;
+    }
+
+    this.form.controls.especialidadeId.setValue("0");
   }
 
   getEspecialidadesList() {

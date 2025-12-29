@@ -86,13 +86,15 @@ export class AppUtils {
    * @param incluirAno flag para incluir ano. default true
    * @param capitalizarPrimeiraLetra flag para capitalizar a primeira letra do dia da semana. default true
    * @param incluirHorario valor do horario da data
+   * @param mostrarDiaExtenso flag para informar se ira mostrar o dia da semana em extenso. default true
    * @returns a data formatada por extenso
    */
   public static formatarDataExtenso(
     dataString: string,
     incluirAno: boolean = true,
     capitalizarPrimeiraLetra: boolean = true,
-    incluirHorario?: string): string {
+    incluirHorario?: string,
+    mostrarDiaExtenso: boolean = true): string {
 
       if (this.isNullOrEmpty(dataString)) return '';
 
@@ -101,7 +103,6 @@ export class AppUtils {
       const data = new Date(ano, mes - 1, dia); // Mês começa do 0 no JS
 
       let options: Intl.DateTimeFormatOptions = {
-        weekday: 'long',
         day: '2-digit',
         month: 'long',
       };
@@ -109,10 +110,13 @@ export class AppUtils {
       if (incluirAno) {
         options.year = 'numeric';
       }
+      if (mostrarDiaExtenso) {
+        options.weekday = 'long'
+      }
 
       let dataFormatada = data.toLocaleDateString('pt-BR', options);
 
-      if (capitalizarPrimeiraLetra) {
+      if (capitalizarPrimeiraLetra && mostrarDiaExtenso) {
         dataFormatada = dataFormatada.replace(/^\w/, (c) => c.toUpperCase());
       }
 

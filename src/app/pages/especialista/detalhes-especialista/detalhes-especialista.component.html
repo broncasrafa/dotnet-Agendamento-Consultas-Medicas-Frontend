@@ -20,18 +20,43 @@
                 </span>
                 <div>
                   <span class="me-2 fs-9">{{especialista.especialidades[0].nome}}</span>
+                  <span class="me-2 fs-9 is-link cursor-pointer" *ngIf="especialista.especialidades.length > 1" data-bs-toggle="modal" data-bs-target="#modalInfoEspecialidades">mais</span>
+                  <app-generic-simple-modal
+                      modalId="modalInfoEspecialidades"
+                      title="Especialidades e Exames"
+                      [size]="ModalSize.MEDIUM"
+                      [showFooter]="false"
+                      [scrollable]="!isArrayNullOrEmpty(especialista.especialidades) && especialista.especialidades.length > 10"
+                      [showCloseButton]="false"
+                      [showPrimaryButton]="false">
+                      <p class="fs-15">
+                        <i class="far fa-heartbeat" aria-hidden="true"></i>
+                        <strong class="px-3">Especialidades atendidas</strong>
+                      </p>
+                      <p *ngIf="!isArrayNullOrEmpty(especialista.especialidades)"><small>Total de {{especialista.especialidades.length}} especialidades</small></p>
+                        <ul *ngIf="!isArrayNullOrEmpty(especialista.especialidades); else semEspecialidades" class="list-group list-group-flush">
+                          <li class="list-group-item" *ngFor="let especialidade of especialista.especialidades">
+                            {{ especialidade.nome }}
+                          </li>
+                        </ul>
+                        <ng-template #semEspecialidades>
+                          <p class="text-muted">Nenhuma especialidade cadastrada.</p>
+                        </ng-template>
+                  </app-generic-simple-modal>
                 </div>
 
                 <!-- Licença -->
-                <p class="fs-9">{{especialista.licenca}}</p>
+                 <div class="d-flex align-items-center">
+                  <span class="fs-9">{{especialista.licenca}}</span>
+                 </div>
 
                 <!-- Rating com Estrelinhas e total de avaliações -->
                  @if (!isNullOrUndefined(especialista.avaliacao)) {
-                  <div class="d-flex align-items-center mt-2">
+                  <div class="d-flex align-items-center">
                     <span class="me-2">
                        <app-rating-stars [ratingStar]="especialista.avaliacao!" [ratingStarOff]="0"></app-rating-stars>
                     </span>
-                    <a href="javascript:void(0)" class="text-decoration-none">{{especialista.avaliacoes.length}} avaliações</a>
+                    <a href="javascript:void(0)" class="text-decoration-none fs-9" (click)="scrollToAvaliacoes()">{{especialista.avaliacoes.length}} opiniões</a>
                   </div>
                  }
             </div>
@@ -55,9 +80,106 @@
           <div class="tab-content mt-3" id="myTabContent">
             <!-- Locais de atendimento -->
             <div class="tab-pane fade show active" role="tabpanel" id="consultorios" aria-labelledby="consultorios-tab">
-              <div class="mt-6">
-                <p class="bold">Not implemented yet!!!</p>
+              <div class="mt-6 mb-4">
+                @for (localAtend of especialista.locaisAtendimento; track localAtend.id; let idx = $index) {
+                  <div class="col-12 mb-3 cursor-pointer" *ngIf="!isNullOrUndefined(localAtend.logradouro)">
+                    <div class="rounded-3 p-3 shadow-inner-gray-full-3" >
+                      <div class="d-flex flex-column">
+                        <div class="d-flex align-items-center">
+                          <i class="bi bi-geo-alt-fill me-2"></i>
+                          <small>
+                            {{localAtend.logradouro}} {{ isNullOrEmpty(localAtend.complemento) ? '' : ' - ' + localAtend.complemento}} - {{localAtend.bairro}} - {{localAtend.cidade}}, {{localAtend.estado}}
+                          </small>
+                        </div>
+                        <div class="ps-4 mb-3">
+                          <small>{{ localAtend.nome }}</small>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between mt-3">
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-building-add me-2"></i>
+                            <span>Consulta</span>
+                          </div>
+                          <span *ngIf="!(localAtend.precoDescricao | isNullOrUndefined)">{{ localAtend.precoDescricao}}</span>
+                          <span *ngIf="(localAtend.precoDescricao | isNullOrUndefined)">Preço não disponível</span>
+                        </div>
+                        <hr />
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                              <i class="bi bi-house-check me-2"></i>
+                              <span>Teleconsulta</span>
+                            </div>
+                            <span *ngIf="!(especialista.telemedicinaPreco | isNullOrUndefined)">R$ {{ especialista.telemedicinaPreco }}</span>
+                            <span *ngIf="(especialista.telemedicinaPreco | isNullOrUndefined)">Preço não disponível</span>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+                } @empty {
+                  <p><span class="text-muted fs-7">Sem locais de atendimento disponíveis</span></p>
+                }
               </div>
+              <hr />
+
+              <div class="mt-6 mb-4">
+                <div class="col-12">
+                  <p class="fs-15">Especialidades atendidas</p>
+                  <div *ngIf="!isArrayNullOrEmpty(especialista.especialidades)">
+                    <ul>
+                      <li *ngFor="let especialidade of take(especialista.especialidades, 5); let i = index;">
+                        {{ especialidade.nome }}
+                      </li>
+                    </ul>
+                    <div *ngIf="especialista.especialidades.length > 1">
+                      <span class="me-2 is-link cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalInfoEspecialidades">Mostrar todas as especialidades atendidas</span>
+                    </div>
+                  </div>
+                  <div *ngIf="isArrayNullOrEmpty(especialista.especialidades)">
+                    <span class="fs-10">Sem informações</span>
+                  </div>
+                </div>
+              </div>
+              <hr />
+
+              <div class="mt-6 mb-4">
+                <div class="col-12">
+                  <p class="fs-15">Convênios aceitos</p>
+                  <div *ngIf="!isArrayNullOrEmpty(especialista.conveniosMedicosAtendidos)">
+                    <ul>
+                      <li *ngFor="let convenio of take(especialista.conveniosMedicosAtendidos, 5); let i = index;">
+                        {{ convenio.nome }}
+                      </li>
+                    </ul>
+                    <div *ngIf="especialista.conveniosMedicosAtendidos.length > 1">
+                      <span class="me-2 is-link cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalInfoConvenios">Mostrar todos os convênios aceitos</span>
+                    </div>
+                  </div>
+                  <div *ngIf="isArrayNullOrEmpty(especialista.conveniosMedicosAtendidos)">
+                    <span class="fs-10">Sem informações</span>
+                  </div>
+                </div>
+                <!-- modal de convenios atendidos -->
+                <app-generic-simple-modal
+                    modalId="modalInfoConvenios"
+                    title="Convênios atendidos"
+                    [size]="ModalSize.MEDIUM"
+                    [scrollable]="true"
+                    [showFooter]="false"
+                    [showCloseButton]="false"
+                    [showPrimaryButton]="false">
+                    <p *ngIf="!isArrayNullOrEmpty(especialista.conveniosMedicosAtendidos)"><small>Total de {{especialista.conveniosMedicosAtendidos.length}} convênios</small></p>
+                    <ul *ngIf="!isArrayNullOrEmpty(especialista.conveniosMedicosAtendidos); else semConvenios" class="list-group list-group-flush">
+                      <li class="list-group-item" *ngFor="let convenio of especialista.conveniosMedicosAtendidos">
+                        {{ convenio.nome }}
+                      </li>
+                    </ul>
+                    <ng-template #semConvenios>
+                      <p class="text-muted">Nenhum convênio atendido.</p>
+                    </ng-template>
+                </app-generic-simple-modal>
+              </div>
+              <hr />
+
             </div>
             <!-- Experiencias -->
             <div class="tab-pane fade show" role="tabpanel" id="experiencia" aria-labelledby="experiencia-tab">
@@ -71,24 +193,96 @@
             </div>
             <!-- Avaliações -->
             <div class="tab-pane fade show" role="tabpanel" id="avaliacoes" aria-labelledby="avaliacoes-tab">
-              <div class="mt-6">
-                <p class="bold">Not implemented yet!!!</p>
+              <div class="mt-6" *ngIf="isArrayNullOrEmpty(especialista.avaliacoes)">
+                <p class="bold lead">Opiniões sobre atendimento</p>
+                <p class="fs-11">Este profissional ainda não possuí opiniões de pacientes.</p>
               </div>
+
+              <div class="mt-6" *ngIf="!isArrayNullOrEmpty(especialista.avaliacoes)">
+                <p class="bold lead">Opiniões sobre atendimento ({{especialista.avaliacoes.length}})</p>
+                <div class="d-flex align-items-center">
+                    <div class="me-3 text-center">
+                      <span class="fs-30 fw-bold">{{especialista.avaliacao | number:'1.1-2'}}</span>
+                    </div>
+                    <div>
+                      <!-- Estrelas -->
+                      <div class="text-warning fs-15">
+                        <app-rating-stars [ratingStar]="especialista.avaliacao!" [ratingStarOff]="0"></app-rating-stars>
+                      </div>
+                      <div class="text-muted small">
+                        média geral
+                      </div>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-3">
+                  <div class="d-flex align-items-center mb-2 pr-10" *ngFor="let item of avaliacoesAgrupadas">
+                    <div class="alert alert-warning">
+                      <i class="far fa-thumbs-up avaliacao-thumb-color me-2"></i>
+                      <span class="">
+                        {{ item.marcacao }}
+                        <span class="text-muted">({{ item.total }})</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <p class="bold lead">Todas as opiniões</p>
+
+                <div class="mt-3">
+                  @for(a of especialista.avaliacoes | orderBy:'createdAt':'asc'; track a.id) {
+                    <div class="avaliacao-box">
+                        <!-- 1ª linha -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="fw-semibold">{{ a.paciente }}</span>
+                          <span class="badge bg-primary">
+                            {{ a.score.toFixed(1) }}
+                          </span>
+                          <!-- estrelas -->
+                          <span class="text-warning fs-6">
+                            <app-rating-stars [ratingStar]="a.score" [ratingStarOff]="0"></app-rating-stars>
+                          </span>
+                        </div>
+
+                        <!-- 2ª linha - data -->
+                        <div class="text-muted small">
+                          {{ a.createdAt | dateExtensoFormatted:true:false:'':false  }}
+                        </div>
+
+                        <!-- 3ª linha - feedback -->
+                        <div class="mt-1 mb-3">
+                          {{ a.feedback }}
+                        </div>
+                    </div>
+                  }
+
+                  <!-- Botão 'Visualizar mais opiniões' -->
+                  <div class="text-center mt-2">
+                    <button type="button" class="btn btn-outline-primary btn-lg">Visualizar mais opiniões</button>
+                  </div>
+
+                </div>
+
+
+              </div>
+
             </div>
             <!-- Perguntas e respostas -->
             <div class="tab-pane fade show" role="tabpanel" id="pergunte" aria-labelledby="pergunte-tab">
-              <div class="mt-6" *ngIf="isNullOrUndefined(perguntas) || perguntas.length == 0">
+
+              <div class="mt-6" *ngIf="isArrayNullOrEmpty(perguntas)">
                 <div class="text-center">
                   <h6 class="text-gray-500 font-roboto">
                     Este profissional ainda não respondeu a nenhuma pergunta.<br />
                     Deseja fazer uma pergunta a este especialista?
                   </h6>
                   <div class="text-center mt-4">
-                    <button type="button" class="btn btn-primary" (click)="onclick_ShowFormPergunta()">Quero fazer uma pergunta</button>
+                    <button type="button" class="btn btn-outline-primary" (click)="onclick_showFormPergunta()">Quero fazer uma pergunta ao profissional</button>
                   </div>
                 </div>
               </div>
-              <div class="mt-6 box-perguntas" *ngIf="!isNullOrUndefined(perguntas) && perguntas.length > 0">
+
+              <div class="mt-6 box-perguntas" *ngIf="!isArrayNullOrEmpty(perguntas) && perguntas.length > 0">
                 <div class="row">
                   <div class="col-12 mb-3">
                     <div class="box-fazer-pergunta">
@@ -100,7 +294,7 @@
                             <p class="bold">Quer tirar dúvida com esse profissional?</p>
                             <p class="bold">Faça uma pergunta agora.</p>
                             <div class="mt-3">
-                              <button type="button" class="btn btn-primary" (click)="onclick_ShowFormPergunta()">Quero fazer uma pergunta</button>
+                              <button type="button" class="btn btn-primary" (click)="onclick_showFormPergunta()">Quero fazer uma pergunta</button>
                             </div>
                           </div>
 
@@ -112,7 +306,6 @@
                         </div>
                       </div>
                     </div>
-
                   </div>
                   <div class="col-12">
                     <div class="card">
@@ -125,8 +318,8 @@
                           @for(pergunta of perguntas; track pergunta.id; let i = $index) {
                             <div class="">
                               <!-- 1ª linha: Texto da pergunta -->
-                              <p class="mb-0">
-                                <a class="pergunta-title" routerLink="/perguntas-e-respostas/{{pergunta.id}}">{{pergunta.pergunta}}</a>
+                              <p class="mb-3">
+                                <a class="pergunta-title" (click)="onclick_redirect_pergunta(pergunta.id)">{{pergunta.pergunta}}</a>
                               </p>
 
                               <!-- 2ª linha: Data da pergunta -->
@@ -151,7 +344,7 @@
                                 </div>
 
                                 <!-- 4ª linha: Link para ver todas as respostas -->
-                                <a routerLink="/perguntas-e-respostas/{{pergunta.id}}" class="text-primary fs-9 mb-4">Ver todas as respostas</a>
+                                <a (click)="onclick_redirect_pergunta(pergunta.id)" class="text-primary fs-9 mb-4">Ver todas as respostas</a>
                               } @else {
                                 <p class="text-xs text-gray-500">
                                   Sem respostas até o momento
@@ -199,7 +392,8 @@
               <div class="row">
                 <div class="col-12">
                   <app-form-fazer-pergunta
-                    [showEspecialidades]="false"
+                    [showEspecialidades]="true"
+                    [especialidadesList]="especialista.especialidades"
                     [especialidadeId]="especialidadeId.toString()"
                     (requestData)="getPerguntaRequestDataEmitted($event)">
                   </app-form-fazer-pergunta>
@@ -210,5 +404,9 @@
         </div>
       </div>
     </div>
+
+    <!-- modal informando login necessário -->
+    <app-signin-and-signup-suggestion #modalFazerLogin></app-signin-and-signup-suggestion>
+
   </div>
 </section>

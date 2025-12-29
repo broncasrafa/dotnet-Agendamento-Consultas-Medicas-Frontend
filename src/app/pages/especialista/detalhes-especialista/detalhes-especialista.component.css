@@ -55,3 +55,13 @@
   height: 3rem;
   position: relative;
 }
+
+.avaliacao-thumb-color {
+  color: #ffb800;
+}
+
+.avaliacao-box {
+  margin-bottom: 2rem !important;
+  margin-top: 1rem !important;
+  border-bottom: 1px solid #dedede;
+}

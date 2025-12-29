@@ -1,0 +1,21 @@
+<div class="modal fade" [id]="modalId" tabindex="-1" aria-hidden="true">
+  <div [ngClass]="modalDialogClasses">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">{{ title }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+
+      <div class="modal-footer" *ngIf="showFooter">
+        <button *ngIf="showCloseButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ closeText }}</button>
+        <button *ngIf="showPrimaryButton" type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ primaryText }}</button>
+      </div>
+
+    </div>
+  </div>
+</div>

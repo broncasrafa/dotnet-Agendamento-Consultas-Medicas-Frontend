@@ -23,6 +23,7 @@ import { LoadingService } from 'src/app/shared/services/loading.service';
 import { BsModalService } from 'src/app/shared/services/bs-modal.service';
 import { CommonService } from 'src/app/core/services/common.service';
 import { ConvenioMedicoService } from 'src/app/core/services/convenio-medico.service';
+import { GenericSimpleModalComponent, ModalSize } from 'src/app/shared/components/generic-simple-modal/generic-simple-modal.component';
 
 @Component({
   selector: 'app-pesquisar-especialista',
@@ -34,6 +35,7 @@ import { ConvenioMedicoService } from 'src/app/core/services/convenio-medico.ser
     ListarHorariosDisponiveisComponent,
     PesquisarEspecialistaStepperComponent,
     ResultResponseEmptyComponent,
+    GenericSimpleModalComponent,
     IsNullOrUndefinedPipe,
     NumberThousandsFormattedPipe
   ],
@@ -105,6 +107,8 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
       horarios: ["08:00", "09:00", "09:30", "10:00", "10:30"]
     },
   ];
+
+  readonly ModalSize = ModalSize;
 
   constructor() {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -211,6 +215,11 @@ export class PesquisarEspecialistaComponent implements OnInit, OnDestroy {
       },
       error: err => this.notificationService.showHttpResponseErrorNotification(err)
     });
+  }
+
+  onclick_DetalhesEspecialista(especialistaId: Number) {
+
+    this.router.navigate(['/especialista', this.cryptoService.criptografar(especialistaId)]);
   }
 
   receberHorarioSelecionado(evento: { data: string, horario: string, especialistaId: Number }) {

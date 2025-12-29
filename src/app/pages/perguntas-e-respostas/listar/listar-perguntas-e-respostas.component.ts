@@ -113,7 +113,7 @@ export class PerguntasERespostasListarComponent implements OnInit, OnDestroy {
     this.perguntasPaginadas = this.perguntasList.slice(startIndex, endIndex);
   }
 
-  onRedirect_Pergunta(id: number) {
+  onclick_redirect_pergunta(id: number) {
     const perguntaId = this.cryptoService.criptografar(id);
     this.router.navigate(['/perguntas-e-respostas', perguntaId]);
   }
