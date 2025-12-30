@@ -1,0 +1,59 @@
+<section class="py-3 py-md-5 py-xl-2 height-auto">
+  <div class="container">
+    <div class="row gy-5 gy-lg-0">
+      <div class="col-12">
+        <h1>Convênios médicos e odontológicos</h1>
+        <p class="mb-2"><small class="text-muted">Encontre especialistas e clínicas que atendam a rede credenciada do seu convênio</small></p>
+      </div>
+
+      <!-- campo de busca -->
+      <div class="col-12 mt-3">
+        <div class="form-floating mb-3 position-relative">
+          <input type="text" class="form-control" id="buscaConveniosMedicos" placeholder="Digite o nome do convênio que você procura atendimento"
+            [(ngModel)]="termoBusca"
+            (keyup.enter)="buscarConveniosMedicos()"
+            (keyup)="onSearchIsBecomedEmpty()">
+          <label for="buscaConveniosMedicos">Procure por convênio que deseja atendimento</label>
+          <button class="cta-btn-primary btn-sm position-absolute end-0 top-50 translate-middle-y me-2" (click)="buscarConveniosMedicos()">
+            Buscar
+          </button>
+        </div>
+      </div>
+
+      <!-- lista de resultados -->
+      <div class="col-12 mt-4" *ngIf="!isArrayNullOrEmpty(conveniosMedicosPaginadas)">
+        <div class="row">
+          <div class="col-4 mb-3" *ngFor="let convenio of conveniosMedicosPaginadas; let i = index;">
+            <div class="card">
+              <div class="card-body">
+                <div class="text-center cursor-pointer" (click)="onclick_redirect_conveniosMedicos_detalhes(convenio.id)">
+                  <span class="mb-0 is-link bold fs-10">{{convenio.nome}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- paginacao -->
+        <div class="row">
+          <div class="col-12">
+            <div class="text-end">
+              <app-pagination
+                [totalItems]="totalItems"
+                [itemsPerPage]="itemsPerPage"
+                [currentPage]="currentPage"
+                (pageChanged)="atualizarPagina($event.page, $event.pageSize)">
+              </app-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Se não encontrou nada -->
+      <div class="col-12" *ngIf="conveniosMedicosFiltradas.length === 0">
+        <app-result-response-empty></app-result-response-empty>
+      </div>
+
+    </div>
+  </div>
+</section>
+

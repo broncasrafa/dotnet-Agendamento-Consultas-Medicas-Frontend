@@ -131,6 +131,16 @@ export const routes: Routes = [
         path: 'sintomas-e-doencas/:id',
         loadComponent: () => import('./pages/sintomas-e-doencas/detalhes-sintomas-e-doencas/detalhes-sintomas-e-doencas.component').then(c => c.DetalhesSintomasEDoencasComponent),
       },
+
+      // convenio-medico
+      {
+        path: 'convenios-medicos',
+        loadComponent: () => import('./pages/convenios-medicos/listar-convenios-medicos/listar-convenios-medicos.component').then(c => c.ListarConveniosMedicosComponent),
+      },
+      {
+        path: 'convenios-medicos/:id',
+        loadComponent: () => import('./pages/convenios-medicos/detalhes-convenios-medicos/detalhes-convenios-medicos.component').then(c => c.DetalhesConveniosMedicosComponent),
+      },
     ]
   },
 
