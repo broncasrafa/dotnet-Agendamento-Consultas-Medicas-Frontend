@@ -5,4 +5,5 @@ export class CidadeResponse {
   estadoId: number;
   estado: string;
   siglaEstado: string;
+  code: string;
 }

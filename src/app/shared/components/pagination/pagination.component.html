@@ -2,7 +2,7 @@
   <!-- Dropdown de Itens por Página -->
   <div class="d-flex align-items-center px-1">
     <span class="me-2">Itens por página:</span>
-    <select class="form-select w-auto" [(ngModel)]="itemsPerPage" (change)="changePageSize(itemsPerPage)" id="pagination" name="pagination">
+    <select class="form-select w-auto" [(ngModel)]="itemsPerPage" (change)="changePageSize(itemsPerPage)" id="pagination" name="pagination" [disabled]="currentPage === totalPages">
       <option *ngFor="let size of itemsPerPageOptions" [value]="size">
         {{ size }}
       </option>

@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
@@ -10,9 +10,11 @@ import { CryptoService } from 'src/app/shared/services/crypto.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { ConvenioMedicoService } from 'src/app/core/services/convenio-medico.service';
 import { ConvenioMedicoResponse } from 'src/app/core/models/convenio-medico/response/ConvenioMedicoResponse';
+import { CidadeResponse } from 'src/app/core/models/common/request/CidadeResponse';
+
 
 @Component({
-  selector: 'app-listar-convenios-medicos',
+  selector: 'app-listar-cidades-atendidas-convenios-medicos',
   standalone: true,
   imports: [
     RouterModule,
@@ -21,13 +23,14 @@ import { ConvenioMedicoResponse } from 'src/app/core/models/convenio-medico/resp
     PaginationComponent,
     ResultResponseEmptyComponent
   ],
-  templateUrl: './listar-convenios-medicos.component.html',
-  styleUrl: './listar-convenios-medicos.component.css'
+  templateUrl: './listar-cidades-atendidas-convenios-medicos.component.html',
+  styleUrl: './listar-cidades-atendidas-convenios-medicos.component.css'
 })
-export class ListarConveniosMedicosComponent implements OnInit, OnDestroy {
+export class ListarCidadesAtendidasConveniosMedicosComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
   private cryptoService = inject(CryptoService);
   private notificationService = inject(NotificationService);
   private convenioMedicoService = inject(ConvenioMedicoService);
@@ -36,37 +39,71 @@ export class ListarConveniosMedicosComponent implements OnInit, OnDestroy {
   itemsPerPage = 15;
   currentPage = 1;
   totalItems = 0;
-  conveniosMedicosList: ConvenioMedicoResponse[] = [];
-  conveniosMedicosPaginadas: ConvenioMedicoResponse[] = [];
-  conveniosMedicosFiltradas: ConvenioMedicoResponse[] = [];
+  convenioCode: string;
+  convenioMedicoId?: number;
+  convenioMedico: ConvenioMedicoResponse;
+  cidadesAtendidasList: CidadeResponse[] = [];
+  cidadesAtendidasPaginadas: CidadeResponse[] = [];
+  cidadesAtendidasFiltradas: CidadeResponse[] = [];
 
   constructor() {
+    // const id = this.activatedRoute.snapshot.paramMap.get('id');
+    // this.convenioMedicoId = this.cryptoService.descriptografar(id!);
+    this.convenioCode = this.activatedRoute.snapshot.paramMap.get('convenioCode')!;
     this.obterListaConveniosMedicos();
+
+    if (!this.isNullOrUndefined(this.convenioMedicoId)) {
+      this.obterDadosConvenioMedico();
+    }
+
+
   }
 
   ngOnInit(): void {
-    // Assume que a lista já foi carregada do cache
-    this.conveniosMedicosFiltradas = [...this.conveniosMedicosList]; // Começa com a lista completa
-    this.totalItems = this.conveniosMedicosFiltradas.length;
-    // Carrega a primeira página
-    this.atualizarPagina(1, this.itemsPerPage);
+
   }
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
+  isNullOrUndefined(value: any): boolean {
+    return AppUtils.isNullOrUndefined(value);
+  }
   isArrayNullOrEmpty(value: any[]): boolean {
     return AppUtils.isArrayNullOrEmpty<any>(value);
   }
 
+  obterDadosConvenioMedico() {
+    this.convenioMedicoService.getCidadesAtendidasConveniosMedicos(this.convenioMedicoId!)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.convenioMedico = response;
+          this.cidadesAtendidasList = response.cidadesAtendidas;
+          this.totalItems = response.cidadesAtendidas.length;
+
+          // Começa com a lista completa
+          this.cidadesAtendidasFiltradas = [...this.cidadesAtendidasList];
+          this.totalItems = this.cidadesAtendidasFiltradas.length;
+          // Carrega a primeira página
+          this.atualizarPagina(1, this.itemsPerPage);
+        },
+        error: (err) => {
+          this.notificationService.showHttpResponseErrorNotification(err);
+        }
+      });
+  }
   obterListaConveniosMedicos() {
     this.convenioMedicoService.getConveniosMedicos()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          this.conveniosMedicosList = response;
-          this.totalItems = response.length;
+          this.convenioMedicoId = response.find(x => x.code == this.convenioCode)?.id;
+
+          if (this.isNullOrUndefined(this.convenioMedicoId)) {
+            this.router.navigate(['/404-page'])
+          }
         },
         error: (err) => {
           this.notificationService.showHttpResponseErrorNotification(err);
@@ -74,19 +111,19 @@ export class ListarConveniosMedicosComponent implements OnInit, OnDestroy {
       });
   }
 
-  buscarConveniosMedicos() {
+  buscarCidadesAtendidas() {
     if (this.termoBusca.trim() === '') {
       this.resetarBusca();
     } else {
       const termoNormalizado = AppUtils.normalizarTexto(this.termoBusca);
       // Filtra a lista completa com base no termo de busca
-      this.conveniosMedicosFiltradas = this.conveniosMedicosList.filter(sintoma =>
-        AppUtils.normalizarTexto(sintoma.nome).includes(termoNormalizado)
+      this.cidadesAtendidasFiltradas = this.cidadesAtendidasList.filter(cidade =>
+        AppUtils.normalizarTexto(cidade.descricao).includes(termoNormalizado)
       );
 
       // Atualiza o total de itens e reseta para a primeira página
       this.currentPage = 1;
-      this.totalItems = this.conveniosMedicosFiltradas.length;
+      this.totalItems = this.cidadesAtendidasFiltradas.length;
       this.atualizarPagina(this.currentPage, this.itemsPerPage);
     }
   }
@@ -97,13 +134,13 @@ export class ListarConveniosMedicosComponent implements OnInit, OnDestroy {
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     // Filtro da página atual
-    this.conveniosMedicosPaginadas = this.conveniosMedicosFiltradas.slice(startIndex, endIndex);
+    this.cidadesAtendidasPaginadas = this.cidadesAtendidasFiltradas.slice(startIndex, endIndex);
   }
 
   resetarBusca() {
     // Se a busca for apagada, volta para a lista completa
-    this.conveniosMedicosFiltradas = [...this.conveniosMedicosList];
-    this.totalItems = this.conveniosMedicosFiltradas.length;
+    this.cidadesAtendidasFiltradas = [...this.cidadesAtendidasList];
+    this.totalItems = this.cidadesAtendidasFiltradas.length;
     this.currentPage = 1;
     this.itemsPerPage = 15;
     this.atualizarPagina(this.currentPage, this.itemsPerPage);
@@ -115,8 +152,7 @@ export class ListarConveniosMedicosComponent implements OnInit, OnDestroy {
     }
   }
 
-  onclick_redirect_conveniosMedicos_detalhes(code: string) {
-    this.router.navigate([`/convenios-medicos/${code}/cidades`])
+  onclick_redirect_cidadesAtendidas_detalhes(code: string) {
+    this.router.navigate([`/convenios-medicos/${this.convenioCode}/cidades/${code}/especialidades` ])
   }
 }
-

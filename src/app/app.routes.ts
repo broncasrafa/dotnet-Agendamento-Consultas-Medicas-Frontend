@@ -138,8 +138,12 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/convenios-medicos/listar-convenios-medicos/listar-convenios-medicos.component').then(c => c.ListarConveniosMedicosComponent),
       },
       {
-        path: 'convenios-medicos/:id',
-        loadComponent: () => import('./pages/convenios-medicos/detalhes-convenios-medicos/detalhes-convenios-medicos.component').then(c => c.DetalhesConveniosMedicosComponent),
+        path: 'convenios-medicos/:convenioCode/cidades',
+        loadComponent: () => import('./pages/convenios-medicos/listar-cidades-atendidas-convenios-medicos/listar-cidades-atendidas-convenios-medicos.component').then(c => c.ListarCidadesAtendidasConveniosMedicosComponent),
+      },
+      {
+        path: 'convenios-medicos/:convenioCode/cidades/:cidadeCode/especialidades',
+        loadComponent: () => import('./pages/convenios-medicos/listar-especialidades-atendidas-convenios-medicos/listar-especialidades-atendidas-convenios-medicos.component').then(c => c.ListarEspecialidadesAtendidasConveniosMedicosComponent),
       },
     ]
   },

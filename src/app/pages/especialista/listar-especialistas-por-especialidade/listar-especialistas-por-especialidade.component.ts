@@ -61,6 +61,9 @@ export class ListarEspecialistasPorEspecialidadeComponent implements OnInit, OnD
   isNullOrEmpty(value: any): boolean {
     return AppUtils.isNullOrEmpty(value);
   }
+  isArrayNullOrEmpty(value: any[]): boolean {
+    return AppUtils.isArrayNullOrEmpty<any>(value);
+  }
 
   atualizarPagina(event: any) {
     this.getEspecialistasByEspecialidadeTerm(event.currentPage, event.itemsPerPage);

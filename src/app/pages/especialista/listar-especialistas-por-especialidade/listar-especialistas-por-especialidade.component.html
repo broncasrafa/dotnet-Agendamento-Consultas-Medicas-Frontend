@@ -13,7 +13,7 @@
   </div>
 </section>
 
-@if (especialistasList !== undefined && especialistasList !== null && especialistasList.length > 0) {
+@if (!isArrayNullOrEmpty(especialistasList)) {
   <app-dados-especialista-lista
       [especialistasList]="especialistasList"
       [totalItems]="totalItems"

@@ -1,0 +1,62 @@
+<section class="py-3 py-md-5 py-xl-2 height-auto">
+  <div class="container">
+    <div class="row gy-5 gy-lg-0" *ngIf="!isArrayNullOrEmpty(especialidadesList)">
+      <div class="col-12">
+        <h1>{{convenioMedico.nome}} {{cidade.descricaoFormatada}}</h1>
+        <p class="mb-2"><small class="text-muted">Encontre atendimento por especialidade, procedimento ou exame</small></p>
+      </div>
+
+      <!-- campo de busca -->
+      <div class="col-12 mt-3">
+        <div class="form-floating mb-3 position-relative">
+          <input type="text" class="form-control" id="buscaEspecialidades" placeholder="Digite a especialidade, procedimento ou exame que você procura atendimento."
+            [(ngModel)]="termoBusca"
+            (keyup.enter)="buscarEspecialidadesAtendidas()"
+            (keyup)="onSearchIsBecomedEmpty()">
+          <label for="buscaEspecialidades">Procure pela especialidade, procedimento ou exame que você procura atendimento.</label>
+          <button class="cta-btn-primary btn-sm position-absolute end-0 top-50 translate-middle-y me-2" (click)="buscarEspecialidadesAtendidas()">
+            Buscar
+          </button>
+        </div>
+      </div>
+
+      <!-- lista de resultados -->
+      <div class="col-12 mt-4" *ngIf="!isArrayNullOrEmpty(especialidadesPaginadas)">
+        <div class="row">
+          <div class="col-4 mb-3" *ngFor="let especialidade of especialidadesPaginadas; let i = index;">
+            <div class="card px-2 py-2">
+              <div class="card-body">
+                <div class="text-center cursor-pointer" (click)="onclick_redirect_especialidades_detalhes(especialidade.term)">
+                  <p class="mb-0 text-xs text-gray-500">{{especialidade.grupo}}</p>
+                  <p class="mb-0 is-link bold fs-10">{{especialidade.nome}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- paginacao -->
+        <div class="row">
+          <div class="col-12">
+            <div class="text-end">
+              <app-pagination
+                [totalItems]="totalItems"
+                [itemsPerPage]="itemsPerPage"
+                [currentPage]="currentPage"
+                (pageChanged)="atualizarPagina($event.page, $event.pageSize, false)">
+              </app-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Se não encontrou nada -->
+      <div class="col-12" *ngIf="especialidadesPaginadas.length === 0">
+        <app-result-response-empty></app-result-response-empty>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+

@@ -24,9 +24,9 @@
       <div class="col-12 mt-4" *ngIf="!isArrayNullOrEmpty(conveniosMedicosPaginadas)">
         <div class="row">
           <div class="col-4 mb-3" *ngFor="let convenio of conveniosMedicosPaginadas; let i = index;">
-            <div class="card">
+            <div class="card px-2 py-2">
               <div class="card-body">
-                <div class="text-center cursor-pointer" (click)="onclick_redirect_conveniosMedicos_detalhes(convenio.id)">
+                <div class="text-center cursor-pointer" (click)="onclick_redirect_conveniosMedicos_detalhes(convenio.code)">
                   <span class="mb-0 is-link bold fs-10">{{convenio.nome}}</span>
                 </div>
               </div>
