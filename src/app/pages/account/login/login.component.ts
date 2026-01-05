@@ -62,7 +62,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: ApiResponse<AuthenticatedUserResponse>) => {
           if (this.returnUrl == '/') {
-            this.router.navigateByUrl('/inicio');
+            if (this.authService.isPaciente()) {
+              this.router.navigateByUrl('/paciente/painel');
+            } else {
+              this.router.navigateByUrl('/inicio');
+            }
           } else {
             this.router.navigateByUrl(this.returnUrl);
           }

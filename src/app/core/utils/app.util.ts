@@ -131,8 +131,12 @@ export class AppUtils {
   /**
    * Remove acentos e transforma em minúsculas para uma busca mais precisa.
    */
-  public static normalizarTexto(texto: string): string {
-    return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  public static normalizarTexto(value: string): string {
+    return (value ?? '')
+      .normalize('NFD')                 // separa acentos
+      .replace(/[\u0300-\u036f]/g, '')  // remove acentos
+      .toLowerCase()                    // ignora maiúsculas
+      .trim();
   }
 
   /**

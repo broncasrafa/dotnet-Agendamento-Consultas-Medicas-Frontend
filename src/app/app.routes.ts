@@ -28,6 +28,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/error-pages/not-found/not-found.component').then(c => c.NotFoundComponent)
   },
   {
+    path: 'testes',
+    loadComponent: () => import('./pages/testes/testes.component').then(c => c.TestesComponent)
+  },
+  {
     path: '',
     loadComponent: () => import('./components/layout/layout.component').then(c => c.LayoutComponent),
     children: [

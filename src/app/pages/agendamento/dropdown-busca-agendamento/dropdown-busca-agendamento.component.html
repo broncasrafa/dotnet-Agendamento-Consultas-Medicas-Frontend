@@ -1,0 +1,135 @@
+<div #root class="busca-shell shadow-sm" [formGroup]="form">
+  <div class="busca-row">
+      <!-- 1) Agenda (Especialidade / Especialista / SintomaDoenca) -->
+      <div class="busca-col busca-col--first">
+        <div class="busca-label">O que gostaria de agendar?</div>
+
+        <div class="busca-inputwrap">
+          <input type="text" class="form-control busca-input" id="agendaText"
+            #agendaInput
+            formControlName="agendaText"
+            [class.is-invalid]="showAgendaRequiredError()"
+            [placeholder]="showAgendaRequiredError() ? requiredMsg : 'Digite e escolha uma opção'"
+            (focus)="openAgenda()"
+            (click)="openAgenda()"
+            (input)="onAgendaInput($event)" />
+
+          <i class="bi bi-x-circle-fill busca-clear" *ngIf="canClearAgenda()" (mousedown)="clearAgenda($event)"></i>
+
+          <i class="bi bi-caret-down-fill busca-caret"></i>
+
+          <div #agendaDropdown class="busca-dropdown" *ngIf="openDropdown === 'agenda'" [ngStyle]="agendaDropdownStyle">
+            <div class="busca-dropdown-header">Especialidade, Procedimento e Doença</div>
+
+            <div class="busca-dropdown-list" (scroll)="onAgendaScroll($event)">
+              <button type="button" class="busca-item" *ngFor="let it of agendaFiltered" (mousedown)="selectAgenda(it)" [class.is-selected]="isAgendaSelected(it)">
+                <div class="busca-ico">
+                  <!-- <i class="bi bi-person-fill"></i> -->
+                  <i class="bi" [ngClass]="it.type === 'especialidade' ? 'bi-journal-medical' : 'bi-activity'"></i>
+                </div>
+                <div class="busca-item-text">
+                  <div class="busca-item-title">{{ it.name }}</div>
+                  <div class="busca-item-sub">{{ it.type }}</div>
+                </div>
+              </button>
+
+              <div class="busca-empty" *ngIf="agendaFiltered.length === 0">
+                Nenhum resultado encontrado.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 1) ---------------------------------------------------------------------------------------------------------------------------------  -->
+
+      <div class="busca-sep"></div>
+
+      <!-- 2) Cidade -->
+      <div class="busca-col">
+        <div class="busca-label">Onde?</div>
+
+        <div class="busca-inputwrap">
+          <input type="text" class="form-control busca-input" id="cidadeText"
+            #cidadeInput
+            formControlName="cidadeText"
+            [class.is-invalid]="showCidadeRequiredError()"
+            [placeholder]="showCidadeRequiredError() ? requiredMsg : 'Digite e escolha uma opção'"
+            (focus)="openCidade()"
+            (click)="openCidade()"
+            (input)="onCidadeInput($event)" />
+
+          <i class="bi bi-x-circle-fill busca-clear" *ngIf="canClearCidade()" (mousedown)="clearCidade($event)"></i>
+
+          <i class="bi bi-caret-down-fill busca-caret"></i>
+
+          <div #cidadeDropdown  class="busca-dropdown" *ngIf="openDropdown === 'cidade'" [ngStyle]="cidadeDropdownStyle">
+            <div class="busca-dropdown-header">Endereços</div>
+
+            <div class="busca-dropdown-list"  (scroll)="onCidadeScroll($event)">
+              <button type="button" class="busca-item" *ngFor="let it of cidadeFiltered" (mousedown)="selectCidade(it)" [class.is-selected]="isCidadeSelected(it)">
+                <div class="busca-ico">
+                  <i class="bi bi-geo-alt-fill"></i>
+                </div>
+                <div class="busca-item-text">
+                  <div class="busca-item-title">{{ it.name }}</div>
+                  <div class="busca-item-sub">Cidade</div>
+                </div>
+              </button>
+
+              <div class="busca-empty" *ngIf="cidadeFiltered.length === 0">
+                Nenhum resultado encontrado.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 1) ---------------------------------------------------------------------------------------------------------------------------------  -->
+
+      <div class="busca-sep"></div>
+
+      <!-- 3) Convênio [class.is-invalid]="showConvenioRequiredError()"
+            [placeholder]="showConvenioRequiredError() ? requiredMsg : ''" -->
+      <div class="busca-col">
+        <div class="busca-label">Qual a forma de pagamento?</div>
+
+        <div class="busca-inputwrap">
+          <input type="text" class="form-control busca-input" id="convenioText" placeholder="Digite e escolha uma opção"
+            #convenioInput
+            formControlName="convenioText"
+            (focus)="openConvenio()"
+            (click)="openConvenio()"
+            (input)="onConvenioInput($event)" />
+
+          <i class="bi bi-x-circle-fill busca-clear" *ngIf="canClearConvenio()" (mousedown)="clearConvenio($event)"></i>
+
+          <i class="bi bi-caret-down-fill busca-caret"></i>
+
+          <div #convenioDropdown  class="busca-dropdown" *ngIf="openDropdown === 'convenio'" [ngStyle]="convenioDropdownStyle">
+            <div class="busca-dropdown-header">Formas de pagamento</div>
+
+            <div class="busca-dropdown-list"  (scroll)="onConvenioScroll($event)">
+              <button type="button" class="busca-item" *ngFor="let it of convenioFiltered" (mousedown)="selectConvenio(it)" [class.is-selected]="isConvenioSelected(it)">
+                <div class="busca-ico">
+                  <i class="bi bi-credit-card"></i>
+                </div>
+                <div class="busca-item-text">
+                  <div class="busca-item-title">{{ it.name }}</div>
+                </div>
+              </button>
+
+              <div class="busca-empty" *ngIf="convenioFiltered.length === 0">
+                Nenhum resultado encontrado.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 3) ---------------------------------------------------------------------------------------------------------------------------------  -->
+
+      <!-- Botão -->
+      <div class="busca-btnwrap">
+        <button type="button" class="cta-btn-primary busca-btn" (click)="onBuscarClick()">Buscar</button>
+      </div>
+
+  </div>
+</div>
